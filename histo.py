@@ -29,7 +29,7 @@ def xvg_open_arg():
                 break
         return nparray                
     except FileNotFoundError:
-        print('Файл не найлен!')
+        print('Файл не найден!')
         joke()
         sys.exit()        
     except UnicodeDecodeError:
@@ -123,16 +123,12 @@ print(nparray)
 print(str(nparray.shape[1])+' столбцов данных')
 print(str(nparray.shape[0])+' строк данных')
 fig = plt.figure()
-#plt.rc('text', usetex=True)
 plt.title(name_label(xvg_file))
 plt.ylabel(name_y(xvg_file))
 plt.xlabel(name_x(xvg_file))
-#plt.rc('text', usetex=False)
 plt.grid(True)      
 ax = fig.add_subplot(111)
 x=nparray[:,0]
-#ax.set_xlim(0, np.max(x))
-#ax.set_xticks(np.arange(0, np.max(x), 0.5))
 print_graph(x, nparray)
 if len(sys.argv)==3:
     try:
