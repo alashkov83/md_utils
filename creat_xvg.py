@@ -62,16 +62,23 @@ with open('pullf_files.dat', 'w') as f:
 with open('tpr_files.dat', 'w') as f:
     f.write('\n'.join(list_tpr)+'\n')
     f.close()
-if len(sys.argv)<2:
+if len(sys.argv)==1:
     os.system('gmx wham -it tpr_files.dat -if pullf_files.dat -o -hist -unit kCal')
     joke()
     sys.exit()
-if len(sys.argv)>2:
+elif len(sys.argv)==2:
+    t0=0
+elif len(sys.argv)==3:
+    try:
+        t0=int(sys.argv[2])
+    except ValueError:
+        t0=0
+else:
     print("Слишком много аргументов!")
     joke()
     sys.exit()
-delta=trj_time()/int(sys.argv[1])
+delta=(trj_time()-t0)/int(sys.argv[1])
 for n in range(int(sys.argv[1])):
-    os.system('gmx wham -it tpr_files.dat -if pullf_files.dat -o profile_'+str(n+1)+'.xvg -hist histo_'+str(n+1)+'.xvg -unit kCal -b '+str(n*delta)+' -e '+str((n+1)*delta))
+    os.system('gmx wham -it tpr_files.dat -if pullf_files.dat -o profile_'+str(n+1)+'.xvg -hist histo_'+str(n+1)+'.xvg -unit kCal -b '+str(t0+(n*delta))+' -e '+str(t0+((n+1)*delta)))
 joke()
 sys.exit()
