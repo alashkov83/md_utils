@@ -43,6 +43,9 @@ for x in range(len(list_dir)):
         filename=work_dir+"/"+list_dir[x]+'/'+'md_'+str(frame_n)+"_pullf.xvg"
         newfilename=work_dir+"/"+base_dir+"/"+'md_'+str(frame_n)+"_pullf.xvg"
         copyfile(filename, newfilename)
+        filename=work_dir+"/"+list_dir[x]+'/'+'md_'+str(frame_n)+"_pullx.xvg"
+        newfilename=work_dir+"/"+base_dir+"/"+'md_'+str(frame_n)+"_pullx.xvg"
+        copyfile(filename, newfilename)
         filename=work_dir+"/"+list_dir[x]+'/'+'md_'+str(frame_n)+".tpr"
         newfilename=work_dir+"/"+base_dir+"/"+'md_'+str(frame_n)+".tpr"
         copyfile(filename, newfilename)
@@ -51,13 +54,19 @@ for x in range(len(list_dir)):
 os.chdir(work_dir+'/'+base_dir)
 list_file=os.listdir(path='.')
 list_pullf=list(filter(lambda x: '_pullf.xvg' in x, list_file))
+list_pullx=list(filter(lambda x: '_pullx.xvg' in x, list_file))
 list_tpr=list(filter(lambda x: '.tpr' in x, list_file))
 list_pullf.sort()
+list_pullx.sort()
 list_tpr.sort()
 print('\n'.join(list_pullf))
+print('\n'.join(list_pullx))
 print('\n'.join(list_tpr))
 with open('pullf_files.dat', 'w') as f:
     f.write('\n'.join(list_pullf)+'\n')
+    f.close()
+with open('pullx_files.dat', 'w') as f:
+    f.write('\n'.join(list_pullx)+'\n')
     f.close()
 with open('tpr_files.dat', 'w') as f:
     f.write('\n'.join(list_tpr)+'\n')
