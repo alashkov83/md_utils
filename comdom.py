@@ -123,7 +123,7 @@ while n<len(s_array):
     elif (s[0:6]=="ATOM  ") and (s[21]==chain_name_2) and (int(s[22:26]) in segment_2): 
         xyzm_2=[float(s[30:38]), float(s[38:46]), float(s[46:54]), elements[s[76:78]]]
         xyzm_array_2=np.hstack((xyzm_array_2, xyzm_2))
-    elif s[0:6]=='ENDMDL'or (s[0:3]=='END' and model_flag==False) :
+    elif s[0:6]=='ENDMDL' or (s[0:3]=='END' and model_flag==False):
         xyzm_array_1.shape=(-1,4)
         xyzm_array_2.shape=(-1,4)
         c_mass_1=cmass(xyzm_array_1)
