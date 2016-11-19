@@ -21,9 +21,9 @@ def xvg_stat(nparray):
     r_mean=r.mean()
     t_min=t[np.argmin(r)]
     t_max=t[np.argmax(r)]
-    print("Минимальное расстояние между доменами равно: "+str(r_min)+" А при t= "+str(t_min)+" пc")
-    print("Максимальное расстояние между доменами равно: "+str(r_max)+" А при t= "+str(t_max)+" пc")
-    print("Среднее расстояние между доменами равно: "+str(r_mean)+" А")
+    print("Минимальное расстояние между доменами равно: {0:.3f} А при t= {1:.2f} пc.".format(r_min, t_min))
+    print("Максимальное расстояние между доменами равно: {0:.3f} А при t= {1:.2f} пc.".format(r_max, t_max))
+    print("Среднее расстояние между доменами равно: {0:.3f} А".format(r_mean))
     return
 def save_data(nparray):
     t=nparray[:,0]
@@ -129,7 +129,7 @@ while n<len(s_array):
         c_mass_1=cmass(xyzm_array_1)
         c_mass_2=cmass(xyzm_array_2)
         r=(((c_mass_1[0]-c_mass_2[0])**2)+((c_mass_1[1]-c_mass_2[1])**2)+((c_mass_1[2]-c_mass_2[2])**2))**0.5
-        print("Координаты центра масс первого домена: "+str(c_mass_1)+"\n"+"второго домена: "+str(c_mass_2)+"\n"+"расстояние: "+str(r)+" A")
+        print("Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)".format(c_mass_1[0], c_mass_1[1], c_mass_1[2])+"\n"+"второго домена: C2 ({0:.3f} A, {1:.3f} A, {2:.3f} A)".format(c_mass_2[0], c_mass_2[1], c_mass_2[2])+"\n"+"расстояние между доменами: {0:.3f} A".format(r))
         r_array.append(r)
         del xyzm_array_1
         del xyzm_array_2
