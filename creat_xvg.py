@@ -87,6 +87,10 @@ else:
     joke()
     sys.exit()
 delta=(trj_time()-t0)/int(sys.argv[1])
+if int(sys.argv[1])==1:
+    os.system('gmx wham -it tpr_files.dat -if pullf_files.dat -o -hist -unit kCal -b '+str(t0))
+    joke()
+    sys.exit()
 for n in range(int(sys.argv[1])):
     os.system('gmx wham -it tpr_files.dat -if pullf_files.dat -o profile_'+str(n+1)+'.xvg -hist histo_'+str(n+1)+'.xvg -unit kCal -b '+str(t0+(n*delta))+' -e '+str(t0+((n+1)*delta)))
 joke()
