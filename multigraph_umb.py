@@ -6,14 +6,14 @@
 
 """
 
-import numpy as np
-import matplotlib.pyplot as plt
 import sys
 import random
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 def joke():
-    joke = [
+    joke_txt = [
         "There are 10 types of people in the world: those who understand binary, and those who don't\n",
         "If at first you don't succeed; call it version 1.0\n",
         "I'm not anti-social; I'm just not user friendly\n",
@@ -183,7 +183,7 @@ def joke():
         "I had a dream... and there were 1's and 0's everywhere, and I think I saw a 2!\n",
         'You sir, are an unknown USB device driver\n',
         "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
-    print('>>> ' + random.choice(joke))
+    print('>>> ' + random.choice(joke_txt))
     return
 
 
