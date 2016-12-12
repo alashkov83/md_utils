@@ -5,11 +5,12 @@
 @author: lashkov
 
 """
-import numpy as np
-import matplotlib.pyplot as plt
+
 import sys
 import random
-
+import numpy as np
+import matplotlib.pyplot as plt
+import progressbar
 
 def joke():
     joke = [
@@ -212,9 +213,9 @@ def save_data(nparray):
     r_n = r_a / 10
     n_nparray = np.column_stack((t, r_n))
     try:
-        np.savetxt('com_distances.dat', n_nparray, fmt='%.3f')
+        np.savetxt('summary_distances.dat', n_nparray, delimiter = '\t', fmt = ['%d','%.3f'])
     except:
-        print('Не удалось сохранить com_distances.dat')
+        print('Не удалось сохранить summary_distances.dat')
     return
 
 
@@ -271,7 +272,10 @@ elements = {
     ' O': 16.0,
     ' P': 31.0,
     ' S': 32.0}
-filename = str(input('Введите имя входного файла: '))
+if len(sys.argv) > 1:
+    filename = str(sys.argv[1])
+else:
+    filename = str(input('Введите имя входного файла: '))
 try:
     file_pdb = open(filename, 'r')
     s_array = file_pdb.readlines()
@@ -302,6 +306,7 @@ t_array = []
 r_array = []
 xyzm_array_1 = []
 xyzm_array_2 = []
+bar1 = progressbar.ProgressBar(maxval = len(s_array), redirect_stdout=True).start()
 n = 0
 model_flag = False
 while n < len(s_array):
@@ -343,13 +348,15 @@ while n < len(s_array):
         del xyzm_array_2
         xyzm_array_1 = []
         xyzm_array_2 = []
+    bar1.update(n)
     n = n + 1
+bar1.finish()
 if len(r_array) != 1:
     if len(t_array) == 0:
         t_array = list(range(0, len(r_array)))
     xvg_array = np.column_stack((t_array, r_array))
     print(xvg_array)
-    if str(input('Сохранить ли com_distances.dat? (yes-сохранить): ')) == 'yes':
+    if str(input('Сохранить ли summary_distances.dat? (yes-сохранить): ')) == 'yes':
         save_data(xvg_array)
     graph(xvg_array)
     xvg_stat(xvg_array)
