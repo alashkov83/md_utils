@@ -31,23 +31,26 @@ else:
     print('Использование: udistgen.py номер_первой_групппы номер_второй_группы')
     sys.exit()
 list_file = os.listdir(path='.')
+if "md.tpr" not in list_file:
+    print('Файл md.tpr не найден в каталоге '+ os.getcwd())
+    sys.exit()
 list_dir = list(filter(lambda x: 'conf' in x, list_file))
 number_list = sorted(list(
     (map(lambda x: int(''.join([i if i.isdigit() else '' for i in x])), list_dir))))
-print(number_list)
-bar1 = progressbar.ProgressBar(maxval=len(number_list)).start()
+print('Обрабатываю фреймы...')
+bar1 = progressbar.ProgressBar(maxval=max(number_list)).start()
 for i in number_list:
-    print('Обрабатываю конфигурацию номер {0:d}'.format(i))
     bar1.update(i)    
     os.system(
-        "gmx distance -s ../md.tpr -f conf{0:d}.gro -oall dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' &>/dev/null".format(i, com1, com2))
+        "gmx distance -s ./md.tpr -f conf{0:d}.gro -oall dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' &>/dev/null".format(i, com1, com2))
 bar1.finish()
+
 if os.path.isfile('summary_distances.dat'):
     os.rename('summary_distances.dat', 'summary_distances_old.dat')
 dist_file = open('summary_distances.dat', 'a')
-bar2 = progressbar.ProgressBar(maxval=len(number_list)).start()
+print('Собираю данные..')
+bar2 = progressbar.ProgressBar(maxval=max(number_list)).start()
 for i in number_list:
-    print('Собираю данные для конфигурации номер {0:d}'.format(i))
     bar2.update()   
     with open('dist{0:d}.xvg'.format(i), 'r') as xvg_file:
         s_xvg = xvg_file.readlines()
