@@ -42,7 +42,7 @@ bar1 = progressbar.ProgressBar(maxval=max(number_list)).start()
 for i in number_list:
     bar1.update(i)    
     os.system(
-        "gmx distance -s ./md.tpr -f conf{0:d}.gro -oall dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' &>/dev/null".format(i, com1, com2))
+        "gmx distance -s ./md.tpr -f conf{0:d}.gro -oall dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' > /dev/null 2>&1".format(i, com1, com2))
 bar1.finish()
 
 if os.path.isfile('summary_distances.dat'):
