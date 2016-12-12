@@ -51,7 +51,7 @@ dist_file = open('summary_distances.dat', 'a')
 print('Собираю данные..')
 bar2 = progressbar.ProgressBar(maxval=max(number_list)).start()
 for i in number_list:
-    bar2.update()   
+    bar2.update(i)   
     with open('dist{0:d}.xvg'.format(i), 'r') as xvg_file:
         s_xvg = xvg_file.readlines()
         dist_d = xvg_extract(s_xvg)
