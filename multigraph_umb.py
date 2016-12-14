@@ -254,4 +254,3 @@ elif sc_sv == 'sv':
 else:
     print('Ошибка ввода!')
 joke()
-sys.exit()

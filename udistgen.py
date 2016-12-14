@@ -24,7 +24,7 @@ if len(sys.argv) == 3:
     try:
         com1 = int(sys.argv[1])
         com2 = int(sys.argv[2])
-    except:
+    except ValueError:
         print('Использование: udistgen.py номер_первой_групппы номер_второй_группы')
         sys.exit()
 else:
@@ -40,7 +40,7 @@ number_list = sorted(list(
 print('Обрабатываю фреймы...')
 bar1 = progressbar.ProgressBar(maxval=max(number_list)).start()
 for i in number_list:
-    bar1.update(i)    
+    bar1.update(i)
     os.system(
         "gmx distance -s ./md.tpr -f conf{0:d}.gro -oall dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' > /dev/null 2>&1".format(i, com1, com2))
 bar1.finish()
@@ -51,7 +51,7 @@ dist_file = open('summary_distances.dat', 'a')
 print('Собираю данные..')
 bar2 = progressbar.ProgressBar(maxval=max(number_list)).start()
 for i in number_list:
-    bar2.update(i)   
+    bar2.update(i)
     with open('dist{0:d}.xvg'.format(i), 'r') as xvg_file:
         s_xvg = xvg_file.readlines()
         dist_d = xvg_extract(s_xvg)

@@ -213,7 +213,7 @@ def save_data(nparray):
     r_n = r_a / 10
     n_nparray = np.column_stack((t, r_n))
     try:
-        np.savetxt('summary_distances.dat', n_nparray, delimiter = '\t', fmt = ['%d','%.3f'])
+        np.savetxt('summary_distances.dat', n_nparray, delimiter='\t', fmt=['%d', '%.3f'])
     except:
         print('Не удалось сохранить summary_distances.dat')
     return
@@ -272,7 +272,7 @@ elements = {
     ' O': 16.0,
     ' P': 31.0,
     ' S': 32.0,
-    ' F': 19}
+    ' F': 19.0}
 if len(sys.argv) > 1:
     filename = str(sys.argv[1])
 else:
@@ -307,7 +307,7 @@ t_array = []
 r_array = []
 xyzm_array_1 = []
 xyzm_array_2 = []
-bar1 = progressbar.ProgressBar(maxval = len(s_array), redirect_stdout=True).start()
+bar1 = progressbar.ProgressBar(maxval=len(s_array), redirect_stdout=True).start()
 n = 0
 model_flag = False
 while n < len(s_array):
@@ -362,4 +362,3 @@ if len(r_array) != 1:
     graph(xvg_array)
     xvg_stat(xvg_array)
 joke()
-sys.exit()

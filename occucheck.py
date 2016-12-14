@@ -64,4 +64,3 @@ while n < len(lines_pdb)-1:
             n = n+1
             s = lines_pdb[n]
     n = n+1
-sys.exit()

@@ -213,7 +213,7 @@ def dist_open_arg():
 
 def dist_open():
     while True:
-        print ("""Введите имя файла или exit для выхода""")
+        print("""Введите имя файла или exit для выхода""")
         dist_file = input(': ')
         if dist_file == 'exit':
             joke()
@@ -244,7 +244,7 @@ def frame_prefilter(nparray):
         l_frame = 1 + \
             int(input('Введите номер последнего фреймов (По умолчанию:' +
                       str(len(nparray[:, 0]) - 1) + '): '))
-    except:
+    except ValueError:
         l_frame = len(nparray[:, 0])
     nparray2 = nparray[(l_frame >= nparray[:, 0]) & (nparray[:, 0] >= f_frame)]
     return nparray2
@@ -287,7 +287,7 @@ newdir = olddir + '/' + u_n_dir
 print(newdir)
 try:
     os.makedirs(newdir, exist_ok=True)
-except:
+except OSError:
     print('Невозможно создать каталог ' + newdir)
     joke()
     sys.exit()
@@ -297,8 +297,7 @@ for i in range(0, len(ff_frame)):
         filename = olddir + '/' + base_filename + str(ff_frame[i]) + '.gro'
         newfilename = newdir + '/' + base_filename + str(ff_frame[i]) + '.gro'
         copyfile(filename, newfilename)
-    except:
+    except OSError:
         print('Невозможно скопировать ' + filename)
 print('Скопировано ' + str(i + 1) + ' файлов')
 joke()
-sys.exit()

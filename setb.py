@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Created on Wed Nov 16 13:29:10 2016.
+"""Created on Fri Nov 18 22:05:25 2016.
 
 @author: lashkov
 
@@ -8,8 +8,6 @@
 import sys
 import random
 import os
-import numpy as np
-from shutil import copyfile
 
 
 def joke():
@@ -184,95 +182,55 @@ def joke():
         'You sir, are an unknown USB device driver\n',
         "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
     print('>>> ' + random.choice(joke_txt))
-
-
-def trj_time():
-    fname = open('md_0_pullf.xvg', 'r')
-    n = 0
-    while True:
-        subtitle = str(open('md_0_pullf.xvg', 'r').readlines()[n])
-        if (subtitle[0] == '@') or (subtitle[0] == '#'):
-            n = n + 1
-        else:
-            nparray = np.loadtxt(fname, skiprows=n)
-            fname.close()
-            break
-    return float(nparray[-1, 0])
-work_dir = os.getcwd()
-base_dir = 'ANALYS'
-os.chdir(work_dir)
-try:
-    os.makedirs(work_dir + '/' + base_dir, exist_ok=True)
-except:
-    print('Невозможно создать каталог ' + work_dir + '/' + base_dir)
-    joke()
-    sys.exit()
-list_file = os.listdir(path='.')
-list_dir = list(filter(lambda x: 'frame_' in x, list_file))
-print(list_dir)
-for x in range(len(list_dir)):
-    frame_n = int(list_dir[x].partition('frame_')[2])
+    return
+if len(sys.argv) == 7:
     try:
-        filename = work_dir + '/' + \
-            list_dir[x] + '/' + 'md_' + str(frame_n) + '_pullf.xvg'
-        newfilename = work_dir + '/' + base_dir + \
-            '/' + 'md_' + str(frame_n) + '_pullf.xvg'
-        copyfile(filename, newfilename)
-        filename = work_dir + '/' + \
-            list_dir[x] + '/' + 'md_' + str(frame_n) + '_pullx.xvg'
-        newfilename = work_dir + '/' + base_dir + \
-            '/' + 'md_' + str(frame_n) + '_pullx.xvg'
-        copyfile(filename, newfilename)
-        filename = work_dir + '/' + \
-            list_dir[x] + '/' + 'md_' + str(frame_n) + '.tpr'
-        newfilename = work_dir + '/' + base_dir + \
-            '/' + 'md_' + str(frame_n) + '.tpr'
-        copyfile(filename, newfilename)
-    except:
-        print('Невозможно скопировать ' + filename)
-os.chdir(work_dir + '/' + base_dir)
-list_file = os.listdir(path='.')
-list_pullf = list(filter(lambda x: '_pullf.xvg' in x, list_file))
-list_pullx = list(filter(lambda x: '_pullx.xvg' in x, list_file))
-list_tpr = list(filter(lambda x: '.tpr' in x, list_file))
-list_pullf.sort()
-list_pullx.sort()
-list_tpr.sort()
-print('\n'.join(list_pullf))
-print('\n'.join(list_pullx))
-print('\n'.join(list_tpr))
-with open('pullf_files.dat', 'w') as f:
-    f.write('\n'.join(list_pullf) + '\n')
-    f.close()
-with open('pullx_files.dat', 'w') as f:
-    f.write('\n'.join(list_pullx) + '\n')
-    f.close()
-with open('tpr_files.dat', 'w') as f:
-    f.write('\n'.join(list_tpr) + '\n')
-    f.close()
-if len(sys.argv) == 1:
-    os.system('gmx wham -it tpr_files.dat -if pullf_files.dat -o -hist -unit kCal')
-    joke()
-    sys.exit()
-elif len(sys.argv) == 2:
-    t0 = 0
-elif len(sys.argv) == 3:
-    try:
-        t0 = int(sys.argv[2])
+        old_filename = str(sys.argv[5])
+        chain_name = str(sys.argv[1])
+        i = int(sys.argv[2])
+        j = int(sys.argv[3])
+        B = float(sys.argv[4])
+        new_filename = str(sys.argv[6])
     except ValueError:
-        t0 = 0
+        print('Аргументы:chain startres endres B oldfile.pdb newfile.pdb!')
+        joke()
+        sys.exit()
+elif len(sys.argv) == 1:
+    old_filename = str(input('Введите имя входного файла: '))
+    chain_name = str(input('Введите название цепи: '))
+    i = int(input('Введите номер первого а.о.: '))
+    j = int(input('Введите номер последнего а.о.: '))
+    B = float(input('Целевой B-фактор: '))
+    new_filename = str(input('Введите имя выходного файла: '))
 else:
-    print('Слишком много аргументов!')
+    print('Аргументы: chain startres endres B oldfile.pdb newfile.pdb!')
     joke()
     sys.exit()
-delta = (trj_time() - t0) / int(sys.argv[1])
-if int(sys.argv[1]) == 1:
-    os.system(
-        'gmx wham -it tpr_files.dat -if pullf_files.dat -o -hist -unit kCal -b ' +
-        str(t0))
+b_factor = str('{0:6.2f}'.format(B))
+try:
+    oldfile = open(old_filename, 'r')
+except FileNotFoundError:
+    print('Файл ' + old_filename + ' не найден!')
     joke()
     sys.exit()
-for n in range(int(sys.argv[1])):
-    os.system('gmx wham -it tpr_files.dat -if pullf_files.dat -o profile_' + str(n + 1) + '.xvg -hist histo_' +
-              str(n + 1) + '.xvg -unit kCal -b ' + str(t0 + (n * delta)) + ' -e ' + str(t0 + ((n + 1) * delta)))
+if os.path.isfile(new_filename):
+    print(
+        'Файл ' +
+        new_filename +
+        ' существует! Перезаписать? (y-для перезаписи)')
+    if str(input()) == 'y':
+        os.remove(new_filename)
+    else:
+        joke()
+        oldfile.close()
+        sys.exit()
+newfile = open(new_filename, 'a')
+for line in oldfile:
+    s = str(line)
+    if ((s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  ')) and s[21] == chain_name:
+        if int(s[22:26]) in range(i, j + 1):
+            s = s[0:60] + b_factor + s[66:]
+    newfile.write(s)
+oldfile.close()
+newfile.close()
 joke()
