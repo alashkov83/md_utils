@@ -271,7 +271,8 @@ elements = {
     ' N': 14.0,
     ' O': 16.0,
     ' P': 31.0,
-    ' S': 32.0}
+    ' S': 32.0,
+    ' F': 19}
 if len(sys.argv) > 1:
     filename = str(sys.argv[1])
 else:
