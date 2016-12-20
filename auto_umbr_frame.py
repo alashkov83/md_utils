@@ -89,7 +89,6 @@ def frame_prefilter(nparray, namespace):
     f_frame = namespace.begin
     if namespace.end == 0:
         l_frame = len(nparray[:, 0])
-        print(l_frame)
     else:
         l_frame = 1 + int(namespace.end)
     nparray2 = nparray[(l_frame >= nparray[:, 0]) & (nparray[:, 0] >= f_frame)]
@@ -115,6 +114,7 @@ def frame_filter(nparray, d):
 def umbr_frame(nparray, namespace):
     d = namespace.dist
     ff_frame = frame_filter(frame_prefilter(nparray, namespace), d)
+    print(ff_frame)
     newdir = './FRAMES'
     try:
         os.makedirs(newdir, exist_ok=True)
@@ -128,12 +128,11 @@ def umbr_frame(nparray, namespace):
             copyfile(filename, newfilename)
         except OSError:
             print('Невозможно скопировать ' + filename)
-    print('Скопировано ' + str(i + 1) + 'gro файлов')
 
 
 def picture(nparray):
     fig = plt.figure()
-    plt.title('Distances vs. frame No.')
+    plt.title('Distance vs. frame No.')
     plt.ylabel('D (nm)')
     plt.xlabel('Frame (No.)')
     plt.grid(True)
@@ -148,12 +147,11 @@ if __name__ == '__main__':
     namespace = parser.parse_args()
     if os.path.isfile('summary_distances.dat'):
         nparray = np.loadtxt('summary_distances.dat')
-        print(len(nparray[:,0]))
         picture(nparray)
-        umbr_frame(np.array, namespace)
+        umbr_frame(nparray, namespace)
     else:
         udistgen(namespace)
         nparray = np.loadtxt('summary_distances.dat')
         if not os.path.isfile('summary_distances.png'):
             picture(nparray)
-        umbr_frame(np.array, namespace)
+        umbr_frame(nparray, namespace)
