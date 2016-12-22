@@ -52,14 +52,14 @@ def udistgen(namespace):
         os.rename('FRAMES_ALL', 'FRAMES_ALL_OLD')
     os.mkdir('FRAMES_ALL')
     if os.path.isfile('md.xtc'):
-        os.system('gmx trjconv -f md.xtc -s md.tpr -o conf.gro -sep')
+        os.system('gmx trjconv -f md.xtc -s md.tpr -o ./FRAMES_ALL/conf.gro -sep')
     elif os.path.isfile('md.trr'):
-        os.system('gmx trjconv -f md.trr -s md.tpr -o conf.gro -sep')
+        os.system('gmx trjconv -f md.trr -s md.tpr -o ./FRAMES_ALL/conf.gro -sep')
     else:
         print('Файл траектории не найден в каталоге ' + os.getcwd())
         sys.exit()
     list_file = os.listdir(path='./FRAMES_ALL')
-    list_dir = list(filter(lambda x: 'conf' in x, list_file))
+    list_dir = list(filter(lambda x: ('conf' in x) and ('.gro' in x), list_file))
     number_list = sorted(list(
         (map(lambda x: int(''.join([i if i.isdigit() else '' for i in x])), list_dir))))
     print('Обрабатываю фреймы...')
@@ -74,11 +74,11 @@ def udistgen(namespace):
     bar2 = progressbar.ProgressBar(maxval=max(number_list)).start()
     for i in number_list:
         bar2.update(i)
-        with open('dist{0:d}.xvg'.format(i), 'r') as xvg_file:
+        with open('./FRAMES_ALL/dist{0:d}.xvg'.format(i), 'r') as xvg_file:
             s_xvg = xvg_file.readlines()
             dist_d = xvg_extract(s_xvg)
             dist_file.write('{0:d}\t{1:.3f}\n'.format(i, dist_d))
-        dist_file.close()
+    dist_file.close()
     bar2.finish()
     for i in number_list:
         os.remove('./FRAMES_ALL/dist{0:d}.xvg'.format(i))
@@ -114,7 +114,7 @@ def frame_filter(nparray, d):
 def umbr_frame(nparray, namespace):
     d = namespace.dist
     ff_frame = frame_filter(frame_prefilter(nparray, namespace), d)
-    print(ff_frame)
+    print('Отобранные фреймы: '+ ' '.join(map(lambda x: str(x), ff_frame)))
     newdir = './FRAMES'
     try:
         os.makedirs(newdir, exist_ok=True)
