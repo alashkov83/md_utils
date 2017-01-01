@@ -17,7 +17,7 @@ def dna_gen():
 	try:
 		dna_len = int(ent.get())
 	except ValueError:
-		showinfo("Error", "Lenght DNA field int value requered")
+		showinfo("Error", "Lenght DNA field int value requerred")
 		return
 	dna_seq = []
 	for n in range(dna_len):
@@ -44,7 +44,7 @@ def close_win():
 
 def about():
      win = tk.Toplevel(root)
-     lab = tk.Label(win,text="Генеоация случайной последовательности ДНК")
+     lab = tk.Label(win,text="Генерация случайной последовательности ДНК")
      lab.pack()
      
 def main():
