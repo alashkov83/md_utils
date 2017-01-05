@@ -62,7 +62,7 @@ def check_occupancy(atom, occupancy, resn, chain_id, res_name):
 def check_pdb():
 	try:
 		if len(lines_pdb) < 80:
-			showinfo("Ошибка","Некорректный PDB файk!")
+			showinfo("Ошибка","Некорректный PDB файл!")
 			return
 	except:
 		showinfo("Ошибка","Некорректный PDB файл!")
