@@ -14,7 +14,7 @@ OLDFILE = open(OLD_FILENAME, 'r')
 NEWFILE = open(NEW_FILENAME, 'a')
 for line in OLDFILE:
     s = str(line)
-    if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
+    if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  ') or (s[0:6] == 'ANISOU'):
         if int(s[22:26]) in range(i, j + 1):
             s = s[0:21] + CHAIN_NAME + s[22:]
     NEWFILE.write(s)
