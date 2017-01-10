@@ -11,16 +11,16 @@ from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import showinfo
 from tkinter.messagebox import askyesno
-
+from tkinter.messagebox import showerror
 
 def open_pdb():
 	global lines_pdb
-	pdb = askopenfilename()
+	opt = {'filetypes' : [('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
+	pdb = askopenfilename(**opt)
 	try:
 		with open(pdb,"r") as f:
 			lines_pdb = f.readlines()
 	except FileNotFoundError:
-		showinfo("Информация","Выберите файл формата PDB")
 		return
 
 
@@ -31,7 +31,6 @@ def save_log():
 		with open(sa,"w") as f:
 			f.write(letter)
 	except FileNotFoundError:
-		showinfo("Информация","Выберите файл для записи лога")
 		return
 
 def close_win():
@@ -62,10 +61,10 @@ def check_occupancy(atom, occupancy, resn, chain_id, res_name):
 def check_pdb():
 	try:
 		if len(lines_pdb) < 80:
-			showinfo("Ошибка","Некорректный PDB файл!")
+			showerror("Ошибка","Некорректный PDB файл!")
 			return
 	except:
-		showinfo("Ошибка","Некорректный PDB файл!")
+		showerror("Ошибка","Некорректный PDB файл!")
 		return
 	tx.delete(1.0,tk.END)
 	atom = []

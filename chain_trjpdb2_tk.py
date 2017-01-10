@@ -15,7 +15,8 @@ from tkinter.messagebox import askyesno
 def open_pdb():
 	global s_lines
 	lab6.configure(text="")
-	pdb = askopenfilename()
+	opt = {'filetypes' : [('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
+	pdb = askopenfilename(**opt)
 	try:
 		with open(pdb,"r") as oldfile:
 			s_lines = oldfile.readlines()
@@ -25,7 +26,8 @@ def open_pdb():
 
 
 def save_pdb():
-	sa = asksaveasfilename()
+	opt = {'filetypes' : [('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
+	sa = asksaveasfilename(**opt)
 	global newlist
 	try:
 		with open(sa,"w") as newfile:
