@@ -8,6 +8,7 @@
 import sys
 import random
 import os
+import re
 import numpy as np
 from shutil import copyfile
 
@@ -185,6 +186,17 @@ def joke():
         "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
     print('>>> ' + random.choice(joke_txt))
 
+def sort_file(list_file):
+	file_dict = dict()
+	sort_list = []
+	for f in list_file:
+		z = int(''.join(re.findall(r'\d+',f)))
+		file_dict[z] = f
+	l = list(file_dict.keys())
+	l.sort()
+	for n in l:
+		sort_list.append(file_dict[n])
+	return sort_list
 
 def trj_time():
     fname = open('md_0_pullf.xvg', 'r')
@@ -232,12 +244,9 @@ for x in range(len(list_dir)):
         print('Невозможно скопировать ' + filename)
 os.chdir(work_dir + '/' + base_dir)
 list_file = os.listdir(path='.')
-list_pullf = list(filter(lambda x: '_pullf.xvg' in x, list_file))
-list_pullx = list(filter(lambda x: '_pullx.xvg' in x, list_file))
-list_tpr = list(filter(lambda x: '.tpr' in x, list_file))
-list_pullf.sort()
-list_pullx.sort()
-list_tpr.sort()
+list_pullf = sort_file(list(filter(lambda x: '_pullf.xvg' in x, list_file)))
+list_pullx = sort_file(list(filter(lambda x: '_pullx.xvg' in x, list_file)))
+list_tpr = sort_file(list(filter(lambda x: '.tpr' in x, list_file)))
 print('\n'.join(list_pullf))
 print('\n'.join(list_pullx))
 print('\n'.join(list_tpr))
