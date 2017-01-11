@@ -78,8 +78,8 @@ def check_pdb():
     try:
         atoms = structure.get_atoms()
     except Exception:
-		showerror("Ошибка!", "Структура не загружена!")
-		return
+        showerror("Ошибка!", "Структура не загружена!")
+        return
     tx.delete(1.0,tk.END)
     for atom in atoms:
         sum_ocu = 0.0
@@ -90,13 +90,16 @@ def check_pdb():
                 atom.disordered_select(X)
                 sum_ocu += atom.get_occupancy()
         if (sum_ocu > 1.00) or (sum_ocu < min_ocu):
-            tx.insert(tk.INSERT, "Для атома {0:s} а.о. {1:s}:{2:d} цепи {3:s} cумма заселенностей равна {4:.2f}\n".format(atom.get_fullname(), (atom.get_parent()).get_resname(), int(atom.get_full_id()[3][1]), atom.get_full_id()[2], sum_ocu))
+            tx.insert(tk.INSERT, "Для атома {0:s} а.о. {1:s}:{2:4d} цепи {3:s} cумма заселенностей равна {4:.2f}\n".format(atom.get_fullname(), (atom.get_parent()).get_resname(), int(atom.get_full_id()[3][1]), atom.get_full_id()[2], sum_ocu))
 
 def main():
     global root
     global tx
     global var1
     root = tk.Tk()
+    root.title("Occucheck 2")
+    root.minsize(width=660, height=240)
+    root.maxsize(width=660, height=240)
     m = tk.Menu(root) #создается объект Меню на главном окне
     root.config(menu=m) #окно конфигурируется с указанием меню для него
     fm = tk.Menu(m) #создается пункт меню с размещением на основном меню (m)
