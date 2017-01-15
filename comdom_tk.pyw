@@ -194,7 +194,7 @@ def joke():
         "I had a dream... and there were 1's and 0's everywhere, and I think I saw a 2!\n",
         'You sir, are an unknown USB device driver\n',
         "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
-    showinfo(';-)' , random.choice(joke))
+    showinfo(';-)', random.choice(joke))
     return
 
 
@@ -203,15 +203,17 @@ def xvg_stat():
         t = nparray[:, 0]
         r = nparray[:, 1]
     except NameError:
-        showinfo('Информация','Данные недоступны')
+        showinfo('Информация', 'Данные недоступны')
         return
     r_min = min(r)
     r_max = max(r)
     r_mean = r.mean()
     t_min = t[np.argmin(r)]
     t_max = t[np.argmax(r)]
-    showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
-    tx.insert(tk.INSERT,'\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+    showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+        r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+    tx.insert(tk.INSERT, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+        r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
     root.update()
     return
 
@@ -221,7 +223,7 @@ def save_data():
         t = nparray[:, 0]
         r_a = nparray[:, 1]
     except NameError:
-        showinfo('Информация','Данные недоступны')
+        showinfo('Информация', 'Данные недоступны')
         return
     r_n = r_a / 10
     n_nparray = np.column_stack((t, r_n))
@@ -230,17 +232,19 @@ def save_data():
         np.savetxt(sa, n_nparray,
                    delimiter='\t', fmt=['%d', '%.3f'])
     except Exception:
-        showerror('Ошибка!','Не удалось сохранить {0:s}'.format(sa))
+        showerror('Ошибка!', 'Не удалось сохранить {0:s}'.format(sa))
     return
+
 
 def save_log():
     sa = asksaveasfilename()
-    letter = tx.get(1.0,tk.END)
+    letter = tx.get(1.0, tk.END)
     try:
-        with open(sa,"w") as f:
+        with open(sa, 'w') as f:
             f.write(letter)
     except FileNotFoundError:
         return
+
 
 def save_graph():
     sa = asksaveasfilename()
@@ -249,7 +253,7 @@ def save_graph():
     except FileNotFoundError:
         return
     except NameError:
-        showerror('Ошибка!','График недоступен!')
+        showerror('Ошибка!', 'График недоступен!')
         return
 
 
@@ -268,7 +272,7 @@ def graph():
     ax.set_ylabel('COM distance, A')
     if max(x) > 10000:
         ax.set_xlabel('Time, ns')
-        x = x/1000
+        x = x / 1000
     else:
         ax.set_xlabel('Time, ps')
     ax.plot(x, y, color='black')
@@ -289,6 +293,7 @@ def cmass(str_nparray):
     c_mass_z = float(mz.sum()) / M
     return [c_mass_x, c_mass_y, c_mass_z]
 
+
 def open_pdb():
     global s_array
     global segment_1
@@ -297,39 +302,44 @@ def open_pdb():
     global var2
     var1.set('')
     var2.set('')
-    opt = {'filetypes' : [('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
+    opt = {'filetypes': [
+        ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
     pdb = askopenfilename(**opt)
     try:
-        with open(pdb,"r") as f:
+        with open(pdb, 'r') as f:
             s_array = f.readlines()
     except FileNotFoundError:
         return
     else:
-        showinfo("Информация","Файл прочитан!")
+        showinfo('Информация', 'Файл прочитан!')
         segment_1 = []
         segment_2 = []
 
+
 def save_log():
     sa = asksaveasfilename()
-    letter = tx.get(1.0,tk.END)
+    letter = tx.get(1.0, tk.END)
     try:
-        with open(sa,"w") as f:
+        with open(sa, 'w') as f:
             f.write(letter)
     except FileNotFoundError:
         return
 
+
 def close_win():
-    if askyesno("Выход", "Вы точно хотите выйти?"):
+    if askyesno('Выход', 'Вы точно хотите выйти?'):
         root.destroy()
+
 
 def stop(e):
     global stop_flag
-    if askyesno("Прервать?", "Вы точно хотите прервать расчет?"):
+    if askyesno('Прервать?', 'Вы точно хотите прервать расчет?'):
         stop_flag = True
 
 
 def about():
-     showinfo("Информация","Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД")
+    showinfo('Информация', 'Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД')
+
 
 def seg1(e):
     global segment_1
@@ -346,6 +356,7 @@ def seg1(e):
             segment_1.append(list_1[s_1])
     print(segment_1)
 
+
 def seg2(e):
     global segment_2
     r_num_start_2 = askinteger('Второй домен', 'Номер первого а.о.: ')
@@ -361,11 +372,13 @@ def seg2(e):
             segment_2.append(list_2[s_2])
     print(segment_2)
 
+
 def sbros_1(e):
     global segment_1
     global var1
     var1.set('')
     segment_1 = []
+
 
 def sbros_2(e):
     global segment_2
@@ -377,7 +390,7 @@ def sbros_2(e):
 def trj_cycle():
     global nparray
     global stop_flag
-    tx.delete('1.0',tk.END)
+    tx.delete('1.0', tk.END)
     chain_name_1 = str(var1.get())
     chain_name_2 = str(var2.get())
     if chain_name_1 == '':
@@ -391,7 +404,7 @@ def trj_cycle():
     try:
         pb['maximum'] = len(s_array)
     except NameError:
-        showerror('Ошибка!','Не загружен файл!')
+        showerror('Ошибка!', 'Не загружен файл!')
         return
     n = 0
     model_flag = False
@@ -405,11 +418,11 @@ def trj_cycle():
             model_flag = True
         elif (s[0:6] == 'ATOM  ') and (s[21] == chain_name_1) and (int(s[22:26]) in segment_1):
             xyzm_1 = [float(s[30:38]), float(s[38:46]),
-                    float(s[46:54]), round(formula(s[76:78]).mass)]
+                      float(s[46:54]), round(formula(s[76:78]).mass)]
             xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
         elif (s[0:6] == 'ATOM  ') and (s[21] == chain_name_2) and (int(s[22:26]) in segment_2):
             xyzm_2 = [float(s[30:38]), float(s[38:46]),
-                    float(s[46:54]), round(formula(s[76:78]).mass)]
+                      float(s[46:54]), round(formula(s[76:78]).mass)]
             xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
         elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag == False):
             xyzm_array_1.shape = (-1, 4)
@@ -417,19 +430,19 @@ def trj_cycle():
             c_mass_1 = cmass(xyzm_array_1)
             c_mass_2 = cmass(xyzm_array_2)
             r = (((c_mass_1[0] - c_mass_2[0])**2) + ((c_mass_1[1] -
-                                                    c_mass_2[1])**2) + ((c_mass_1[2] - c_mass_2[2])**2))**0.5
+                                                      c_mass_2[1])**2) + ((c_mass_1[2] - c_mass_2[2])**2))**0.5
             tx.insert(tk.INSERT,
-                'Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
-                    c_mass_1[0],
-                    c_mass_1[1],
-                    c_mass_1[2]) +
-                '\n' +
-                'второго домена: C2 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
-                    c_mass_2[0],
-                    c_mass_2[1],
-                    c_mass_2[2]) +
-                '\n' +
-                'расстояние между доменами: {0:.3f} A\n'.format(r))
+                      'Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
+                          c_mass_1[0],
+                          c_mass_1[1],
+                          c_mass_1[2]) +
+                      '\n' +
+                      'второго домена: C2 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
+                          c_mass_2[0],
+                          c_mass_2[1],
+                          c_mass_2[2]) +
+                      '\n' +
+                      'расстояние между доменами: {0:.3f} A\n'.format(r))
             root.update()
             r_array.append(r)
             del xyzm_array_1
@@ -448,6 +461,7 @@ def trj_cycle():
         print(nparray)
         graph()
 
+
 def main():
     global root
     global tx
@@ -456,73 +470,76 @@ def main():
     global fra2
     global pb
     root = tk.Tk()
-    root.title("Comdom")
+    root.title('Comdom')
     root.minsize(width=920, height=580)
     root.maxsize(width=920, height=580)
-    m = tk.Menu(root) #создается объект Меню на главном окне
-    root.config(menu=m) #окно конфигурируется с указанием меню для него
-    fm = tk.Menu(m) #создается пункт меню с размещением на основном меню (m)
-    m.add_cascade(label="Файл",menu=fm) #пункту располагается на основном меню (m)
-    fm.add_command(label="Открыть PDB",command=open_pdb) #формируется список команд пункта меню
-    fm.add_command(label="Сохранить график", command=save_graph)
-    fm.add_command(label="Сохранить данные", command=save_data)
-    fm.add_command(label="Сохранить LOG", command=save_log)
-    fm.add_command(label="Выход", command=close_win)
-    rm = tk.Menu(m) #создается пункт меню с размещением на основном меню (m)
-    m.add_cascade(label="Запуск",menu=rm) #пункту располагается на основном меню (m)
-    rm.add_command(label="Запуск...", command=trj_cycle)
-    rm.add_command(label="Статистика", command=xvg_stat)
-    m.add_command(label="Справка", command=about)
+    m = tk.Menu(root)  # создается объект Меню на главном окне
+    root.config(menu=m)  # окно конфигурируется с указанием меню для него
+    fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
+    # пункту располагается на основном меню (m)
+    m.add_cascade(label='Файл', menu=fm)
+    # формируется список команд пункта меню
+    fm.add_command(label='Открыть PDB', command=open_pdb)
+    fm.add_command(label='Сохранить график', command=save_graph)
+    fm.add_command(label='Сохранить данные', command=save_data)
+    fm.add_command(label='Сохранить LOG', command=save_log)
+    fm.add_command(label='Выход', command=close_win)
+    rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
+    # пункту располагается на основном меню (m)
+    m.add_cascade(label='Запуск', menu=rm)
+    rm.add_command(label='Запуск...', command=trj_cycle)
+    rm.add_command(label='Статистика', command=xvg_stat)
+    m.add_command(label='Справка', command=about)
     fra1 = tk.Frame(root)
-    lab11 = tk.Label(fra1, text="Первый домен:")
-    lab11.grid(row=0,column=0, columnspan=4, pady = 5)
-    lab12 = tk.Label(fra1, text="Имя цепи:  ")
-    lab12.grid(row=1,column=0, padx = 10)
+    lab11 = tk.Label(fra1, text='Первый домен:')
+    lab11.grid(row=0, column=0, columnspan=4, pady=5)
+    lab12 = tk.Label(fra1, text='Имя цепи:  ')
+    lab12.grid(row=1, column=0, padx=10)
     var1 = tk.StringVar()
     var1.set('')
-    ent1 = tk.Entry(fra1,width=2,bd=3,textvariable = var1)
-    ent1.grid(row=1,column=1, padx = 10)
+    ent1 = tk.Entry(fra1, width=2, bd=3, textvariable=var1)
+    ent1.grid(row=1, column=1, padx=10)
     but1 = tk.Button(fra1,
-            text="Добавить") #надпись на кнопке
-    but1.grid(row=1,column=2, padx=5)
-    but1.bind("<ButtonRelease-1>",seg1)
-    but12 = tk.Button(fra1,text="Сброс") #надпись на кнопке
-    but12.grid(row=1,column=3, padx = 5)
-    but12.bind("<ButtonRelease-1>",sbros_1)
-    lab21 = tk.Label(fra1, text="Второй домен:")
-    lab21.grid(row=2,column=0, columnspan=4, pady = 5)
-    lab12 = tk.Label(fra1, text="Имя цепи:  ")
-    lab12.grid(row=3,column=0, padx = 10)
+                     text='Добавить')  # надпись на кнопке
+    but1.grid(row=1, column=2, padx=5)
+    but1.bind('<ButtonRelease-1>', seg1)
+    but12 = tk.Button(fra1, text='Сброс')  # надпись на кнопке
+    but12.grid(row=1, column=3, padx=5)
+    but12.bind('<ButtonRelease-1>', sbros_1)
+    lab21 = tk.Label(fra1, text='Второй домен:')
+    lab21.grid(row=2, column=0, columnspan=4, pady=5)
+    lab12 = tk.Label(fra1, text='Имя цепи:  ')
+    lab12.grid(row=3, column=0, padx=10)
     var2 = tk.StringVar()
     var2.set('')
-    ent2 = tk.Entry(fra1,width=2,bd=3,textvariable = var2)
-    ent2.grid(row=3,column=1, padx = 10)
+    ent2 = tk.Entry(fra1, width=2, bd=3, textvariable=var2)
+    ent2.grid(row=3, column=1, padx=10)
     but2 = tk.Button(fra1,
-            text="Добавить") #надпись на кнопке
-    but2.grid(row=3,column=2)
-    but2.bind("<ButtonRelease-1>",seg2)
-    but22 = tk.Button(fra1,text="Сброс") #надпись на кнопке
-    but22.grid(row=3,column=3)
-    but22.bind("<ButtonRelease-1>",sbros_2)
-    lab3 = tk.Label(fra1, text="Прогресс:")
-    lab3.grid(row=4,column=0, columnspan=4, pady = 5)
-    pb = ttk.Progressbar(fra1, orient="horizontal",  mode="determinate", length=240)
-    pb.grid(row=5,column=0, columnspan=4)
-    but3 = tk.Button(fra1,text="Остановить!", fg='red') #надпись на кнопке
-    but3.grid(row=6,column=0, columnspan=4, pady = 5)
-    but3.bind("<ButtonRelease-1>",stop)
+                     text='Добавить')  # надпись на кнопке
+    but2.grid(row=3, column=2)
+    but2.bind('<ButtonRelease-1>', seg2)
+    but22 = tk.Button(fra1, text='Сброс')  # надпись на кнопке
+    but22.grid(row=3, column=3)
+    but22.bind('<ButtonRelease-1>', sbros_2)
+    lab3 = tk.Label(fra1, text='Прогресс:')
+    lab3.grid(row=4, column=0, columnspan=4, pady=5)
+    pb = ttk.Progressbar(fra1, orient='horizontal',
+                         mode='determinate', length=240)
+    pb.grid(row=5, column=0, columnspan=4)
+    but3 = tk.Button(fra1, text='Остановить!', fg='red')  # надпись на кнопке
+    but3.grid(row=6, column=0, columnspan=4, pady=5)
+    but3.bind('<ButtonRelease-1>', stop)
     fra2 = tk.Frame(root, width=660, height=480)
     fra3 = tk.Frame(root)
-    fra1.grid(row=0,column=0)
-    fra2.grid(row=0,column=1)
-    fra3.grid(row=1,column=1)
-    tx = tk.Text(fra3,width=78,height=5)
-    scr = tk.Scrollbar(fra3,command=tx.yview)
+    fra1.grid(row=0, column=0)
+    fra2.grid(row=0, column=1)
+    fra3.grid(row=1, column=1)
+    tx = tk.Text(fra3, width=78, height=5)
+    scr = tk.Scrollbar(fra3, command=tx.yview)
     tx.configure(yscrollcommand=scr.set)
     tx.pack(side=tk.LEFT)
     scr.pack(side=tk.RIGHT, fill=tk.Y)
     joke()
     root.mainloop()
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
-
