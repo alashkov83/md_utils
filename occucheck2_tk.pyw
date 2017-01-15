@@ -98,8 +98,8 @@ def main():
     global var1
     root = tk.Tk()
     root.title("Occucheck 2")
-    root.minsize(width=660, height=240)
-    root.maxsize(width=660, height=240)
+    root.minsize(width=580, height=240)
+    root.maxsize(width=580, height=240)
     m = tk.Menu(root) #создается объект Меню на главном окне
     root.config(menu=m) #окно конфигурируется с указанием меню для него
     fm = tk.Menu(m) #создается пункт меню с размещением на основном меню (m)
@@ -114,11 +114,11 @@ def main():
     fra1 = tk.Frame(root)
     fra1.pack(fill=tk.X)
     var1 = tk.IntVar()
-    sca1 = tk.Scale(fra1, orient="horizontal", length=400, from_=10, to=100, tickinterval=10, resolution=1, variable=var1)
-    sca1.grid(row=0,column=1)
+    sca1 = tk.Scale(fra1, orient="horizontal", length=550, from_=10, to=100, tickinterval=10, resolution=1, variable=var1)
+    sca1.grid(row=0,column=0)
     lab1 = tk.Label(fra1, text=" Минимальная сумма заселенности (%): ")
-    lab1.grid(row=0,column=0)
-    tx = tk.Text(root,width=80,height=10)
+    lab1.grid(row=1,column=0)
+    tx = tk.Text(root,width=70,height=10)
     scr = tk.Scrollbar(root,command=tx.yview)
     tx.configure(yscrollcommand=scr.set)
     tx.pack(side=tk.LEFT)

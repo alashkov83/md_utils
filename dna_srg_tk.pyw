@@ -10,6 +10,7 @@ import random
 import tkinter as tk
 from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import showinfo
+from tkinter.messagebox import showerror
 
 
 def dna_gen():
@@ -17,7 +18,7 @@ def dna_gen():
 	try:
 		dna_len = int(ent.get())
 	except ValueError:
-		showinfo("Error", "Lenght DNA field int value requerred")
+		showerror("Ошибка", "Некорректная длина цепи!")
 		return
 	dna_seq = []
 	for n in range(dna_len):
@@ -43,10 +44,8 @@ def close_win():
      root.destroy()
 
 def about():
-     win = tk.Toplevel(root)
-     lab = tk.Label(win,text="Генерация случайной последовательности ДНК")
-     lab.pack()
-     
+	showinfo("Справка", "Генерация случайной последовательности ДНК")
+
 def main():
 	global ent
 	global root
@@ -57,26 +56,26 @@ def main():
 	m = tk.Menu(root) #создается объект Меню на главном окне
 	root.config(menu=m) #окно конфигурируется с указанием меню для него
 	fm = tk.Menu(m) #создается пункт меню с размещением на основном меню (m)
-	m.add_cascade(label="File",menu=fm) #пункту располагается на основном меню (m)
-	fm.add_command(label="Save...",command=save_txt) #формируется список команд пункта меню
-	fm.add_command(label="Exit", command=close_win)
-	m.add_command(label="Run", command=dna_gen)
-	m.add_command(label="About", command=about)
+	m.add_cascade(label="Файл",menu=fm) #пункту располагается на основном меню (m)
+	fm.add_command(label="Сохранить",command=save_txt) #формируется список команд пункта меню
+	fm.add_command(label="Выход", command=close_win)
+	m.add_command(label="Запуск", command=dna_gen)
+	m.add_command(label="Справка", command=about)
 	fra1 = tk.Frame(root)
-	fra1.grid(row=0,column=1)
+	fra1.grid(row=0,column=0)
 	ent = tk.Entry(fra1,width=10,bd=3)
 	ent.bind("<Return>", dna_gen_ev)
 	var = tk.IntVar()
 	sca = tk.Scale(fra1, orient="horizontal", length=300, from_=0, to=100, tickinterval=10, resolution=1, variable=var)
-	ent.grid(row=1,column=1)
-	sca.grid(row=1,column=2)
-	lab1 = tk.Label(fra1, text="Lenght DNA")
-	lab2 = tk.Label(fra1, text="AT/GC ratio")
-	lab1.grid(row=0,column=1)
-	lab2.grid(row=0,column=2)
+	ent.grid(row=1,column=0)
+	sca.grid(row=1,column=1)
+	lab1 = tk.Label(fra1, text="Длина последовательности ДНК:")
+	lab2 = tk.Label(fra1, text="AT/GC отношение:")
+	lab1.grid(row=0,column=0)
+	lab2.grid(row=0,column=1)
 	fra2 = tk.Frame(root)
-	fra2.grid(row=1,column=1)
-	tx = tk.Text(fra2,width=50,height=10)
+	fra2.grid(row=1,column=0)
+	tx = tk.Text(fra2,width=80,height=5)
 	scr = tk.Scrollbar(fra2,command=tx.yview)
 	tx.configure(yscrollcommand=scr.set)
 	tx.pack(side=tk.LEFT)
