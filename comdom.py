@@ -280,24 +280,24 @@ except FileNotFoundError:
     print('Файл не найлен!')
     joke()
     sys.exit()
-chain_name_1 = str(input('Введите название цепи первого домена: '))
-r_segment_1 = int(input('Введите количество сегментов первого домена: '))
 segment_1 = []
 segment_2 = []
+r_segment_1 = int(input('Введите количество сегментов первого домена: '))
 for m_1 in range(r_segment_1):
+    chain_name_1 = str(input('Введите название цепи первого домена: '))
     r_num_start_1 = int(input('Введите номер первого а.о. первого домена: '))
     r_num_end_1 = int(input('Введите номер последнего а.о. первого домена: '))
-    list_1 = list(range(r_num_start_1, r_num_end_1 + 1))
-    for s_1 in range(len(list_1)):
-        segment_1.append(list_1[s_1])
-chain_name_2 = str(input('Введите название цепи второго домена: '))
+    for s_1 in range(r_num_start_1, r_num_end_1 + 1):
+        segment_1.append((chain_name_1, s_1))
+print(segment_1)
 r_segment_2 = int(input('Введите количество сегментов второго домена: '))
 for m_1 in range(r_segment_2):
+    chain_name_2 = str(input('Введите название цепи второго домена: '))
     r_num_start_2 = int(input('Введите номер первого а.о. второго домена: '))
     r_num_end_2 = int(input('Введите номер последнего а.о. второго домена: '))
-    list_2 = list(range(r_num_start_2, r_num_end_2 + 1))
-    for s_2 in range(len(list_2)):
-        segment_2.append(list_2[s_2])
+    for s_2 in range(r_num_start_2, r_num_end_2 + 1):
+        segment_2.append((chain_name_2, s_2))
+print(segment_2)
 t_array = []
 r_array = []
 xyzm_array_1 = []
@@ -313,11 +313,11 @@ while n < len(s_array):
         t_array.append(t)
     elif s[0:5] == 'MODEL':
         model_flag = True
-    elif (s[0:6] == 'ATOM  ') and (s[21] == chain_name_1) and (int(s[22:26]) in segment_1):
+    elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in segment_1):
         xyzm_1 = [float(s[30:38]), float(s[38:46]),
                   float(s[46:54]), round(formula(s[76:78]).mass)]
         xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
-    elif (s[0:6] == 'ATOM  ') and (s[21] == chain_name_2) and (int(s[22:26]) in segment_2):
+    elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in segment_2):
         xyzm_2 = [float(s[30:38]), float(s[38:46]),
                   float(s[46:54]), round(formula(s[76:78]).mass)]
         xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))

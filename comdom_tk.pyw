@@ -19,6 +19,7 @@ from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
 from matplotlib.figure import Figure
 from tkinter.simpledialog import askinteger
+from tkinter.simpledialog import askstring
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter.ttk as ttk
 
@@ -298,10 +299,6 @@ def open_pdb():
     global s_array
     global segment_1
     global segment_2
-    global var1
-    global var2
-    var1.set('')
-    var2.set('')
     opt = {'filetypes': [
         ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
     pdb = askopenfilename(**opt)
@@ -343,60 +340,56 @@ def about():
 
 def seg1(e):
     global segment_1
+    chain_name_1 = askstring('Первый домен', 'Имя цепи: ')
+    if chain_name_1 == '' or chain_name_1 is None:
+        chain_name_1 = ' '
     r_num_start_1 = askinteger('Первый домен', 'Номер первого а.о.: ')
     r_num_end_1 = askinteger('Первый домен', 'Номер последнего а.о.: ')
     if (r_num_start_1 is None) or (r_num_end_1 is None):
         return
-    list_1 = list(range(r_num_start_1, r_num_end_1 + 1))
-    for s_1 in range(len(list_1)):
+    for s_1 in range(r_num_start_1, r_num_end_1 + 1):
         try:
-            segment_1.append(list_1[s_1])
+            segment_1.append((chain_name_1, s_1))
         except NameError:
             segment_1 = []
-            segment_1.append(list_1[s_1])
+            segment_1.append((chain_name_1, s_1))
     print(segment_1)
 
 
 def seg2(e):
     global segment_2
+    chain_name_2 = askstring('Второй домен', 'Имя цепи: ')
+    if chain_name_2 == '' or chain_name_2 is None:
+        chain_name_2 = ' '
     r_num_start_2 = askinteger('Второй домен', 'Номер первого а.о.: ')
     r_num_end_2 = askinteger('Второй домен', 'Номер последнего а.о.: ')
     if (r_num_start_2 is None) or (r_num_end_2 is None):
         return
-    list_2 = list(range(r_num_start_2, r_num_end_2 + 1))
-    for s_2 in range(len(list_2)):
+    for s_2 in range(r_num_start_2, r_num_end_2 + 1):
         try:
-            segment_2.append(list_2[s_2])
+            segment_2.append((chain_name_2, s_2))
         except NameError:
             segment_2 = []
-            segment_2.append(list_2[s_2])
+            segment_2.append((chain_name_2, s_2))
     print(segment_2)
 
 
 def sbros_1(e):
     global segment_1
-    global var1
-    var1.set('')
     segment_1 = []
 
 
 def sbros_2(e):
     global segment_2
-    global var2
-    var2.set('')
     segment_2 = []
 
 
 def trj_cycle():
     global nparray
     global stop_flag
+    global segment_1
+    global segment_2
     tx.delete('1.0', tk.END)
-    chain_name_1 = str(var1.get())
-    chain_name_2 = str(var2.get())
-    if chain_name_1 == '':
-        chain_name_1 = ' '
-    if chain_name_2 == '':
-        chain_name_2 = ' '
     t_array = []
     r_array = []
     xyzm_array_1 = []
@@ -416,11 +409,11 @@ def trj_cycle():
             t_array.append(t)
         elif s[0:5] == 'MODEL':
             model_flag = True
-        elif (s[0:6] == 'ATOM  ') and (s[21] == chain_name_1) and (int(s[22:26]) in segment_1):
+        elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in segment_1):
             xyzm_1 = [float(s[30:38]), float(s[38:46]),
                       float(s[46:54]), round(formula(s[76:78]).mass)]
             xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
-        elif (s[0:6] == 'ATOM  ') and (s[21] == chain_name_2) and (int(s[22:26]) in segment_2):
+        elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in segment_2):
             xyzm_2 = [float(s[30:38]), float(s[38:46]),
                       float(s[46:54]), round(formula(s[76:78]).mass)]
             xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
@@ -460,19 +453,19 @@ def trj_cycle():
         nparray = np.column_stack((t_array, r_array))
         print(nparray)
         graph()
+        segment_1 = []
+        segment_2 = []
 
 
 def main():
     global root
     global tx
-    global var1
-    global var2
     global fra2
     global pb
     root = tk.Tk()
     root.title('Comdom')
-    root.minsize(width=940, height=580)
-    root.maxsize(width=940, height=580)
+    root.minsize(width=880, height=580)
+    root.maxsize(width=880, height=580)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -492,42 +485,30 @@ def main():
     m.add_command(label='Справка', command=about)
     fra1 = tk.Frame(root)
     lab11 = tk.Label(fra1, text='Первый домен:')
-    lab11.grid(row=0, column=0, columnspan=4, pady=5)
-    lab12 = tk.Label(fra1, text='Имя цепи:  ')
-    lab12.grid(row=1, column=0, padx=10)
-    var1 = tk.StringVar()
-    var1.set('')
-    ent1 = tk.Entry(fra1, width=2, bd=3, textvariable=var1)
-    ent1.grid(row=1, column=1, padx=10)
+    lab11.grid(row=0, column=0, pady=5)
     but1 = tk.Button(fra1,
-                     text='Добавить а.о.')  # надпись на кнопке
-    but1.grid(row=1, column=2, padx=5)
+                     text='Добавить диапазон а.о.')  # надпись на кнопке
+    but1.grid(row=1, column=0, padx=10)
     but1.bind('<ButtonRelease-1>', seg1)
     but12 = tk.Button(fra1, text='Сброс')  # надпись на кнопке
-    but12.grid(row=1, column=3, padx=5)
+    but12.grid(row=1, column=1, padx=10)
     but12.bind('<ButtonRelease-1>', sbros_1)
     lab21 = tk.Label(fra1, text='Второй домен:')
-    lab21.grid(row=2, column=0, columnspan=4, pady=5)
-    lab12 = tk.Label(fra1, text='Имя цепи:  ')
-    lab12.grid(row=3, column=0, padx=10)
-    var2 = tk.StringVar()
-    var2.set('')
-    ent2 = tk.Entry(fra1, width=2, bd=3, textvariable=var2)
-    ent2.grid(row=3, column=1, padx=10)
+    lab21.grid(row=2, column=0, pady=5)
     but2 = tk.Button(fra1,
-                     text='Добавить а.о.')  # надпись на кнопке
-    but2.grid(row=3, column=2)
+                     text='Добавить диапазон а.о.')  # надпись на кнопке
+    but2.grid(row=3, column=0)
     but2.bind('<ButtonRelease-1>', seg2)
     but22 = tk.Button(fra1, text='Сброс')  # надпись на кнопке
-    but22.grid(row=3, column=3)
+    but22.grid(row=3, column=1)
     but22.bind('<ButtonRelease-1>', sbros_2)
     lab3 = tk.Label(fra1, text='Прогресс:')
     lab3.grid(row=4, column=0, columnspan=4, pady=5)
     pb = ttk.Progressbar(fra1, orient='horizontal',
-                         mode='determinate', length=255)
-    pb.grid(row=5, column=0, columnspan=4)
+                         mode='determinate', length=200)
+    pb.grid(row=5, column=0, columnspan=2)
     but3 = tk.Button(fra1, text='Остановить!', fg='red')  # надпись на кнопке
-    but3.grid(row=6, column=0, columnspan=4, pady=5)
+    but3.grid(row=6, column=0, columnspan=2, pady=5)
     but3.bind('<ButtonRelease-1>', stop)
     fra2 = tk.Frame(root, width=660, height=480)
     fra3 = tk.Frame(root)
