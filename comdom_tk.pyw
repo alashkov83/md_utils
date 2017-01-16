@@ -471,8 +471,8 @@ def main():
     global pb
     root = tk.Tk()
     root.title('Comdom')
-    root.minsize(width=920, height=580)
-    root.maxsize(width=920, height=580)
+    root.minsize(width=940, height=580)
+    root.maxsize(width=940, height=580)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -500,7 +500,7 @@ def main():
     ent1 = tk.Entry(fra1, width=2, bd=3, textvariable=var1)
     ent1.grid(row=1, column=1, padx=10)
     but1 = tk.Button(fra1,
-                     text='Добавить')  # надпись на кнопке
+                     text='Добавить а.о.')  # надпись на кнопке
     but1.grid(row=1, column=2, padx=5)
     but1.bind('<ButtonRelease-1>', seg1)
     but12 = tk.Button(fra1, text='Сброс')  # надпись на кнопке
@@ -515,7 +515,7 @@ def main():
     ent2 = tk.Entry(fra1, width=2, bd=3, textvariable=var2)
     ent2.grid(row=3, column=1, padx=10)
     but2 = tk.Button(fra1,
-                     text='Добавить')  # надпись на кнопке
+                     text='Добавить а.о.')  # надпись на кнопке
     but2.grid(row=3, column=2)
     but2.bind('<ButtonRelease-1>', seg2)
     but22 = tk.Button(fra1, text='Сброс')  # надпись на кнопке
@@ -524,7 +524,7 @@ def main():
     lab3 = tk.Label(fra1, text='Прогресс:')
     lab3.grid(row=4, column=0, columnspan=4, pady=5)
     pb = ttk.Progressbar(fra1, orient='horizontal',
-                         mode='determinate', length=240)
+                         mode='determinate', length=255)
     pb.grid(row=5, column=0, columnspan=4)
     but3 = tk.Button(fra1, text='Остановить!', fg='red')  # надпись на кнопке
     but3.grid(row=6, column=0, columnspan=4, pady=5)
