@@ -464,8 +464,8 @@ def main():
     global pb
     root = tk.Tk()
     root.title('Comdom')
-    root.minsize(width=880, height=580)
-    root.maxsize(width=880, height=580)
+    root.minsize(width=910, height=580)
+    root.maxsize(width=910, height=580)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -483,40 +483,42 @@ def main():
     rm.add_command(label='Запуск...', command=trj_cycle)
     rm.add_command(label='Статистика', command=xvg_stat)
     m.add_command(label='Справка', command=about)
-    fra1 = tk.Frame(root)
-    lab11 = tk.Label(fra1, text='Первый домен:')
+    fra1 = ttk.Frame(root)
+    lab11 = ttk.Label(fra1, text='Первый домен:')
     lab11.grid(row=0, column=0, pady=5)
-    but1 = tk.Button(fra1,
+    but1 = ttk.Button(fra1,
                      text='Добавить диапазон а.о.')  # надпись на кнопке
     but1.grid(row=1, column=0, padx=10)
     but1.bind('<ButtonRelease-1>', seg1)
-    but12 = tk.Button(fra1, text='Сброс')  # надпись на кнопке
+    but12 = ttk.Button(fra1, text='Сброс')  # надпись на кнопке
     but12.grid(row=1, column=1, padx=10)
     but12.bind('<ButtonRelease-1>', sbros_1)
-    lab21 = tk.Label(fra1, text='Второй домен:')
+    lab21 = ttk.Label(fra1, text='Второй домен:')
     lab21.grid(row=2, column=0, pady=5)
-    but2 = tk.Button(fra1,
+    but2 = ttk.Button(fra1,
                      text='Добавить диапазон а.о.')  # надпись на кнопке
     but2.grid(row=3, column=0)
     but2.bind('<ButtonRelease-1>', seg2)
-    but22 = tk.Button(fra1, text='Сброс')  # надпись на кнопке
+    but22 = ttk.Button(fra1, text='Сброс')  # надпись на кнопке
     but22.grid(row=3, column=1)
     but22.bind('<ButtonRelease-1>', sbros_2)
-    lab3 = tk.Label(fra1, text='Прогресс:')
+    lab3 = ttk.Label(fra1, text='Прогресс:')
     lab3.grid(row=4, column=0, columnspan=4, pady=5)
     pb = ttk.Progressbar(fra1, orient='horizontal',
                          mode='determinate', length=200)
     pb.grid(row=5, column=0, columnspan=2)
-    but3 = tk.Button(fra1, text='Остановить!', fg='red')  # надпись на кнопке
+    s = ttk.Style()
+    s.configure('My.TButton', font=('Helvetica', 10), foreground='red')
+    but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton')  # надпись на кнопке
     but3.grid(row=6, column=0, columnspan=2, pady=5)
     but3.bind('<ButtonRelease-1>', stop)
-    fra2 = tk.Frame(root, width=660, height=480)
-    fra3 = tk.Frame(root)
+    fra2 = ttk.Frame(root, width=660, height=480)
+    fra3 = ttk.Frame(root)
     fra1.grid(row=0, column=0)
     fra2.grid(row=0, column=1)
     fra3.grid(row=1, column=1)
     tx = tk.Text(fra3, width=78, height=5)
-    scr = tk.Scrollbar(fra3, command=tx.yview)
+    scr = ttk.Scrollbar(fra3, command=tx.yview)
     tx.configure(yscrollcommand=scr.set)
     tx.pack(side=tk.LEFT)
     scr.pack(side=tk.RIGHT, fill=tk.Y)

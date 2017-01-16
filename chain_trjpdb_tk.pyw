@@ -7,6 +7,7 @@
 """
 
 import tkinter as tk
+import tkinter.ttk as ttk
 from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import showinfo
@@ -24,7 +25,9 @@ def open_pdb():
         with open(pdb, 'r') as oldfile:
             s_lines = oldfile.readlines()
     except FileNotFoundError:
-        showinfo('Информация', 'Выберите файл формата PDB')
+        return
+    except UnicodeDecodeError:
+        showerror('Ошибка', 'Некорректный PDB файл!')
         return
 
 
@@ -32,7 +35,6 @@ def save_pdb():
     opt = {'filetypes': [
         ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
     sa = asksaveasfilename(**opt)
-    global newlist
     try:
         with open(sa, 'w') as newfile:
             newfile.write(''.join(newlist))
@@ -51,15 +53,14 @@ def about():
 
 
 def rename_pdb():
-    global s_lines
     global newlist
     newlist = []
     try:
-        if len(s_lines) < 1:
+        if len(lines_pdb) < 10:
             showerror('Ошибка', 'Некорректный PDB файл!')
             return
-    except:
-        showerror('Ошибка', 'Некорректный PDB файл!')
+    except NameError:
+        showerror('Ошибка', 'Не загружен PDB файл!')
         return
     try:
         i = int(v1.get())
@@ -70,6 +71,10 @@ def rename_pdb():
     except ValueError:
         showerror('Ошибка', 'Неверное значение!')
         return
+    if chain_name_old == '':
+        chain_name = ' '
+    if chain_name == '':
+        chain_name = ' '
     for s in s_lines:
         if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  ') or (s[0:6] == 'ANISOU'):
             if (int(s[22:26]) in range(i, j + 1)) and (s[21] == chain_name_old):
@@ -100,33 +105,33 @@ def main():
     m.add_command(label='Запуск...', command=rename_pdb)
     m.add_command(label='Справка', command=about)
     v1 = tk.StringVar()
-    ent1 = tk.Entry(root, width=5, textvariable=v1)
+    ent1 = ttk.Entry(root, width=5, textvariable=v1)
     ent1.grid(row=0, column=1, padx=10)
-    lab1 = tk.Label(root, text='Номер первого а.о.: ')
-    lab1.grid(row=0, column=0)
+    lab1 = ttk.Label(root, text='Номер первого а.о.: ')
+    lab1.grid(row=0, column=0, sticky='W')
     v2 = tk.StringVar()
-    ent2 = tk.Entry(root, width=5, textvariable=v2)
+    ent2 = ttk.Entry(root, width=5, textvariable=v2)
     ent2.grid(row=1, column=1, padx=10)
-    lab2 = tk.Label(root, text='Номер последнего а.о.: ')
-    lab2.grid(row=1, column=0)
+    lab2 = ttk.Label(root, text='Номер последнего а.о.: ')
+    lab2.grid(row=1, column=0, sticky='W')
     v3 = tk.StringVar()
-    ent3 = tk.Entry(root, width=5, textvariable=v3)
+    ent3 = ttk.Entry(root, width=5, textvariable=v3)
     ent3.grid(row=2, column=1, padx=10)
-    lab3 = tk.Label(root, text='Инкремент: ')
-    lab3.grid(row=2, column=0)
+    lab3 = ttk.Label(root, text='Инкремент: ')
+    lab3.grid(row=2, column=0, sticky='W')
     v4 = tk.StringVar()
-    ent4 = tk.Entry(root, width=5, textvariable=v4)
+    ent4 = ttk.Entry(root, width=5, textvariable=v4)
     ent4.grid(row=3, column=1, padx=10)
-    lab4 = tk.Label(
-        root, text='Старое наименование цепи (Пробел при отсутствия наименования): ')
-    lab4.grid(row=3, column=0)
+    lab4 = ttk.Label(
+        root, text='Старое наименование цепи: ')
+    lab4.grid(row=3, column=0, sticky='W')
     v5 = tk.StringVar()
-    ent5 = tk.Entry(root, width=5, textvariable=v5)
+    ent5 = ttk.Entry(root, width=5, textvariable=v5)
     ent5.grid(row=4, column=1, padx=10)
-    lab5 = tk.Label(
-        root, text='Новое наименование цепи (Пробел при отсутствия наименования): ')
-    lab5.grid(row=4, column=0)
-    lab6 = tk.Label(root)
+    lab5 = ttk.Label(
+        root, text='Новое наименование цепи: ')
+    lab5.grid(row=4, column=0, sticky='W')
+    lab6 = ttk.Label(root)
     lab6.grid(row=5, column=0)
     root.mainloop()
 if __name__ == '__main__':
