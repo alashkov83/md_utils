@@ -7,21 +7,21 @@
 """
 
 import random
-import numpy as np
-import matplotlib
-matplotlib.use('TkAgg')
-from periodictable import formula
 import tkinter as tk
+import tkinter.ttk as ttk
 from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilename
 from tkinter.messagebox import showinfo
 from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
-from matplotlib.figure import Figure
 from tkinter.simpledialog import askinteger
 from tkinter.simpledialog import askstring
+import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
+from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import tkinter.ttk as ttk
+from periodictable import formula
 
 
 def joke():
@@ -212,9 +212,11 @@ def xvg_stat():
     t_min = t[np.argmin(r)]
     t_max = t[np.argmax(r)]
     showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-        r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+        r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+        r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
     tx.insert(tk.INSERT, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-        r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+        r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+        r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
     root.update()
     return
 
@@ -250,7 +252,7 @@ def save_log():
 def save_graph():
     sa = asksaveasfilename()
     try:
-        fig.savefig(sa)
+        fig.savefig(sa, dpi=600)
     except FileNotFoundError:
         return
     except NameError:
@@ -335,7 +337,8 @@ def stop(e):
 
 
 def about():
-    showinfo('Информация', 'Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД')
+    showinfo('Информация',
+             'Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД')
 
 
 def seg1(e):
@@ -442,7 +445,7 @@ def trj_cycle():
             del xyzm_array_2
             xyzm_array_1 = []
             xyzm_array_2 = []
-            if stop_flag is True:
+            if stop_flag:
                 break
         pb['value'] = n
         pb.update()
@@ -487,30 +490,30 @@ def main():
     lab11 = ttk.Label(fra1, text='Первый домен:')
     lab11.grid(row=0, column=0, pady=5)
     but1 = ttk.Button(fra1,
-                     text='Добавить диапазон а.о.')  # надпись на кнопке
+                      text='Добавить диапазон а.о.')  # надпись на кнопке
     but1.grid(row=1, column=0, padx=10)
     but1.bind('<ButtonRelease-1>', seg1)
-    but12 = ttk.Button(fra1, text='Сброс')  # надпись на кнопке
+    but12 = ttk.Button(fra1, text='Сброс')
     but12.grid(row=1, column=1, padx=10)
     but12.bind('<ButtonRelease-1>', sbros_1)
     lab21 = ttk.Label(fra1, text='Второй домен:')
     lab21.grid(row=2, column=0, pady=5)
     but2 = ttk.Button(fra1,
-                     text='Добавить диапазон а.о.')  # надпись на кнопке
+                      text='Добавить диапазон а.о.')
     but2.grid(row=3, column=0)
     but2.bind('<ButtonRelease-1>', seg2)
-    but22 = ttk.Button(fra1, text='Сброс')  # надпись на кнопке
+    but22 = ttk.Button(fra1, text='Сброс')
     but22.grid(row=3, column=1)
     but22.bind('<ButtonRelease-1>', sbros_2)
     lab3 = ttk.Label(fra1, text='Прогресс:')
     lab3.grid(row=4, column=0, columnspan=4, pady=5)
     pb = ttk.Progressbar(fra1, orient='horizontal',
-                         mode='determinate', length=200)
+                         mode='determinate', length=220)
     pb.grid(row=5, column=0, columnspan=2)
     s = ttk.Style()
     s.configure('My.TButton', font=('Helvetica', 10), foreground='red')
-    but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton')  # надпись на кнопке
-    but3.grid(row=6, column=0, columnspan=2, pady=5)
+    but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton')
+    but3.grid(row=6, column=0, columnspan=2, pady=10)
     but3.bind('<ButtonRelease-1>', stop)
     fra2 = ttk.Frame(root, width=660, height=480)
     fra3 = ttk.Frame(root)

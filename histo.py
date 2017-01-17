@@ -187,7 +187,6 @@ def joke():
 
 
 def xvg_open_arg():
-    global xvg_file
     xvg_file = sys.argv[1]
     try:
         fname = open(xvg_file, 'r')
@@ -200,7 +199,7 @@ def xvg_open_arg():
                 nparray = np.loadtxt(fname, skiprows=n)
                 fname.close()
                 break
-        return nparray
+        return nparray, xvg_file
     except FileNotFoundError:
         print('Файл не найден!')
         joke()
@@ -218,7 +217,6 @@ def xvg_open_arg():
 
 
 def xvg_open():
-    global xvg_file
     while True:
         print("""Введите имя файла или exit для выхода
 Внимание!!! Спецформат меток grace не поддерживается
@@ -239,7 +237,7 @@ def xvg_open():
                     nparray = np.loadtxt(fname, skiprows=n)
                     fname.close()
                     break
-            return nparray
+            return nparray, xvg_file
             break
         except FileNotFoundError:
             print('Файл не найлен!')
@@ -278,7 +276,7 @@ def name_y(xvg_file):
     return name_y
 
 
-def print_graph(x, nparray):
+def print_graph(x, nparray, xvg_file):
     if nparray.shape[1] == 2:
         y = nparray[:, 1]
         ax.plot(x, y, color='black', label=name_y(xvg_file))
@@ -298,13 +296,15 @@ def save_graph():
         except ValueError:
             print('Неподдерживаемый формат файла рисунка! Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 if len(sys.argv) == 1:
-    nparray = xvg_open()
+    nparray = xvg_open()[0]
+    xvg_file = xvg_open()[1]
 elif len(sys.argv) > 3:
     print('Слишком много аргументов')
     joke()
     sys.exit()
 else:
-    nparray = xvg_open_arg()
+    nparray = xvg_open_arg()[0]
+    xvg_file = xvg_open_arg()[1]
 print(nparray)
 print(str(nparray.shape[1]) + ' столбцов данных')
 print(str(nparray.shape[0]) + ' строк данных')
@@ -315,7 +315,7 @@ plt.xlabel(name_x(xvg_file))
 plt.grid(True)
 ax = fig.add_subplot(111)
 x = nparray[:, 0]
-print_graph(x, nparray)
+print_graph(x, nparray, xvg_file)
 if len(sys.argv) == 3:
     try:
         plt.savefig(sys.argv[2])
