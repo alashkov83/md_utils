@@ -6,25 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5ab12951-9d2f-4b7e-866d-b8daa7f97fcc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/auto_umbr_frame.py" afterPath="$PROJECT_DIR$/auto_umbr_frame.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/chain_trjpdb_tk.pyw" afterPath="$PROJECT_DIR$/chain_trjpdb_tk.pyw" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comdom.py" afterPath="$PROJECT_DIR$/comdom.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comdom_tk.pyw" afterPath="$PROJECT_DIR$/comdom_tk.pyw" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf_rename.py" afterPath="$PROJECT_DIR$/conf_rename.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/creat_xvg.py" afterPath="$PROJECT_DIR$/creat_xvg.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dna_srg.py" afterPath="$PROJECT_DIR$/dna_srg.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dna_srg_tk.pyw" afterPath="$PROJECT_DIR$/dna_srg_tk.pyw" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/histo.py" afterPath="$PROJECT_DIR$/histo.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/histo_tk.pyw" afterPath="$PROJECT_DIR$/histo_tk.pyw" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multigraph_umb.py" afterPath="$PROJECT_DIR$/multigraph_umb.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/occucheck.py" afterPath="$PROJECT_DIR$/occucheck.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/occucheck2.py" afterPath="$PROJECT_DIR$/occucheck2.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/occucheck2_tk.pyw" afterPath="$PROJECT_DIR$/occucheck2_tk.pyw" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/occucheck_tk.pyw" afterPath="$PROJECT_DIR$/occucheck_tk.pyw" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setb.py" afterPath="$PROJECT_DIR$/setb.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/setb_tk.pyw" afterPath="$PROJECT_DIR$/setb_tk.pyw" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/udistgen.py" afterPath="$PROJECT_DIR$/udistgen.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/umbr_frame.py" afterPath="$PROJECT_DIR$/umbr_frame.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -91,7 +72,7 @@
         <entry file="file://$PROJECT_DIR$/setb_tk.pyw">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="258">
-              <caret line="75" column="21" lean-forward="true" selection-start-line="75" selection-start-column="21" selection-end-line="75" selection-end-column="21" />
+              <caret line="75" column="21" lean-forward="false" selection-start-line="75" selection-start-column="21" selection-end-line="75" selection-end-column="21" />
               <folding>
                 <element signature="e#111#131#0" expanded="true" />
               </folding>
@@ -138,6 +119,11 @@
     </leaf>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="alashkov83 &lt;alashkov83@gmail.com&gt;" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
@@ -216,6 +202,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
   </component>
   <component name="RunManager" selected="Python.occucheck_tk.pyw">
     <configuration default="false" name="dna_srg_tk.pyw" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -445,6 +432,14 @@
       <option name="presentableId" value="Default" />
       <updated>1484728096992</updated>
     </task>
+    <task id="LOCAL-00001" summary="Minor bugs fixed and code improved.">
+      <created>1484740765470</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1484740765470</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -473,6 +468,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Minor bugs fixed and code improved." />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor bugs fixed and code improved." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -657,7 +656,7 @@
     <entry file="file://$PROJECT_DIR$/setb_tk.pyw">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="258">
-          <caret line="75" column="21" lean-forward="true" selection-start-line="75" selection-start-column="21" selection-end-line="75" selection-end-column="21" />
+          <caret line="75" column="21" lean-forward="false" selection-start-line="75" selection-start-column="21" selection-end-line="75" selection-end-column="21" />
           <folding>
             <element signature="e#111#131#0" expanded="true" />
           </folding>
