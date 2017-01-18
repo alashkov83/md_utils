@@ -6,13 +6,14 @@
 
 """
 
-import sys
+import argparse
 import os
 import os.path
-import argparse
+import sys
 from shutil import copyfile
-import numpy as np
+
 import matplotlib.pyplot as plt
+import numpy as np
 import progressbar
 
 
@@ -67,7 +68,8 @@ def udistgen(namespace):
     for i in number_list:
         bar1.update(i)
         os.system(
-            "gmx distance -s md.tpr -f ./FRAMES_ALL/conf{0:d}.gro -oall ./FRAMES_ALL/dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' > /dev/null 2>&1".format(i, com1, com2))
+            "gmx distance -s md.tpr -f ./FRAMES_ALL/conf{0:d}.gro -oall ./FRAMES_ALL/dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' > /dev/null 2>&1".format(
+                i, com1, com2))
     bar1.finish()
     dist_file = open('summary_distances.dat', 'a')
     print('Собираю данные..')
@@ -102,7 +104,7 @@ def frame_filter(nparray, d):
     i = 0
     for n in range(int(f_array[0]), int(f_array[-1])):
         nd = d_array[0] + i * d
-        i = i + 1
+        i += 1
         df_array = list(map(lambda x: abs(x - nd), d_array))
         ff_frame.append(f_array[df_array.index(min(df_array))])
     l = list(map(lambda x: int(x), ff_frame))
@@ -114,17 +116,17 @@ def frame_filter(nparray, d):
 def umbr_frame(nparray, namespace):
     d = namespace.dist
     ff_frame = frame_filter(frame_prefilter(nparray, namespace), d)
-    print('Отобранные фреймы: '+ ' '.join(map(lambda x: str(x), ff_frame)))
+    print('Отобранные фреймы: ' + ' '.join(map(lambda x: str(x), ff_frame)))
     newdir = './FRAMES'
     try:
         os.makedirs(newdir, exist_ok=True)
     except OSError:
         print('Невозможно создать каталог ' + newdir)
         sys.exit()
-    for i in range(0, len(ff_frame)):
+    for frame in ff_frame:
+        filename = './FRAMES_ALL/conf' + str(frame) + '.gro'
+        newfilename = newdir + '/conf' + str(frame) + '.gro'
         try:
-            filename = './FRAMES_ALL/conf' + str(ff_frame[i]) + '.gro'
-            newfilename = newdir + '/conf' + str(ff_frame[i]) + '.gro'
             copyfile(filename, newfilename)
         except OSError:
             print('Невозможно скопировать ' + filename)
@@ -141,6 +143,7 @@ def picture(nparray):
     y = nparray[:, 1]
     ax.plot(x, y)
     plt.savefig('summary_distances.png')
+
 
 if __name__ == '__main__':
     parser = create_parser()

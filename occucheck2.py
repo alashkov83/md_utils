@@ -6,10 +6,12 @@ Created on Wed Nov 30 22:14:47 2016
 @author: lashkov
 """
 
-import sys
 import argparse
+import sys
+
 import Bio.PDB as pdb
 from Bio.PDB.mmtf import MMTFParser
+
 
 def create_parser():
     parser = argparse.ArgumentParser()
@@ -25,6 +27,7 @@ def create_parser():
                         help='Имя LOG файла')
     return parser
 
+
 def open_pdb(pdb_f):
     parser = pdb.PDBParser()
     try:
@@ -36,8 +39,9 @@ def open_pdb(pdb_f):
         print("Ошибка! Некорректный PDB файл: {0:s}!".format(pdb_f))
         sys.exit()
     else:
-        print("Информация","Файл прочитан!")
+        print("Информация", "Файл прочитан!")
         return structure
+
 
 def open_url(url):
     try:
@@ -49,22 +53,24 @@ def open_url(url):
         print("Файл загружен!")
         return structure
 
+
 def open_cif(cif_f):
     parser = pdb.MMCIFParser()
     try:
         structure = parser.get_structure('X', cif_f)
     except FileNotFoundError:
-        print("Ошибка! CIF файл: {0:s} не найден!".format(pdb_f))
+        print("Ошибка! CIF файл: {0:s} не найден!".format(cif_f))
         sys.exit()
-    except (KeyError, ValueError,  AssertionError):
-        print("Ошибка! Некорректный CIF файл: {0:s}!".format(pdb_f))
+    except (KeyError, ValueError, AssertionError):
+        print("Ошибка! Некорректный CIF файл: {0:s}!".format(cif_f))
         sys.exit()
     else:
         print("Файл прочитан!")
         return structure
 
+
 def save_log(log, namespace):
-    with open(namespace.logout,"w") as f:
+    with open(namespace.logout, "w") as f:
         f.write("\n".join(log))
 
 
@@ -78,15 +84,18 @@ def check_pdb(structure, namespace):
     log = []
     for atom in atoms:
         sum_ocu = 0.0
-        if atom.is_disordered() ==0:
+        if atom.is_disordered() == 0:
             sum_ocu += atom.get_occupancy()
         else:
             for X in atom.disordered_get_id_list():
                 atom.disordered_select(X)
                 sum_ocu += atom.get_occupancy()
         if (sum_ocu > 1.00) or (sum_ocu < min_ocu):
-            log.append("Для атома {0:s} а.о. {1:s}:{2:4d} цепи {3:s} cумма заселенностей равна {4:.2f}".format(atom.get_fullname(), (atom.get_parent()).get_resname(), int(atom.get_full_id()[3][1]), atom.get_full_id()[2], sum_ocu))
+            log.append("Для атома {0:s} а.о. {1:s}:{2:4d} цепи {3:s} cумма заселенностей равна {4:.2f}".format(
+                atom.get_fullname(), (atom.get_parent()).get_resname(), int(atom.get_full_id()[3][1]),
+                atom.get_full_id()[2], sum_ocu))
     return log
+
 
 if __name__ == '__main__':
     parser = create_parser()
@@ -106,4 +115,3 @@ if __name__ == '__main__':
         save_log(log, namespace)
     else:
         print("Ошибок не найдено!")
-

@@ -5,10 +5,11 @@
 @author: lashkov
 
 """
-import sys
 import random
-import numpy as np
+import sys
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def joke():
@@ -194,7 +195,7 @@ def xvg_open_arg():
         while True:
             subtitle = str(open(xvg_file, 'r').readlines()[n])
             if (subtitle[0] == '@') or (subtitle[0] == '#'):
-                n = n + 1
+                n += 1
             else:
                 nparray = np.loadtxt(fname, skiprows=n)
                 fname.close()
@@ -232,13 +233,12 @@ def xvg_open():
             while True:
                 subtitle = str(open(xvg_file, 'r').readlines()[n])
                 if (subtitle[0] == '@') or (subtitle[0] == '#'):
-                    n = n + 1
+                    n += 1
                 else:
                     nparray = np.loadtxt(fname, skiprows=n)
                     fname.close()
                     break
             return nparray, xvg_file
-            break
         except FileNotFoundError:
             print('Файл не найлен!')
         except UnicodeDecodeError:

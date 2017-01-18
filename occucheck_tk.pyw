@@ -8,11 +8,11 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilename
-from tkinter.messagebox import showinfo
+from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
+from tkinter.messagebox import showinfo
 
 
 def open_pdb():
@@ -101,7 +101,7 @@ def check_pdb():
                     if (chain_id != chain_id_curent) or (resn_curent != resn):
                         check_occupancy(atom, occupancy,
                                         resn_curent, chain_id_curent, res_name)
-                        n = n - 1
+                        n -= 1
                         atom.clear()
                         occupancy.clear()
                         res_name.clear()
@@ -109,9 +109,9 @@ def check_pdb():
                     atom.append(str(s[12:16]))
                     occupancy.append(float(s[54:60]))
                     res_name.append(str(s[17:20]))
-                n = n + 1
+                n += 1
                 s = lines_pdb[n]
-        n = n + 1
+        n += 1
 
 
 def main():
@@ -147,5 +147,7 @@ def main():
     tx.pack(side=tk.LEFT)
     scr.pack(side=tk.RIGHT, fill=tk.Y)
     root.mainloop()
+
+
 if __name__ == '__main__':
     main()

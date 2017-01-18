@@ -6,8 +6,9 @@
 
 """
 
-import sys
 import random
+import sys
+
 if (len(sys.argv) < 2) or (len(sys.argv) > 3):
     print('Использование: dna_srg длина_сиквенса АТ:ГЦ_соотношение')
     sys.exit()

@@ -9,12 +9,12 @@
 import random
 import tkinter as tk
 from tkinter.filedialog import asksaveasfilename
-from tkinter.messagebox import showinfo
 from tkinter.messagebox import showerror
+from tkinter.messagebox import showinfo
 
 
 def dna_gen():
-    AT_RATIO = var.get() / 100
+    a_t__r_a_t_i_o = var.get() / 100
     try:
         dna_len = int(ent.get())
     except ValueError:
@@ -22,7 +22,7 @@ def dna_gen():
         return
     dna_seq = []
     for n in range(dna_len):
-        if n < int(AT_RATIO * dna_len):
+        if n < int(a_t__r_a_t_i_o * dna_len):
             dna_seq.append(random.choice(('A', 'T')))
         else:
             dna_seq.append(random.choice(('G', 'C')))
@@ -57,7 +57,6 @@ def main():
     global var
     global tx
     root = tk.Tk()
-    dna_len = tk.StringVar()
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -89,5 +88,7 @@ def main():
     tx.pack(side=tk.LEFT)
     scr.pack(side=tk.RIGHT, fill=tk.Y)
     root.mainloop()
+
+
 if __name__ == '__main__':
     main()

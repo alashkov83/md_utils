@@ -8,11 +8,11 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilename
-from tkinter.messagebox import showinfo
+from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
+from tkinter.messagebox import showinfo
 
 
 def open_pdb():
@@ -29,7 +29,6 @@ def open_pdb():
     except UnicodeDecodeError:
         showerror('Ошибка', 'Некорректный PDB файл!')
         return
-
 
 
 def save_pdb():
@@ -54,11 +53,10 @@ def about():
 
 
 def set_b():
-    global s_lines
     global newlist
     newlist = []
     try:
-        if len(lines_pdb) < 10:
+        if len(s_lines) < 10:
             showerror('Ошибка', 'Некорректный PDB файл!')
             return
     except NameError:
@@ -68,13 +66,13 @@ def set_b():
         chain_name = str(v4.get())
         i = int(v1.get())
         j = int(v2.get())
-        B = float(v3.get())
+        adp = float(v3.get())
     except ValueError:
         showerror('Ошибка', 'Неверное значение!')
         return
     if chain_name == '':
         chain_name = ' '
-    b_factor = str('{0:6.2f}'.format(B))
+    b_factor = str('{0:6.2f}'.format(adp))
     for s in s_lines:
         if ((s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  ')) and s[21] == chain_name:
             if int(s[22:26]) in range(i, j + 1):
@@ -126,5 +124,7 @@ def main():
     lab6 = ttk.Label(root)
     lab6.grid(row=4, column=0)
     root.mainloop()
+
+
 if __name__ == '__main__':
     main()

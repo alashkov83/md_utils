@@ -6,10 +6,11 @@
 
 """
 
-import sys
 import random
-import numpy as np
+import sys
+
 import matplotlib.pyplot as plt
+import numpy as np
 import progressbar
 from periodictable import formula
 
@@ -217,7 +218,7 @@ def save_data(nparray):
     try:
         np.savetxt('summary_distances.dat', n_nparray,
                    delimiter='\t', fmt=['%d', '%.3f'])
-    except:
+    except OSError:
         print('Не удалось сохранить summary_distances.dat')
     return
 
@@ -230,7 +231,8 @@ def save_graph():
             plt.savefig(file_name_g)
             break
         except ValueError:
-            print('Неподдерживаемый формат файла рисунка! Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
+            print(
+                'Неподдерживаемый формат файла рисунка! Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 
 
 def graph(nparray):
@@ -260,14 +262,16 @@ def graph(nparray):
 
 
 def cmass(nparray):
-    M = float(nparray[:, 3].sum())
+    mass_sum = float(nparray[:, 3].sum())
     mx = (nparray[:, 3]) * (nparray[:, 0])
     my = (nparray[:, 3]) * (nparray[:, 1])
     mz = (nparray[:, 3]) * (nparray[:, 2])
-    c_mass_x = float(mx.sum()) / M
-    c_mass_y = float(my.sum()) / M
-    c_mass_z = float(mz.sum()) / M
+    c_mass_x = float(mx.sum()) / mass_sum
+    c_mass_y = float(my.sum()) / mass_sum
+    c_mass_z = float(mz.sum()) / mass_sum
     return [c_mass_x, c_mass_y, c_mass_z]
+
+
 if len(sys.argv) > 1:
     filename = str(sys.argv[1])
 else:
@@ -326,8 +330,8 @@ while n < len(s_array):
         xyzm_array_2.shape = (-1, 4)
         c_mass_1 = cmass(xyzm_array_1)
         c_mass_2 = cmass(xyzm_array_2)
-        r = (((c_mass_1[0] - c_mass_2[0])**2) + ((c_mass_1[1] -
-                                                  c_mass_2[1])**2) + ((c_mass_1[2] - c_mass_2[2])**2))**0.5
+        r = (((c_mass_1[0] - c_mass_2[0]) ** 2) + ((c_mass_1[1] -
+                                                    c_mass_2[1]) ** 2) + ((c_mass_1[2] - c_mass_2[2]) ** 2)) ** 0.5
         print(
             'Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
                 c_mass_1[0],
@@ -346,7 +350,7 @@ while n < len(s_array):
         xyzm_array_1 = []
         xyzm_array_2 = []
     bar1.update(n)
-    n = n + 1
+    n += 1
 bar1.finish()
 if len(r_array) != 1:
     if len(t_array) == 0:

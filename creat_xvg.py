@@ -5,12 +5,13 @@
 @author: lashkov
 
 """
-import sys
-import random
 import os
+import random
 import re
-import numpy as np
+import sys
 from shutil import copyfile
+
+import numpy as np
 
 
 def joke():
@@ -186,17 +187,19 @@ def joke():
         "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
     print('>>> ' + random.choice(joke_txt))
 
+
 def sort_file(list_file):
-	file_dict = dict()
-	sort_list = []
-	for f in list_file:
-		z = int(''.join(re.findall(r'\d+',f)))
-		file_dict[z] = f
-	l = list(file_dict.keys())
-	l.sort()
-	for n in l:
-		sort_list.append(file_dict[n])
-	return sort_list
+    file_dict = dict()
+    sort_list = []
+    for f in list_file:
+        z = int(''.join(re.findall(r'\d+', f)))
+        file_dict[z] = f
+    l = list(file_dict.keys())
+    l.sort()
+    for n in l:
+        sort_list.append(file_dict[n])
+    return sort_list
+
 
 def trj_time():
     fname = open('md_0_pullf.xvg', 'r')
@@ -204,18 +207,20 @@ def trj_time():
     while True:
         subtitle = str(open('md_0_pullf.xvg', 'r').readlines()[n])
         if (subtitle[0] == '@') or (subtitle[0] == '#'):
-            n = n + 1
+            n += 1
         else:
             nparray = np.loadtxt(fname, skiprows=n)
             fname.close()
             break
     return float(nparray[-1, 0])
+
+
 work_dir = os.getcwd()
 base_dir = 'ANALYS'
 os.chdir(work_dir)
 try:
     os.makedirs(work_dir + '/' + base_dir, exist_ok=True)
-except:
+except OSError:
     print('Невозможно создать каталог ' + work_dir + '/' + base_dir)
     joke()
     sys.exit()
@@ -226,21 +231,21 @@ for x in range(len(list_dir)):
     frame_n = int(list_dir[x].partition('frame_')[2])
     try:
         filename = work_dir + '/' + \
-            list_dir[x] + '/' + 'md_' + str(frame_n) + '_pullf.xvg'
+                   list_dir[x] + '/' + 'md_' + str(frame_n) + '_pullf.xvg'
         newfilename = work_dir + '/' + base_dir + \
-            '/' + 'md_' + str(frame_n) + '_pullf.xvg'
+                      '/' + 'md_' + str(frame_n) + '_pullf.xvg'
         copyfile(filename, newfilename)
         filename = work_dir + '/' + \
-            list_dir[x] + '/' + 'md_' + str(frame_n) + '_pullx.xvg'
+                   list_dir[x] + '/' + 'md_' + str(frame_n) + '_pullx.xvg'
         newfilename = work_dir + '/' + base_dir + \
-            '/' + 'md_' + str(frame_n) + '_pullx.xvg'
+                      '/' + 'md_' + str(frame_n) + '_pullx.xvg'
         copyfile(filename, newfilename)
         filename = work_dir + '/' + \
-            list_dir[x] + '/' + 'md_' + str(frame_n) + '.tpr'
+                   list_dir[x] + '/' + 'md_' + str(frame_n) + '.tpr'
         newfilename = work_dir + '/' + base_dir + \
-            '/' + 'md_' + str(frame_n) + '.tpr'
+                      '/' + 'md_' + str(frame_n) + '.tpr'
         copyfile(filename, newfilename)
-    except:
+    except OSError:
         print('Невозможно скопировать ' + filename)
 os.chdir(work_dir + '/' + base_dir)
 list_file = os.listdir(path='.')

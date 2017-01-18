@@ -6,10 +6,11 @@
 
 """
 
-import sys
-import random
 import os
+import random
+import sys
 from shutil import copyfile
+
 import numpy as np
 
 
@@ -223,7 +224,6 @@ def dist_open():
             nparray = np.loadtxt(fname)
             fname.close()
             return nparray
-            break
         except FileNotFoundError:
             print('Файл не найлен!')
         except UnicodeDecodeError:
@@ -242,8 +242,8 @@ def frame_prefilter(nparray):
         f_frame = 0
     try:
         l_frame = 1 + \
-            int(input('Введите номер последнего фреймов (По умолчанию:' +
-                      str(len(nparray[:, 0]) - 1) + '): '))
+                  int(input('Введите номер последнего фреймов (По умолчанию:' +
+                            str(len(nparray[:, 0]) - 1) + '): '))
     except ValueError:
         l_frame = len(nparray[:, 0])
     nparray2 = nparray[(l_frame >= nparray[:, 0]) & (nparray[:, 0] >= f_frame)]
@@ -257,13 +257,15 @@ def frame_filter(nparray, d):
     i = 0
     for n in range(int(f_array[0]), int(f_array[-1])):
         nd = d_array[0] + i * d
-        i = i + 1
+        i += 1
         df_array = list(map(lambda x: abs(x - nd), d_array))
         ff_frame.append(f_array[df_array.index(min(df_array))])
     l = list(map(lambda x: int(x), ff_frame))
     l2 = sorted(list(dict(zip(l, l)).values()))
     l2.pop()
     return l2
+
+
 if len(sys.argv) == 1:
     nparray = dist_open()
 elif len(sys.argv) > 2:
@@ -292,10 +294,12 @@ except OSError:
     joke()
     sys.exit()
 base_filename = str(input('Введите шаблон имени файла: '))
-for i in range(0, len(ff_frame)):
+i = 0
+for frame in ff_frame:
+    i += 1
+    filename = olddir + '/' + base_filename + str(frame) + '.gro'
+    newfilename = newdir + '/' + base_filename + str(frame) + '.gro'
     try:
-        filename = olddir + '/' + base_filename + str(ff_frame[i]) + '.gro'
-        newfilename = newdir + '/' + base_filename + str(ff_frame[i]) + '.gro'
         copyfile(filename, newfilename)
     except OSError:
         print('Невозможно скопировать ' + filename)

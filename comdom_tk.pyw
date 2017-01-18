@@ -9,19 +9,21 @@
 import random
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilename
-from tkinter.messagebox import showinfo
+from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
+from tkinter.messagebox import showinfo
 from tkinter.simpledialog import askinteger
 from tkinter.simpledialog import askstring
-import numpy as np
+
 import matplotlib
-matplotlib.use('TkAgg')
-from matplotlib.figure import Figure
+import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 from periodictable import formula
+
+matplotlib.use('TkAgg')
 
 
 def joke():
@@ -214,9 +216,11 @@ def xvg_stat():
     showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
         r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
         r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
-    tx.insert(tk.INSERT, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-        r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-        r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+    tx.insert(tk.INSERT,
+              '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+                  r_min,
+                  t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+                  r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
     root.update()
     return
 
@@ -234,7 +238,7 @@ def save_data():
     try:
         np.savetxt(sa, n_nparray,
                    delimiter='\t', fmt=['%d', '%.3f'])
-    except Exception:
+    except OSError:
         showerror('Ошибка!', 'Не удалось сохранить {0:s}'.format(sa))
     return
 
@@ -275,7 +279,7 @@ def graph():
     ax.set_ylabel('COM distance, A')
     if max(x) > 10000:
         ax.set_xlabel('Time, ns')
-        x = x / 1000
+        x /= 1000
     else:
         ax.set_xlabel('Time, ps')
     ax.plot(x, y, color='black')
@@ -287,13 +291,13 @@ def graph():
 
 
 def cmass(str_nparray):
-    M = float(str_nparray[:, 3].sum())
+    mass_sum = float(str_nparray[:, 3].sum())
     mx = (str_nparray[:, 3]) * (str_nparray[:, 0])
     my = (str_nparray[:, 3]) * (str_nparray[:, 1])
     mz = (str_nparray[:, 3]) * (str_nparray[:, 2])
-    c_mass_x = float(mx.sum()) / M
-    c_mass_y = float(my.sum()) / M
-    c_mass_z = float(mz.sum()) / M
+    c_mass_x = float(mx.sum()) / mass_sum
+    c_mass_y = float(my.sum()) / mass_sum
+    c_mass_z = float(mz.sum()) / mass_sum
     return [c_mass_x, c_mass_y, c_mass_z]
 
 
@@ -313,16 +317,6 @@ def open_pdb():
         showinfo('Информация', 'Файл прочитан!')
         segment_1 = []
         segment_2 = []
-
-
-def save_log():
-    sa = asksaveasfilename()
-    letter = tx.get(1.0, tk.END)
-    try:
-        with open(sa, 'w') as f:
-            f.write(letter)
-    except FileNotFoundError:
-        return
 
 
 def close_win():
@@ -420,13 +414,13 @@ def trj_cycle():
             xyzm_2 = [float(s[30:38]), float(s[38:46]),
                       float(s[46:54]), round(formula(s[76:78]).mass)]
             xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
-        elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag == False):
+        elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag is False):
             xyzm_array_1.shape = (-1, 4)
             xyzm_array_2.shape = (-1, 4)
             c_mass_1 = cmass(xyzm_array_1)
             c_mass_2 = cmass(xyzm_array_2)
-            r = (((c_mass_1[0] - c_mass_2[0])**2) + ((c_mass_1[1] -
-                                                      c_mass_2[1])**2) + ((c_mass_1[2] - c_mass_2[2])**2))**0.5
+            r = (((c_mass_1[0] - c_mass_2[0]) ** 2) + ((c_mass_1[1] -
+                                                        c_mass_2[1]) ** 2) + ((c_mass_1[2] - c_mass_2[2]) ** 2)) ** 0.5
             tx.insert(tk.INSERT,
                       'Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
                           c_mass_1[0],
@@ -449,7 +443,7 @@ def trj_cycle():
                 break
         pb['value'] = n
         pb.update()
-        n = n + 1
+        n += 1
     if len(r_array) != 1:
         if len(t_array) == 0:
             t_array = list(range(0, len(r_array)))
@@ -527,5 +521,7 @@ def main():
     scr.pack(side=tk.RIGHT, fill=tk.Y)
     joke()
     root.mainloop()
+
+
 if __name__ == '__main__':
     main()

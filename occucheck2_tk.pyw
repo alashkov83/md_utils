@@ -8,12 +8,13 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilename
-from tkinter.messagebox import showinfo
+from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
+from tkinter.messagebox import showinfo
 from tkinter.simpledialog import askstring
+
 import Bio.PDB as pdb
 from Bio.PDB.mmtf import MMTFParser
 
@@ -143,5 +144,7 @@ def main():
     tx.pack(side=tk.LEFT)
     scr.pack(side=tk.RIGHT, fill=tk.Y)
     root.mainloop()
+
+
 if __name__ == '__main__':
     main()

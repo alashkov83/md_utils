@@ -6,10 +6,11 @@
 
 """
 
-import sys
 import random
-import numpy as np
+import sys
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def joke():
@@ -195,7 +196,8 @@ def save_graph():
             plt.savefig(file_name_g)
             break
         except ValueError:
-            print('Неподдерживаемый формат файла рисунка! Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
+            print(
+                'Неподдерживаемый формат файла рисунка! Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 
 
 def xvg_open_arg(x):
@@ -206,14 +208,14 @@ def xvg_open_arg(x):
         while True:
             subtitle = str(open(xvg_file, 'r').readlines()[n])
             if (subtitle[0] == '@') or (subtitle[0] == '#'):
-                n = n + 1
+                n += 1
             else:
                 nparray = np.loadtxt(fname, skiprows=n)
                 fname.close()
                 break
         return nparray
     except FileNotFoundError:
-        print('Файл ' + sys.argv[n] + ' не найден!')
+        print('Файл ' + sys.argv[x] + ' не найден!')
     except UnicodeDecodeError:
         print('Неверный формат файла: ' + sys.argv[x])
         fname.close()
@@ -224,6 +226,8 @@ def xvg_open_arg(x):
         fname.close()
         joke()
         sys.exit()
+
+
 if len(sys.argv) < 2:
     print('Укажите как минимум один xvg-файл в качестве аргумента!')
     joke()

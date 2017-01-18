@@ -8,11 +8,11 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
-from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilename
-from tkinter.messagebox import showinfo
+from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
+from tkinter.messagebox import showinfo
 
 
 def open_pdb():
@@ -56,7 +56,7 @@ def rename_pdb():
     global newlist
     newlist = []
     try:
-        if len(lines_pdb) < 10:
+        if len(s_lines) < 10:
             showerror('Ошибка', 'Некорректный PDB файл!')
             return
     except NameError:
@@ -134,5 +134,7 @@ def main():
     lab6 = ttk.Label(root)
     lab6.grid(row=5, column=0)
     root.mainloop()
+
+
 if __name__ == '__main__':
     main()

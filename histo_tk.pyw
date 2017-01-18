@@ -6,15 +6,16 @@
 
 """
 
-
 import tkinter as tk
-from tkinter.filedialog import asksaveasfilename
 from tkinter.filedialog import askopenfilename
-from tkinter.messagebox import showinfo
+from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
-import numpy as np
+from tkinter.messagebox import showinfo
+
 import matplotlib
+import numpy as np
+
 matplotlib.rcParams['figure.dpi'] = 80
 matplotlib.rcParams['figure.figsize'] = 8, 6
 matplotlib.use('TkAgg')
@@ -23,7 +24,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 class Graph:
-
     def __init__(self, root):
         self.fra = root
         self.legend = False
@@ -41,7 +41,7 @@ class Graph:
             while True:
                 subtitle = str(open(xvg_file, 'r').readlines()[n])
                 if (subtitle[0] == '@') or (subtitle[0] == '#'):
-                    n = n + 1
+                    n += 1
                 else:
                     nparray = np.loadtxt(fname, skiprows=n)
                     fname.close()
@@ -174,5 +174,7 @@ def main():
     showinfo('Внимание!!!', ('Спецформат меток grace не поддерживается\n'
                              'для нормального отображения меток удалите символы форматирования в исходном файле!'))
     root.mainloop()
+
+
 if __name__ == '__main__':
     main()

@@ -6,11 +6,11 @@
 
 """
 
-import sys
-import os
 import os.path
-import numpy as np
+import sys
+
 import matplotlib.pyplot as plt
+import numpy as np
 import progressbar
 
 
@@ -20,6 +20,8 @@ def xvg_extract(s_xvg):
             continue
         else:
             return float(line.split()[1])
+
+
 if len(sys.argv) == 3:
     try:
         com1 = int(sys.argv[1])
@@ -32,7 +34,7 @@ else:
     sys.exit()
 list_file = os.listdir(path='.')
 if "md.tpr" not in list_file:
-    print('Файл md.tpr не найден в каталоге '+ os.getcwd())
+    print('Файл md.tpr не найден в каталоге ' + os.getcwd())
     sys.exit()
 list_dir = list(filter(lambda x: ('conf' in x) and ('.gro' in x), list_file))
 number_list = sorted(list(
@@ -42,7 +44,8 @@ bar1 = progressbar.ProgressBar(maxval=max(number_list)).start()
 for i in number_list:
     bar1.update(i)
     os.system(
-        "gmx distance -s md.tpr -f conf{0:d}.gro -oall dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' > /dev/null 2>&1".format(i, com1, com2))
+        "gmx distance -s md.tpr -f conf{0:d}.gro -oall dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' > /dev/null 2>&1".format(
+            i, com1, com2))
 bar1.finish()
 if os.path.isfile('summary_distances.dat'):
     os.rename('summary_distances.dat', 'summary_distances_old.dat')

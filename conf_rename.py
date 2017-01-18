@@ -14,4 +14,4 @@ list_dir = list(filter(lambda x: ('conf' in x) and ('.gro' in x), list_file))
 number_list = sorted(list(
     (map(lambda x: int(''.join([i if i.isdigit() else '' for i in x])), list_dir))))
 for i in number_list:
-    os.rename('conf'+str(i)+'.gro', 'conf'+str(i+ink)+'.gro')
+    os.rename('conf' + str(i) + '.gro', 'conf' + str(i + ink) + '.gro')

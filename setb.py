@@ -5,9 +5,9 @@
 @author: lashkov
 
 """
-import sys
-import random
 import os
+import random
+import sys
 
 
 def joke():
@@ -183,6 +183,8 @@ def joke():
         "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
     print('>>> ' + random.choice(joke_txt))
     return
+
+
 if len(sys.argv) == 7:
     try:
         old_filename = str(sys.argv[5])
