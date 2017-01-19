@@ -38,9 +38,10 @@ def dna_gen_ev(event):
 
 def save_txt():
     sa = asksaveasfilename()
-    letter = tx.get(1.0, tk.END)
-    with open(sa, 'w') as f:
-        f.write(letter)
+    if sa:
+        letter = tx.get(1.0, tk.END)
+        with open(sa, 'w') as f:
+            f.write(letter)
 
 
 def close_win():

@@ -313,6 +313,7 @@ def open_pdb():
     global segment_2
     global canvas
     global toolbar
+    global pb
     opt = {'filetypes': [
         ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
     pdb = askopenfilename(**opt)
@@ -331,6 +332,8 @@ def open_pdb():
         segment_1 = []
         segment_2 = []
         showinfo('Внимание', 'Диапазоны а.о. доменов обнулены!')
+        pb['value'] = 0
+        pb.update()
 
 
 def close_win():

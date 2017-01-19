@@ -32,12 +32,13 @@ def open_pdb():
 
 def save_log():
     sa = asksaveasfilename()
-    letter = tx.get(1.0, tk.END)
-    try:
-        with open(sa, 'w') as f:
-            f.write(letter)
-    except FileNotFoundError:
-        return
+    if sa:
+        letter = tx.get(1.0, tk.END)
+        try:
+            with open(sa, 'w') as f:
+                f.write(letter)
+        except FileNotFoundError:
+            return
 
 
 def close_win():

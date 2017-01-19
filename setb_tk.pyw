@@ -35,12 +35,13 @@ def save_pdb():
     opt = {'filetypes': [
         ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
     sa = asksaveasfilename(**opt)
-    try:
-        with open(sa, 'w') as newfile:
-            newfile.write(''.join(newlist))
-    except FileNotFoundError:
-        showinfo('Информация', 'Выберите файл формата PDB')
-        return
+    if sa:
+        try:
+            with open(sa, 'w') as newfile:
+                newfile.write(''.join(newlist))
+        except FileNotFoundError:
+            showinfo('Информация', 'Выберите файл формата PDB')
+            return
 
 
 def close_win():
