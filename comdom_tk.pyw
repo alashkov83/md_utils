@@ -317,7 +317,7 @@ def open_pdb():
         showinfo('Информация', 'Файл прочитан!')
         segment_1 = []
         segment_2 = []
-
+        showinfo('Внимание', 'Диапазоны а.о. доменов обнулены!')
 
 def close_win():
     if askyesno('Выход', 'Вы точно хотите выйти?'):
@@ -384,8 +384,7 @@ def sbros_2(e):
 def trj_cycle():
     global nparray
     global stop_flag
-    global segment_1
-    global segment_2
+    global canvas
     tx.delete('1.0', tk.END)
     t_array = []
     r_array = []
@@ -415,8 +414,22 @@ def trj_cycle():
                       float(s[46:54]), round(formula(s[76:78]).mass)]
             xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
         elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag is False):
-            xyzm_array_1.shape = (-1, 4)
-            xyzm_array_2.shape = (-1, 4)
+            try:
+                xyzm_array_1.shape = (-1, 4)
+            except AttributeError:
+                showerror('Ошибка!','Данные для первого домена не собраны!')
+                showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
+                pb['value'] = 0
+                pb.update()
+                return
+            try:
+                xyzm_array_2.shape = (-1, 4)
+            except AttributeError:
+                showerror('Ошибка!','Данные для второго домена не собраны!')
+                showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
+                pb['value'] = 0
+                pb.update()
+                return
             c_mass_1 = cmass(xyzm_array_1)
             c_mass_2 = cmass(xyzm_array_2)
             r = (((c_mass_1[0] - c_mass_2[0]) ** 2) + ((c_mass_1[1] -
@@ -444,14 +457,20 @@ def trj_cycle():
         pb['value'] = n
         pb.update()
         n += 1
-    if len(r_array) != 1:
+    if len(r_array) > 1:
         if len(t_array) == 0:
             t_array = list(range(0, len(r_array)))
         nparray = np.column_stack((t_array, r_array))
         print(nparray)
         graph()
-        segment_1 = []
-        segment_2 = []
+    elif len(r_array) == 0:
+        showerror('Ощибка!', 'Данные не собраны!')
+    elif len(r_array) == 1:
+        try:
+            canvas.get_tk_widget().destroy()
+        except NameError:
+            pass
+    showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
 
 
 def main():
