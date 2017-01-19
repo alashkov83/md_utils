@@ -18,9 +18,6 @@ import matplotlib
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-
-matplotlib.rcParams['figure.dpi'] = 80
-matplotlib.rcParams['figure.figsize'] = 8, 6
 matplotlib.use('TkAgg')
 
 

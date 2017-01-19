@@ -15,9 +15,6 @@ from tkinter.messagebox import showinfo
 
 import matplotlib
 import numpy as np
-
-matplotlib.rcParams['figure.dpi'] = 80
-matplotlib.rcParams['figure.figsize'] = 8, 6
 matplotlib.use('TkAgg')
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
