@@ -16,8 +16,9 @@ from tkinter.messagebox import showinfo
 
 import matplotlib
 import numpy as np
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
+
 matplotlib.use('TkAgg')
 
 
@@ -107,6 +108,7 @@ class Graph:
             return
         try:
             self.canvas.get_tk_widget().destroy()
+            self.toolbar.destroy()
         except AttributeError:
             pass
         self.fig = Figure()
@@ -128,12 +130,16 @@ class Graph:
             ax.legend(loc='best', frameon=False)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.fra)
         self.canvas.show()
-        self.canvas.get_tk_widget().pack(fill=tk.BOTH)
-        self.canvas._tkcanvas.pack(fill=tk.BOTH)
+        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.fra)
+        self.toolbar.update()
+        self.canvas._tkcanvas.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
+
 
     def sbros(self):
         try:
             self.canvas.get_tk_widget().destroy()
+            self.toolbar.destroy()
         except AttributeError:
             return
         self.legend = True
@@ -143,12 +149,13 @@ class Graph:
 
     def save_graph(self):
         sa = asksaveasfilename()
-        try:
-            self.fig.savefig(sa, dpi=600)
-        except FileNotFoundError:
-            pass
-        except AttributeError:
-            showerror('Ошибка!', 'График недоступен!')
+        if sa:
+            try:
+                self.fig.savefig(sa, dpi=600)
+            except FileNotFoundError:
+                pass
+            except AttributeError:
+                showerror('Ошибка!', 'График недоступен!')
 
 
 def about():
@@ -159,9 +166,9 @@ def about():
 def main():
     root = tk.Tk()
     root.title('Multigraph')
-    root.minsize(width=640, height=480)
-    root.maxsize(width=640, height=480)
-    fra = tk.Frame(root, width=640, height=480, bg='grey80')
+    root.minsize(width=640, height=515)
+    root.maxsize(width=640, height=515)
+    fra = tk.Frame(root)
     fra.grid(row=0, column=0)
     graph = Graph(fra)
     m = tk.Menu(root)  # создается объект Меню на главном окне

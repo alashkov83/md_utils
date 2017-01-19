@@ -294,7 +294,10 @@ def save_graph():
             plt.savefig(file_name_g)
             break
         except ValueError:
-            print('Неподдерживаемый формат файла рисунка! Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
+            print(
+                'Неподдерживаемый формат файла рисунка! Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
+
+
 if len(sys.argv) == 1:
     nparray = xvg_open()[0]
     xvg_file = xvg_open()[1]
@@ -320,7 +323,8 @@ if len(sys.argv) == 3:
     try:
         plt.savefig(sys.argv[2])
     except ValueError:
-        print('Неподдерживаемый формат файла рисунка! Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
+        print(
+            'Неподдерживаемый формат файла рисунка! Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
         joke()
         sys.exit()
 else:

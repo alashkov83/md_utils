@@ -19,7 +19,7 @@ from tkinter.simpledialog import askstring
 
 import matplotlib
 import numpy as np
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 from periodictable import formula
 
@@ -235,40 +235,44 @@ def save_data():
     r_n = r_a / 10
     n_nparray = np.column_stack((t, r_n))
     sa = asksaveasfilename()
-    try:
-        np.savetxt(sa, n_nparray,
-                   delimiter='\t', fmt=['%d', '%.3f'])
-    except OSError:
-        showerror('Ошибка!', 'Не удалось сохранить {0:s}'.format(sa))
-    return
+    if sa:
+        try:
+            np.savetxt(sa, n_nparray,
+                       delimiter='\t', fmt=['%d', '%.3f'])
+        except OSError:
+            showerror('Ошибка!', 'Не удалось сохранить {0:s}'.format(sa))
 
 
 def save_log():
     sa = asksaveasfilename()
-    letter = tx.get(1.0, tk.END)
-    try:
-        with open(sa, 'w') as f:
-            f.write(letter)
-    except FileNotFoundError:
-        return
+    if sa:
+        letter = tx.get(1.0, tk.END)
+        try:
+            with open(sa, 'w') as f:
+                f.write(letter)
+        except FileNotFoundError:
+            pass
 
 
 def save_graph():
     sa = asksaveasfilename()
-    try:
-        fig.savefig(sa, dpi=600)
-    except FileNotFoundError:
-        return
-    except NameError:
-        showerror('Ошибка!', 'График недоступен!')
-        return
+    if sa:
+        try:
+            fig.savefig(sa, dpi=600)
+        except FileNotFoundError:
+            return
+        except NameError:
+            showerror('Ошибка!', 'График недоступен!')
+            return
 
 
 def graph():
     global fig
     global canvas
+    global toolbar
     try:
         canvas.get_tk_widget().destroy()
+        toolbar.destroy()
     except NameError:
         pass
     fig = Figure()
@@ -286,8 +290,10 @@ def graph():
     ax.grid(True)
     canvas = FigureCanvasTkAgg(fig, master=fra2)
     canvas.show()
-    canvas.get_tk_widget().pack(fill=tk.BOTH)
-    canvas._tkcanvas.pack(fill=tk.BOTH)
+    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+    toolbar = NavigationToolbar2TkAgg(canvas, fra2)
+    toolbar.update()
+    canvas._tkcanvas.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
 
 
 def cmass(str_nparray):
@@ -305,6 +311,8 @@ def open_pdb():
     global s_array
     global segment_1
     global segment_2
+    global canvas
+    global toolbar
     opt = {'filetypes': [
         ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
     pdb = askopenfilename(**opt)
@@ -315,9 +323,15 @@ def open_pdb():
         return
     else:
         showinfo('Информация', 'Файл прочитан!')
+        try:
+            canvas.get_tk_widget().destroy()
+            toolbar.destroy()
+        except NameError:
+            pass
         segment_1 = []
         segment_2 = []
         showinfo('Внимание', 'Диапазоны а.о. доменов обнулены!')
+
 
 def close_win():
     if askyesno('Выход', 'Вы точно хотите выйти?'):
@@ -385,6 +399,7 @@ def trj_cycle():
     global nparray
     global stop_flag
     global canvas
+    global toolbar
     tx.delete('1.0', tk.END)
     t_array = []
     r_array = []
@@ -417,7 +432,7 @@ def trj_cycle():
             try:
                 xyzm_array_1.shape = (-1, 4)
             except AttributeError:
-                showerror('Ошибка!','Данные для первого домена не собраны!')
+                showerror('Ошибка!', 'Данные для первого домена не собраны!')
                 showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
                 pb['value'] = 0
                 pb.update()
@@ -425,7 +440,7 @@ def trj_cycle():
             try:
                 xyzm_array_2.shape = (-1, 4)
             except AttributeError:
-                showerror('Ошибка!','Данные для второго домена не собраны!')
+                showerror('Ошибка!', 'Данные для второго домена не собраны!')
                 showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
                 pb['value'] = 0
                 pb.update()
@@ -480,8 +495,8 @@ def main():
     global pb
     root = tk.Tk()
     root.title('Comdom')
-    root.minsize(width=910, height=580)
-    root.maxsize(width=910, height=580)
+    root.minsize(width=910, height=610)
+    root.maxsize(width=910, height=610)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -528,7 +543,7 @@ def main():
     but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton')
     but3.grid(row=6, column=0, columnspan=2, pady=10)
     but3.bind('<ButtonRelease-1>', stop)
-    fra2 = ttk.Frame(root, width=660, height=480)
+    fra2 = ttk.Frame(root, width=660, height=515)
     fra3 = ttk.Frame(root)
     fra1.grid(row=0, column=0)
     fra2.grid(row=0, column=1)
