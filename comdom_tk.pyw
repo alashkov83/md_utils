@@ -67,12 +67,12 @@ def joke():
             "or Ada: the Nerf languages, harmless fun for children of all ages, and they won't mar the furniture\n"),
         'COFFEE.EXE Missing - Insert Cup and Press Any Key\n',
         (
-            'Programming today is a race between software engineers striving to build bigger and better idiot-proof program'
-            's, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning\n'),
+            'Programming today is a race between software engineers striving to build bigger and better idiot-proof '
+            'programs, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning\n'),
         'LISP = Lots of Irritating Silly Parentheses\n',
         (
-            "The beginning of the programmer's wisdom is understanding the difference between getting program to run and having"
-            " a runnable program\n"),
+            "The beginning of the programmer's wisdom is understanding the difference between getting program to run"
+            " and having a runnable program\n"),
         "Squash one bug, you'll see ten new bugs popping\n",
         'Everytime i time i touch my code, i give birth to ten new bugs\n',
         'boast = blogging is open & amiable sharing of thoughts\n',
@@ -221,9 +221,8 @@ class App:
         self.segment_1 = []
         self.segment_2 = []
         self.fig = None
-        self.pb = ttk.Progressbar(fra1, orient='horizontal',
-                                  mode='determinate', length=220)
-        self.pb.grid(row=5, column=0, columnspan=2)
+        self.pb = ttk.Progressbar(fra1, orient='horizontal', mode='determinate', length=240)
+        self.pb.grid(row=4, column=0, columnspan=2)
         self.fra2 = fra2
         self.tx = tk.Text(fra3, width=78, height=5)
         scr = ttk.Scrollbar(fra3, command=self.tx.yview)
@@ -252,7 +251,7 @@ class App:
         showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
             r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
             r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
-        self.tx.insert(tk.INSERT, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+        self.tx.insert(tk.END, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
             r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
             r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
 
@@ -274,8 +273,7 @@ class App:
         sa = asksaveasfilename()
         if sa:
             try:
-                np.savetxt(sa, n_nparray,
-                           delimiter='\t', fmt=['%d', '%.3f'])
+                np.savetxt(sa, n_nparray, delimiter='\t', fmt=['%d', '%.3f'])
             except OSError:
                 showerror('Ошибка!', 'Не удалось сохранить {0:s}'.format(sa))
 
@@ -305,7 +303,7 @@ class App:
             except AttributeError:
                 showerror('Ошибка!', 'График недоступен!')
 
-    def graph(self):
+    def _graph(self):
         self.fig = None
         self.fig = Figure()
         ax = self.fig.add_subplot(111)
@@ -472,9 +470,9 @@ class App:
                 c_mass_1 = self._cmass(xyzm_array_1)
                 c_mass_2 = self._cmass(xyzm_array_2)
                 r = (((c_mass_1[0] - c_mass_2[0]) ** 2) + ((c_mass_1[1] -
-                                                            c_mass_2[1]) ** 2) + (
-                         (c_mass_1[2] - c_mass_2[2]) ** 2)) ** 0.5
-                self.tx.insert(tk.INSERT,
+                                                            c_mass_2[1]) ** 2) + ((c_mass_1[2] -
+                                                                                   c_mass_2[2]) ** 2)) ** 0.5
+                self.tx.insert(tk.END,
                                'Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
                                    c_mass_1[0],
                                    c_mass_1[1],
@@ -502,7 +500,7 @@ class App:
                 t_array = list(range(0, len(r_array)))
             self.nparray = np.column_stack((t_array, r_array))
             print(self.nparray)
-            self.graph()
+            self._graph()
         elif len(r_array) == 0:
             showerror('Ощибка!', 'Данные не собраны!')
         elif len(r_array) == 1:
@@ -518,11 +516,11 @@ def about():
              'Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД')
 
 
-def main():
+def win():
     root = tk.Tk()
     root.title('Comdom')
-    root.minsize(width=910, height=610)
-    root.maxsize(width=910, height=610)
+    root.minsize(width=925, height=605)
+    root.maxsize(width=925, height=605)
     fra1 = ttk.Frame(root)
     fra2 = ttk.Frame(root, width=660, height=515)
     fra3 = ttk.Frame(root)
@@ -547,29 +545,27 @@ def main():
     rm.add_command(label='Запуск...', command=app.trj_cycle)
     rm.add_command(label='Статистика', command=app.xvg_stat)
     m.add_command(label='Справка', command=about)
-    lab11 = ttk.Label(fra1, text='Первый домен:')
-    lab11.grid(row=0, column=0, pady=5)
-    but1 = ttk.Button(fra1,
-                      text='Добавить диапазон а.о.', command=app.seg1)  # надпись на кнопке
-    but1.grid(row=1, column=0, padx=10)
-    but12 = ttk.Button(fra1, text='Сброс', command=app.sbros_1)
-    but12.grid(row=1, column=1, padx=10)
-    lab21 = ttk.Label(fra1, text='Второй домен:')
-    lab21.grid(row=2, column=0, pady=5)
-    but2 = ttk.Button(fra1,
-                      text='Добавить диапазон а.о.', command=app.seg2)
-    but2.grid(row=3, column=0)
-    but22 = ttk.Button(fra1, text='Сброс', command=app.sbros_2)
-    but22.grid(row=3, column=1)
+    lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
+    lab1.grid(row=0, column=0, pady=5, padx=5)
+    but1 = ttk.Button(lab1, text='Добавить диапазон а.о.', command=app.seg1)  # надпись на кнопке
+    but1.grid(row=0, column=0, padx=10)
+    but12 = ttk.Button(lab1, text='Сброс', command=app.sbros_1)
+    but12.grid(row=0, column=1, padx=10)
+    lab2 = ttk.LabelFrame(fra1, text='Второй домен', labelanchor='n', borderwidth=5)
+    lab2.grid(row=1, column=0, pady=5, padx=5)
+    but2 = ttk.Button(lab2, text='Добавить диапазон а.о.', command=app.seg2)
+    but2.grid(row=0, column=0, padx=10)
+    but22 = ttk.Button(lab2, text='Сброс', command=app.sbros_2)
+    but22.grid(row=0, column=1, padx=10)
     lab3 = ttk.Label(fra1, text='Прогресс:')
-    lab3.grid(row=4, column=0, columnspan=4, pady=5)
+    lab3.grid(row=3, column=0, columnspan=4, pady=5)
     s = ttk.Style()
     s.configure('My.TButton', font=('Helvetica', 10), foreground='red')
     but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton', command=app.stop)
-    but3.grid(row=6, column=0, columnspan=2, pady=10)
+    but3.grid(row=2, column=0, columnspan=2, pady=10)
     joke()
     root.mainloop()
 
 
 if __name__ == '__main__':
-    main()
+    win()
