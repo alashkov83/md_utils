@@ -27,7 +27,7 @@ matplotlib.use('TkAgg')
 
 
 def joke():
-    joke = [
+    joke_txt = [
         "There are 10 types of people in the world: those who understand binary, and those who don't\n",
         "If at first you don't succeed; call it version 1.0\n",
         "I'm not anti-social; I'm just not user friendly\n",
@@ -40,7 +40,10 @@ def joke():
         "The box said 'Requires Windows 95 or better'. So I installed LINUX\n",
         'A penny saved is 1.39 cents earned, if you consider income tax\n',
         'Unix, DOS and Windows...the good, the bad and the ugly\n',
-        'A computer lets you make more mistakes faster than any invention in human history - with the possible exceptions of handguns and tequila\n',
+        (
+            'A computer lets you make more mistakes faster than any invention in human history - with the possible'
+            ' exceptions of handguns and tequila\n'
+        ),
         'The code that is the hardest to debug is the code that you know cannot possibly be wrong\n',
         'UNIX is basically a simple operating system, but you have to be a genius to understand the simplicity\n',
         'Ethernet (n): something used to catch the etherbunny\n',
@@ -56,12 +59,20 @@ def joke():
         'Be nice to the nerds, for all you know they might be the next Bill Gates!\n',
         'The farther south you go, the more dollar stores there are\n',
         'Beware of programmers that carry screwdrivers\n',
-        'The difference between e-mail and regular mail is that computers handle e-mail, and computers never decide to come to work one day and shoot all the other computers\n',
-        "If you want a language that tries to lock up all the sharp objects and fire-making implements, use Pascal or Ada: the Nerf languages, harmless fun for children of all ages, and they won't mar the furniture\n",
+        (
+            'The difference between e-mail and regular mail is that computers handle e-mail, and computers never decide'
+            ' to come to work one day and shoot all the other computers\n'),
+        (
+            "If you want a language that tries to lock up all the sharp objects and fire-making implements, use Pascal "
+            "or Ada: the Nerf languages, harmless fun for children of all ages, and they won't mar the furniture\n"),
         'COFFEE.EXE Missing - Insert Cup and Press Any Key\n',
-        'Programming today is a race between software engineers striving to build bigger and better idiot-proof programs, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning\n',
+        (
+            'Programming today is a race between software engineers striving to build bigger and better idiot-proof program'
+            's, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning\n'),
         'LISP = Lots of Irritating Silly Parentheses\n',
-        "The beginning of the programmer's wisdom is understanding the difference between getting program to run and having a runnable program\n",
+        (
+            "The beginning of the programmer's wisdom is understanding the difference between getting program to run and having"
+            " a runnable program\n"),
         "Squash one bug, you'll see ten new bugs popping\n",
         'Everytime i time i touch my code, i give birth to ten new bugs\n',
         'boast = blogging is open & amiable sharing of thoughts\n',
@@ -166,7 +177,7 @@ def joke():
         "C++ is a write-only language. I can write programs in C++, but I can't read any of them\n",
         'As of next week, passwords will be entered in Morse code\n',
         'earth is 98% full ... please delete anyone you can\n',
-        'A typical yahoo chat room: "A has signed in, A has signed out, B has signed in, B has signed out, C has signed in, C has signed out.."\n',
+        'A typical yahoo chat room: "A has signed in, A has signed out, B has signed in, B has signed out, C has signed in, C has signed out.."_\n',
         'When someone says "I want a programming language in which I need only say what I wish done," give him a lollipop\n',
         'Warning! No processor found! Press any key to continue\n',
         'Failure is not an option. It comes bundled with your Microsoft product\n',
@@ -197,154 +208,309 @@ def joke():
         "I had a dream... and there were 1's and 0's everywhere, and I think I saw a 2!\n",
         'You sir, are an unknown USB device driver\n',
         "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
-    showinfo(';-)', random.choice(joke))
+    showinfo(';-)', random.choice(joke_txt))
     return
 
 
-def xvg_stat():
-    try:
-        t = nparray[:, 0]
-        r = nparray[:, 1]
-    except NameError:
-        showinfo('Информация', 'Данные недоступны')
-        return
-    r_min = min(r)
-    r_max = max(r)
-    r_mean = r.mean()
-    t_min = t[np.argmin(r)]
-    t_max = t[np.argmax(r)]
-    showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-        r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-        r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
-    tx.insert(tk.INSERT,
-              '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-                  r_min,
-                  t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-                  r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
-    root.update()
-    return
+class App:
+    def __init__(self, fra1, fra2, fra3):
+        self.s_array = None
+        self.nparray = None
+        self.stop_flag = False
+        self.run_flag = False
+        self.segment_1 = []
+        self.segment_2 = []
+        self.fig = None
+        self.pb = ttk.Progressbar(fra1, orient='horizontal',
+                                  mode='determinate', length=220)
+        self.pb.grid(row=5, column=0, columnspan=2)
+        self.fra2 = fra2
+        self.tx = tk.Text(fra3, width=78, height=5)
+        scr = ttk.Scrollbar(fra3, command=self.tx.yview)
+        self.tx.configure(yscrollcommand=scr.set)
+        self.tx.pack(side=tk.LEFT)
+        scr.pack(side=tk.RIGHT, fill=tk.Y)
 
-
-def save_data():
-    try:
-        t = nparray[:, 0]
-        r_a = nparray[:, 1]
-    except NameError:
-        showinfo('Информация', 'Данные недоступны')
-        return
-    r_n = r_a / 10
-    n_nparray = np.column_stack((t, r_n))
-    sa = asksaveasfilename()
-    if sa:
-        try:
-            np.savetxt(sa, n_nparray,
-                       delimiter='\t', fmt=['%d', '%.3f'])
-        except OSError:
-            showerror('Ошибка!', 'Не удалось сохранить {0:s}'.format(sa))
-
-
-def save_log():
-    sa = asksaveasfilename()
-    if sa:
-        letter = tx.get(1.0, tk.END)
-        try:
-            with open(sa, 'w') as f:
-                f.write(letter)
-        except FileNotFoundError:
-            pass
-
-
-def save_graph():
-    sa = asksaveasfilename()
-    if sa:
-        try:
-            fig.savefig(sa, dpi=600)
-        except FileNotFoundError:
+    def xvg_stat(self):
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет не закончен!')
             return
+        if self.nparray is None:
+            showinfo('Информация', 'Статистика недоступна')
+            return
+        try:
+            t = self.nparray[:, 0]
+            r = self.nparray[:, 1]
         except NameError:
+            showinfo('Информация', 'Данные недоступны')
+            return
+        r_min = min(r)
+        r_max = max(r)
+        r_mean = r.mean()
+        t_min = t[np.argmin(r)]
+        t_max = t[np.argmax(r)]
+        showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+            r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+            r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+        self.tx.insert(tk.INSERT, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+            r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+            r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+
+    def save_data(self):
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет не закончен!')
+            return
+        if self.nparray is None:
+            showinfo('Информация', 'Данные недоступны')
+            return
+        try:
+            t = self.nparray[:, 0]
+            r_a = self.nparray[:, 1]
+        except NameError:
+            showinfo('Информация', 'Данные недоступны')
+            return
+        r_n = r_a / 10
+        n_nparray = np.column_stack((t, r_n))
+        sa = asksaveasfilename()
+        if sa:
+            try:
+                np.savetxt(sa, n_nparray,
+                           delimiter='\t', fmt=['%d', '%.3f'])
+            except OSError:
+                showerror('Ошибка!', 'Не удалось сохранить {0:s}'.format(sa))
+
+    def save_log(self):
+        sa = asksaveasfilename()
+        if sa:
+            letter = self.tx.get(1.0, tk.END)
+            try:
+                with open(sa, 'w') as f:
+                    f.write(letter)
+            except FileNotFoundError:
+                pass
+
+    def save_graph(self):
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет не закончен!')
+            return
+        if self.fig is None:
             showerror('Ошибка!', 'График недоступен!')
             return
+        sa = asksaveasfilename()
+        if sa:
+            try:
+                self.fig.savefig(sa, dpi=600)
+            except FileNotFoundError:
+                return
+            except AttributeError:
+                showerror('Ошибка!', 'График недоступен!')
 
+    def graph(self):
+        self.fig = None
+        self.fig = Figure()
+        ax = self.fig.add_subplot(111)
+        x = self.nparray[:, 0]
+        y = self.nparray[:, 1]
+        ax.set_title('COM distance vs. time')
+        ax.set_ylabel('COM distance, A')
+        if (max(x) - min(x)) > 10000:
+            ax.set_xlabel('Time, ns')
+            x /= 1000
+        else:
+            ax.set_xlabel('Time, ps')
+        ax.plot(x, y, color='black')
+        ax.grid(True)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.fra2)
+        self.canvas.show()
+        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.fra2)
+        self.toolbar.update()
+        self.canvas._tkcanvas.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
 
-def graph():
-    global fig
-    global canvas
-    global toolbar
-    try:
-        canvas.get_tk_widget().destroy()
-        toolbar.destroy()
-    except NameError:
-        pass
-    fig = Figure()
-    ax = fig.add_subplot(111)
-    x = nparray[:, 0]
-    y = nparray[:, 1]
-    ax.set_title('COM distance vs. time')
-    ax.set_ylabel('COM distance, A')
-    if max(x) > 10000:
-        ax.set_xlabel('Time, ns')
-        x /= 1000
-    else:
-        ax.set_xlabel('Time, ps')
-    ax.plot(x, y, color='black')
-    ax.grid(True)
-    canvas = FigureCanvasTkAgg(fig, master=fra2)
-    canvas.show()
-    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-    toolbar = NavigationToolbar2TkAgg(canvas, fra2)
-    toolbar.update()
-    canvas._tkcanvas.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
+    @staticmethod
+    def _cmass(str_nparray):
+        mass_sum = float(str_nparray[:, 3].sum())
+        mx = (str_nparray[:, 3]) * (str_nparray[:, 0])
+        my = (str_nparray[:, 3]) * (str_nparray[:, 1])
+        mz = (str_nparray[:, 3]) * (str_nparray[:, 2])
+        c_mass_x = float(mx.sum()) / mass_sum
+        c_mass_y = float(my.sum()) / mass_sum
+        c_mass_z = float(mz.sum()) / mass_sum
+        return [c_mass_x, c_mass_y, c_mass_z]
 
-
-def cmass(str_nparray):
-    mass_sum = float(str_nparray[:, 3].sum())
-    mx = (str_nparray[:, 3]) * (str_nparray[:, 0])
-    my = (str_nparray[:, 3]) * (str_nparray[:, 1])
-    mz = (str_nparray[:, 3]) * (str_nparray[:, 2])
-    c_mass_x = float(mx.sum()) / mass_sum
-    c_mass_y = float(my.sum()) / mass_sum
-    c_mass_z = float(mz.sum()) / mass_sum
-    return [c_mass_x, c_mass_y, c_mass_z]
-
-
-def open_pdb():
-    global s_array
-    global segment_1
-    global segment_2
-    global canvas
-    global toolbar
-    global pb
-    opt = {'filetypes': [
-        ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
-    pdb = askopenfilename(**opt)
-    try:
-        with open(pdb, 'r') as f:
-            s_array = f.readlines()
-    except FileNotFoundError:
-        return
-    else:
-        showinfo('Информация', 'Файл прочитан!')
+    def open_pdb(self):
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет уже идёт!')
+            return
+        opt = {'filetypes': [
+            ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
+        pdb = askopenfilename(**opt)
         try:
-            canvas.get_tk_widget().destroy()
-            toolbar.destroy()
-        except NameError:
+            with open(pdb, 'r') as f:
+                self.s_array = f.readlines()
+        except FileNotFoundError:
+            return
+        else:
+            showinfo('Информация', 'Файл прочитан!')
+        try:
+            self.canvas.get_tk_widget().destroy()
+            self.toolbar.destroy()
+        except AttributeError:
             pass
-        segment_1 = []
-        segment_2 = []
+        self.segment_1 = []
+        self.segment_2 = []
         showinfo('Внимание', 'Диапазоны а.о. доменов обнулены!')
-        pb['value'] = 0
-        pb.update()
+        self.pb['value'] = 0
+        self.pb.update()
+        self.fig = None
 
+    def stop(self):
+        if self.run_flag:
+            if askyesno('Прервать?', 'Вы точно хотите прервать расчет?'):
+                self.stop_flag = True
 
-def close_win():
-    if askyesno('Выход', 'Вы точно хотите выйти?'):
-        root.destroy()
+    def seg1(self):
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет уже идёт!')
+            return
+        chain_name_1 = askstring('Первый домен', 'Имя цепи: ')
+        if chain_name_1 == '' or chain_name_1 is None:
+            chain_name_1 = ' '
+        r_num_start_1 = askinteger('Первый домен', 'Номер первого а.о.: ')
+        r_num_end_1 = askinteger('Первый домен', 'Номер последнего а.о.: ')
+        if (r_num_start_1 is None) or (r_num_end_1 is None):
+            return
+        for s_1 in range(r_num_start_1, r_num_end_1 + 1):
+            self.segment_1.append((chain_name_1, s_1))
+        print(self.segment_1)
 
+    def seg2(self):
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет уже идёт!')
+            return
+        chain_name_2 = askstring('Второй домен', 'Имя цепи: ')
+        if chain_name_2 == '' or chain_name_2 is None:
+            chain_name_2 = ' '
+        r_num_start_2 = askinteger('Второй домен', 'Номер первого а.о.: ')
+        r_num_end_2 = askinteger('Второй домен', 'Номер последнего а.о.: ')
+        if (r_num_start_2 is None) or (r_num_end_2 is None):
+            return
+        for s_2 in range(r_num_start_2, r_num_end_2 + 1):
+            self.segment_2.append((chain_name_2, s_2))
+        print(self.segment_2)
 
-def stop(e):
-    global stop_flag
-    if askyesno('Прервать?', 'Вы точно хотите прервать расчет?'):
-        stop_flag = True
+    def sbros_1(self):
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет уже идёт!')
+            return
+        self.segment_1 = []
+
+    def sbros_2(self):
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет уже идёт!')
+            return
+        self.segment_2 = []
+
+    def trj_cycle(self):
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет уже идёт!')
+            return
+        self.run_flag = True
+        try:
+            self.canvas.get_tk_widget().destroy()
+            self.toolbar.destroy()
+        except AttributeError:
+            pass
+        self.tx.delete('1.0', tk.END)
+        t_array = []
+        r_array = []
+        xyzm_array_1 = []
+        xyzm_array_2 = []
+        self.nparray = None
+        self.fig = None
+        if self.s_array is None:
+            showerror('Ошибка!', 'Не загружен файл!')
+            return
+        self.pb['maximum'] = len(self.s_array)
+        n = 0
+        model_flag = False
+        self.stop_flag = False
+        while n < len(self.s_array):
+            s = str(self.s_array[n])
+            if s.find('t=') != -1:
+                t = float(s[s.find('t=') + 2:-1])
+                t_array.append(t)
+            elif s[0:5] == 'MODEL':
+                model_flag = True
+            elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_1):
+                xyzm_1 = [float(s[30:38]), float(s[38:46]),
+                          float(s[46:54]), round(formula(s[76:78]).mass)]
+                xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
+            elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_2):
+                xyzm_2 = [float(s[30:38]), float(s[38:46]),
+                          float(s[46:54]), round(formula(s[76:78]).mass)]
+                xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
+            elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag is False):
+                try:
+                    xyzm_array_1.shape = (-1, 4)
+                except AttributeError:
+                    showerror('Ошибка!', 'Данные для первого домена не собраны!')
+                    showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
+                    self.pb['value'] = 0
+                    self.pb.update()
+                    self.run_flag = False
+                    return
+                try:
+                    xyzm_array_2.shape = (-1, 4)
+                except AttributeError:
+                    showerror('Ошибка!', 'Данные для второго домена не собраны!')
+                    showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
+                    self.pb['value'] = 0
+                    self.pb.update()
+                    self.run_flag = False
+                    return
+                c_mass_1 = self._cmass(xyzm_array_1)
+                c_mass_2 = self._cmass(xyzm_array_2)
+                r = (((c_mass_1[0] - c_mass_2[0]) ** 2) + ((c_mass_1[1] -
+                                                            c_mass_2[1]) ** 2) + (
+                         (c_mass_1[2] - c_mass_2[2]) ** 2)) ** 0.5
+                self.tx.insert(tk.INSERT,
+                               'Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
+                                   c_mass_1[0],
+                                   c_mass_1[1],
+                                   c_mass_1[2]) +
+                               '\n' +
+                               'второго домена: C2 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
+                                   c_mass_2[0],
+                                   c_mass_2[1],
+                                   c_mass_2[2]) +
+                               '\n' +
+                               'расстояние между доменами: {0:.3f} A\n'.format(r))
+                r_array.append(r)
+                del xyzm_array_1
+                del xyzm_array_2
+                xyzm_array_1 = []
+                xyzm_array_2 = []
+                if self.stop_flag:
+                    break
+            self.pb['value'] = n
+            self.pb.update()
+            n += 1
+        self.run_flag = False
+        if len(r_array) > 1:
+            if len(t_array) == 0:
+                t_array = list(range(0, len(r_array)))
+            self.nparray = np.column_stack((t_array, r_array))
+            print(self.nparray)
+            self.graph()
+        elif len(r_array) == 0:
+            showerror('Ощибка!', 'Данные не собраны!')
+        elif len(r_array) == 1:
+            try:
+                self.canvas.get_tk_widget().destroy()
+            except AttributeError:
+                pass
+        showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
 
 
 def about():
@@ -352,210 +518,55 @@ def about():
              'Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД')
 
 
-def seg1(e):
-    global segment_1
-    chain_name_1 = askstring('Первый домен', 'Имя цепи: ')
-    if chain_name_1 == '' or chain_name_1 is None:
-        chain_name_1 = ' '
-    r_num_start_1 = askinteger('Первый домен', 'Номер первого а.о.: ')
-    r_num_end_1 = askinteger('Первый домен', 'Номер последнего а.о.: ')
-    if (r_num_start_1 is None) or (r_num_end_1 is None):
-        return
-    for s_1 in range(r_num_start_1, r_num_end_1 + 1):
-        try:
-            segment_1.append((chain_name_1, s_1))
-        except NameError:
-            segment_1 = []
-            segment_1.append((chain_name_1, s_1))
-    print(segment_1)
-
-
-def seg2(e):
-    global segment_2
-    chain_name_2 = askstring('Второй домен', 'Имя цепи: ')
-    if chain_name_2 == '' or chain_name_2 is None:
-        chain_name_2 = ' '
-    r_num_start_2 = askinteger('Второй домен', 'Номер первого а.о.: ')
-    r_num_end_2 = askinteger('Второй домен', 'Номер последнего а.о.: ')
-    if (r_num_start_2 is None) or (r_num_end_2 is None):
-        return
-    for s_2 in range(r_num_start_2, r_num_end_2 + 1):
-        try:
-            segment_2.append((chain_name_2, s_2))
-        except NameError:
-            segment_2 = []
-            segment_2.append((chain_name_2, s_2))
-    print(segment_2)
-
-
-def sbros_1(e):
-    global segment_1
-    segment_1 = []
-
-
-def sbros_2(e):
-    global segment_2
-    segment_2 = []
-
-
-def trj_cycle():
-    global nparray
-    global stop_flag
-    global canvas
-    global toolbar
-    tx.delete('1.0', tk.END)
-    t_array = []
-    r_array = []
-    xyzm_array_1 = []
-    xyzm_array_2 = []
-    try:
-        pb['maximum'] = len(s_array)
-    except NameError:
-        showerror('Ошибка!', 'Не загружен файл!')
-        return
-    n = 0
-    model_flag = False
-    stop_flag = False
-    while n < len(s_array):
-        s = str(s_array[n])
-        if s.find('t=') != -1:
-            t = float(s[s.find('t=') + 2:-1])
-            t_array.append(t)
-        elif s[0:5] == 'MODEL':
-            model_flag = True
-        elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in segment_1):
-            xyzm_1 = [float(s[30:38]), float(s[38:46]),
-                      float(s[46:54]), round(formula(s[76:78]).mass)]
-            xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
-        elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in segment_2):
-            xyzm_2 = [float(s[30:38]), float(s[38:46]),
-                      float(s[46:54]), round(formula(s[76:78]).mass)]
-            xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
-        elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag is False):
-            try:
-                xyzm_array_1.shape = (-1, 4)
-            except AttributeError:
-                showerror('Ошибка!', 'Данные для первого домена не собраны!')
-                showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
-                pb['value'] = 0
-                pb.update()
-                return
-            try:
-                xyzm_array_2.shape = (-1, 4)
-            except AttributeError:
-                showerror('Ошибка!', 'Данные для второго домена не собраны!')
-                showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
-                pb['value'] = 0
-                pb.update()
-                return
-            c_mass_1 = cmass(xyzm_array_1)
-            c_mass_2 = cmass(xyzm_array_2)
-            r = (((c_mass_1[0] - c_mass_2[0]) ** 2) + ((c_mass_1[1] -
-                                                        c_mass_2[1]) ** 2) + ((c_mass_1[2] - c_mass_2[2]) ** 2)) ** 0.5
-            tx.insert(tk.INSERT,
-                      'Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
-                          c_mass_1[0],
-                          c_mass_1[1],
-                          c_mass_1[2]) +
-                      '\n' +
-                      'второго домена: C2 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
-                          c_mass_2[0],
-                          c_mass_2[1],
-                          c_mass_2[2]) +
-                      '\n' +
-                      'расстояние между доменами: {0:.3f} A\n'.format(r))
-            root.update()
-            r_array.append(r)
-            del xyzm_array_1
-            del xyzm_array_2
-            xyzm_array_1 = []
-            xyzm_array_2 = []
-            if stop_flag:
-                break
-        pb['value'] = n
-        pb.update()
-        n += 1
-    if len(r_array) > 1:
-        if len(t_array) == 0:
-            t_array = list(range(0, len(r_array)))
-        nparray = np.column_stack((t_array, r_array))
-        print(nparray)
-        graph()
-    elif len(r_array) == 0:
-        showerror('Ощибка!', 'Данные не собраны!')
-    elif len(r_array) == 1:
-        try:
-            canvas.get_tk_widget().destroy()
-        except NameError:
-            pass
-    showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
-
-
 def main():
-    global root
-    global tx
-    global fra2
-    global pb
     root = tk.Tk()
     root.title('Comdom')
     root.minsize(width=910, height=610)
     root.maxsize(width=910, height=610)
+    fra1 = ttk.Frame(root)
+    fra2 = ttk.Frame(root, width=660, height=515)
+    fra3 = ttk.Frame(root)
+    fra1.grid(row=0, column=0)
+    fra2.grid(row=0, column=1)
+    fra3.grid(row=1, column=1)
+    app = App(fra1, fra2, fra3)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
     # пункту располагается на основном меню (m)
     m.add_cascade(label='Файл', menu=fm)
     # формируется список команд пункта меню
-    fm.add_command(label='Открыть PDB', command=open_pdb)
-    fm.add_command(label='Сохранить график', command=save_graph)
-    fm.add_command(label='Сохранить данные', command=save_data)
-    fm.add_command(label='Сохранить LOG', command=save_log)
-    fm.add_command(label='Выход', command=close_win)
+    fm.add_command(label='Открыть PDB', command=app.open_pdb)
+    fm.add_command(label='Сохранить график', command=app.save_graph)
+    fm.add_command(label='Сохранить данные', command=app.save_data)
+    fm.add_command(label='Сохранить LOG', command=app.save_log)
+    fm.add_command(label='Выход', command=root.destroy)
     rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
     # пункту располагается на основном меню (m)
     m.add_cascade(label='Запуск', menu=rm)
-    rm.add_command(label='Запуск...', command=trj_cycle)
-    rm.add_command(label='Статистика', command=xvg_stat)
+    rm.add_command(label='Запуск...', command=app.trj_cycle)
+    rm.add_command(label='Статистика', command=app.xvg_stat)
     m.add_command(label='Справка', command=about)
-    fra1 = ttk.Frame(root)
     lab11 = ttk.Label(fra1, text='Первый домен:')
     lab11.grid(row=0, column=0, pady=5)
     but1 = ttk.Button(fra1,
-                      text='Добавить диапазон а.о.')  # надпись на кнопке
+                      text='Добавить диапазон а.о.', command=app.seg1)  # надпись на кнопке
     but1.grid(row=1, column=0, padx=10)
-    but1.bind('<ButtonRelease-1>', seg1)
-    but12 = ttk.Button(fra1, text='Сброс')
+    but12 = ttk.Button(fra1, text='Сброс', command=app.sbros_1)
     but12.grid(row=1, column=1, padx=10)
-    but12.bind('<ButtonRelease-1>', sbros_1)
     lab21 = ttk.Label(fra1, text='Второй домен:')
     lab21.grid(row=2, column=0, pady=5)
     but2 = ttk.Button(fra1,
-                      text='Добавить диапазон а.о.')
+                      text='Добавить диапазон а.о.', command=app.seg2)
     but2.grid(row=3, column=0)
-    but2.bind('<ButtonRelease-1>', seg2)
-    but22 = ttk.Button(fra1, text='Сброс')
+    but22 = ttk.Button(fra1, text='Сброс', command=app.sbros_2)
     but22.grid(row=3, column=1)
-    but22.bind('<ButtonRelease-1>', sbros_2)
     lab3 = ttk.Label(fra1, text='Прогресс:')
     lab3.grid(row=4, column=0, columnspan=4, pady=5)
-    pb = ttk.Progressbar(fra1, orient='horizontal',
-                         mode='determinate', length=220)
-    pb.grid(row=5, column=0, columnspan=2)
     s = ttk.Style()
     s.configure('My.TButton', font=('Helvetica', 10), foreground='red')
-    but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton')
+    but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton', command=app.stop)
     but3.grid(row=6, column=0, columnspan=2, pady=10)
-    but3.bind('<ButtonRelease-1>', stop)
-    fra2 = ttk.Frame(root, width=660, height=515)
-    fra3 = ttk.Frame(root)
-    fra1.grid(row=0, column=0)
-    fra2.grid(row=0, column=1)
-    fra3.grid(row=1, column=1)
-    tx = tk.Text(fra3, width=78, height=5)
-    scr = ttk.Scrollbar(fra3, command=tx.yview)
-    tx.configure(yscrollcommand=scr.set)
-    tx.pack(side=tk.LEFT)
-    scr.pack(side=tk.RIGHT, fill=tk.Y)
     joke()
     root.mainloop()
 
