@@ -212,15 +212,8 @@ def joke():
     return
 
 
-class App:
+class GuiSetup:
     def __init__(self, fra1, fra2, fra3):
-        self.s_array = None
-        self.nparray = None
-        self.stop_flag = False
-        self.run_flag = False
-        self.segment_1 = []
-        self.segment_2 = []
-        self.fig = None
         self.pb = ttk.Progressbar(fra1, orient='horizontal', mode='determinate', length=240)
         self.pb.grid(row=4, column=0, columnspan=2)
         self.fra2 = fra2
@@ -229,6 +222,18 @@ class App:
         self.tx.configure(yscrollcommand=scr.set)
         self.tx.pack(side=tk.LEFT)
         scr.pack(side=tk.RIGHT, fill=tk.Y)
+
+
+class App(GuiSetup):
+    def __init__(self, fra1, fra2, fra3):
+        super().__init__(fra1, fra2, fra3)
+        self.s_array = None
+        self.nparray = None
+        self.stop_flag = False
+        self.run_flag = False
+        self.segment_1 = []
+        self.segment_2 = []
+        self.fig = None
 
     def xvg_stat(self):
         if self.run_flag:
@@ -361,6 +366,7 @@ class App:
         self.pb['value'] = 0
         self.pb.update()
         self.fig = None
+        self.tx.delete('1.0', tk.END)
 
     def stop(self):
         if self.run_flag:
