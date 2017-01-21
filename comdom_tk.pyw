@@ -212,21 +212,55 @@ def joke():
     return
 
 
-class GuiSetup:
-    def __init__(self, fra1, fra2, fra3):
+class Gui:
+    def __init__(self, root):
+        self.root = root
+        self.root.minsize(width=925, height=605)
+        self.root.maxsize(width=925, height=605)
+        fra1 = ttk.Frame(self.root)
+        lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
+        lab1.grid(row=0, column=0, pady=5, padx=5)
+        but1 = ttk.Button(lab1, text='Добавить диапазон а.о.', command=self.seg1)  # надпись на кнопке
+        but1.grid(row=0, column=0, padx=10)
+        but12 = ttk.Button(lab1, text='Сброс', command=self.sbros_1)
+        but12.grid(row=0, column=1, padx=10)
+        lab2 = ttk.LabelFrame(fra1, text='Второй домен', labelanchor='n', borderwidth=5)
+        lab2.grid(row=1, column=0, pady=5, padx=5)
+        but2 = ttk.Button(lab2, text='Добавить диапазон а.о.', command=self.seg2)
+        but2.grid(row=0, column=0, padx=10)
+        but22 = ttk.Button(lab2, text='Сброс', command=self.sbros_2)
+        but22.grid(row=0, column=1, padx=10)
+        lab3 = ttk.Label(fra1, text='Прогресс:')
+        lab3.grid(row=3, column=0, columnspan=4, pady=5)
+        s = ttk.Style()
+        s.configure('My.TButton', font=('Helvetica', 10), foreground='red')
+        but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton', command=self.stop)
+        but3.grid(row=2, column=0, columnspan=2, pady=10)
         self.pb = ttk.Progressbar(fra1, orient='horizontal', mode='determinate', length=240)
         self.pb.grid(row=4, column=0, columnspan=2)
-        self.fra2 = fra2
+        self.fra2 = ttk.Frame(self.root, width=660, height=515)
+        fra3 = ttk.Frame(self.root)
+        fra1.grid(row=0, column=0)
+        self.fra2.grid(row=0, column=1)
+        fra3.grid(row=1, column=1)
         self.tx = tk.Text(fra3, width=78, height=5)
         scr = ttk.Scrollbar(fra3, command=self.tx.yview)
         self.tx.configure(yscrollcommand=scr.set)
         self.tx.pack(side=tk.LEFT)
         scr.pack(side=tk.RIGHT, fill=tk.Y)
 
+    @staticmethod
+    def about():
+        showinfo('Информация', 'Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД')
 
-class App(GuiSetup):
-    def __init__(self, fra1, fra2, fra3):
-        super().__init__(fra1, fra2, fra3)
+    def close_win(self):
+        if askyesno('Выход', 'Вы точно хотите выйти?'):
+            self.root.destroy()
+
+
+class App(Gui):
+    def __init__(self, root):
+        super().__init__(root)
         self.s_array = None
         self.nparray = None
         self.stop_flag = False
@@ -345,8 +379,7 @@ class App(GuiSetup):
         if self.run_flag:
             showerror('Ошибка!', 'Расчет уже идёт!')
             return
-        opt = {'filetypes': [
-            ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
+        opt = {'filetypes': [('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
         pdb = askopenfilename(**opt)
         try:
             with open(pdb, 'r') as f:
@@ -517,23 +550,10 @@ class App(GuiSetup):
         showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
 
 
-def about():
-    showinfo('Информация',
-             'Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД')
-
-
 def win():
     root = tk.Tk()
     root.title('Comdom')
-    root.minsize(width=925, height=605)
-    root.maxsize(width=925, height=605)
-    fra1 = ttk.Frame(root)
-    fra2 = ttk.Frame(root, width=660, height=515)
-    fra3 = ttk.Frame(root)
-    fra1.grid(row=0, column=0)
-    fra2.grid(row=0, column=1)
-    fra3.grid(row=1, column=1)
-    app = App(fra1, fra2, fra3)
+    app = App(root)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -544,31 +564,13 @@ def win():
     fm.add_command(label='Сохранить график', command=app.save_graph)
     fm.add_command(label='Сохранить данные', command=app.save_data)
     fm.add_command(label='Сохранить LOG', command=app.save_log)
-    fm.add_command(label='Выход', command=root.destroy)
+    fm.add_command(label='Выход', command=app.close_win)
     rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
     # пункту располагается на основном меню (m)
     m.add_cascade(label='Запуск', menu=rm)
     rm.add_command(label='Запуск...', command=app.trj_cycle)
     rm.add_command(label='Статистика', command=app.xvg_stat)
-    m.add_command(label='Справка', command=about)
-    lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
-    lab1.grid(row=0, column=0, pady=5, padx=5)
-    but1 = ttk.Button(lab1, text='Добавить диапазон а.о.', command=app.seg1)  # надпись на кнопке
-    but1.grid(row=0, column=0, padx=10)
-    but12 = ttk.Button(lab1, text='Сброс', command=app.sbros_1)
-    but12.grid(row=0, column=1, padx=10)
-    lab2 = ttk.LabelFrame(fra1, text='Второй домен', labelanchor='n', borderwidth=5)
-    lab2.grid(row=1, column=0, pady=5, padx=5)
-    but2 = ttk.Button(lab2, text='Добавить диапазон а.о.', command=app.seg2)
-    but2.grid(row=0, column=0, padx=10)
-    but22 = ttk.Button(lab2, text='Сброс', command=app.sbros_2)
-    but22.grid(row=0, column=1, padx=10)
-    lab3 = ttk.Label(fra1, text='Прогресс:')
-    lab3.grid(row=3, column=0, columnspan=4, pady=5)
-    s = ttk.Style()
-    s.configure('My.TButton', font=('Helvetica', 10), foreground='red')
-    but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton', command=app.stop)
-    but3.grid(row=2, column=0, columnspan=2, pady=10)
+    m.add_command(label='Справка', command=app.about)
     joke()
     root.mainloop()
 
