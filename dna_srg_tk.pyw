@@ -14,7 +14,7 @@ from tkinter.messagebox import showinfo
 
 
 def dna_gen():
-    a_t__r_a_t_i_o = var.get() / 100
+    at_ratio = var.get() / 100
     try:
         dna_len = int(ent.get())
     except ValueError:
@@ -22,7 +22,7 @@ def dna_gen():
         return
     dna_seq = []
     for n in range(dna_len):
-        if n < int(a_t__r_a_t_i_o * dna_len):
+        if n < int(at_ratio * dna_len):
             dna_seq.append(random.choice(('A', 'T')))
         else:
             dna_seq.append(random.choice(('G', 'C')))
@@ -73,8 +73,7 @@ def main():
     ent = tk.Entry(fra1, width=10, bd=3)
     ent.bind('<Return>', dna_gen_ev)
     var = tk.IntVar()
-    sca = tk.Scale(fra1, orient='horizontal', length=300, from_=0,
-                   to=100, tickinterval=10, resolution=1, variable=var)
+    sca = tk.Scale(fra1, orient='horizontal', length=300, from_=0, to=100, tickinterval=10, resolution=1, variable=var)
     ent.grid(row=1, column=0)
     sca.grid(row=1, column=1)
     lab1 = tk.Label(fra1, text='Длина последовательности ДНК:')

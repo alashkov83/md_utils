@@ -122,14 +122,12 @@ def main():
     v4 = tk.StringVar()
     ent4 = ttk.Entry(root, width=5, textvariable=v4)
     ent4.grid(row=3, column=1, padx=10)
-    lab4 = ttk.Label(
-        root, text='Старое наименование цепи: ')
+    lab4 = ttk.Label(root, text='Старое наименование цепи: ')
     lab4.grid(row=3, column=0, sticky='W')
     v5 = tk.StringVar()
     ent5 = ttk.Entry(root, width=5, textvariable=v5)
     ent5.grid(row=4, column=1, padx=10)
-    lab5 = ttk.Label(
-        root, text='Новое наименование цепи: ')
+    lab5 = ttk.Label(root, text='Новое наименование цепи: ')
     lab5.grid(row=4, column=0, sticky='W')
     lab6 = ttk.Label(root)
     lab6.grid(row=5, column=0)

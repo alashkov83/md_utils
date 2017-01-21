@@ -135,7 +135,6 @@ class Graph:
         self.toolbar.update()
         self.canvas._tkcanvas.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
 
-
     def sbros(self):
         try:
             self.canvas.get_tk_widget().destroy()
@@ -163,7 +162,7 @@ def about():
              'Отображение графика по данным xvg-файлов')
 
 
-def main():
+def win():
     root = tk.Tk()
     root.title('Multigraph')
     root.minsize(width=640, height=515)
@@ -194,4 +193,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    win()
