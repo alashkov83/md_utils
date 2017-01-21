@@ -22,28 +22,32 @@ class Gui:
         ent1 = ttk.Entry(self.root, textvariable=self.v1, width=5)
         ent1.grid(row=1, column=1, padx=10)
         lab1 = ttk.Label(self.root, text='Номер первого а.о.: ')
-        lab1.grid(row=1, column=0, sticky='W')
+        lab1.grid(row=1, column=0, sticky='W', padx=10)
         self.v2 = tk.StringVar()
         ent2 = ttk.Entry(self.root, textvariable=self.v2, width=5)
         ent2.grid(row=2, column=1, padx=10)
         lab2 = ttk.Label(self.root, text='Номер последнего а.о.: ')
-        lab2.grid(row=2, column=0, sticky='W')
+        lab2.grid(row=2, column=0, sticky='W', padx=10)
         self.v3 = tk.StringVar()
         ent3 = ttk.Entry(self.root, textvariable=self.v3, width=5)
         ent3.grid(row=3, column=1, padx=10)
         lab3 = ttk.Label(self.root, text='Температурный фактор: ')
-        lab3.grid(row=3, column=0, sticky='W')
+        lab3.grid(row=3, column=0, sticky='W', padx=10)
         self.v4 = tk.StringVar()
         ent4 = ttk.Entry(self.root, textvariable=self.v4, width=5)
         ent4.grid(row=0, column=1, padx=10)
         lab4 = ttk.Label(self.root, text='Наименование цепи: ')
-        lab4.grid(row=0, column=0, sticky='W')
+        lab4.grid(row=0, column=0, sticky='W', padx=10)
         self.lab6 = ttk.Label(self.root)
         self.lab6.grid(row=4, column=0)
 
     def close_win(self):
         if askyesno('Выход', 'Вы точно хотите выйти?'):
             self.root.destroy()
+
+    @staticmethod
+    def about():
+        showinfo('Информация', 'Переименоввание цепей в PDB-файле')
 
 
 class App(Gui):
@@ -122,10 +126,6 @@ class App(Gui):
         self.run_flag = False
 
 
-def about():
-    showinfo('Информация', 'Переименоввание цепей в PDB-файле')
-
-
 def win():
     root = tk.Tk()
     m = tk.Menu(root)  # создается объект Меню на главном окне
@@ -139,7 +139,7 @@ def win():
     fm.add_command(label='Сохранить PDB', command=app.save_pdb)
     fm.add_command(label='Выход', command=app.close_win)
     m.add_command(label='Запуск...', command=app.set_b)
-    m.add_command(label='Справка', command=about)
+    m.add_command(label='Справка', command=app.about)
     root.mainloop()
 
 
