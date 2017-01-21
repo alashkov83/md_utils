@@ -20,11 +20,11 @@ from tkinter.simpledialog import askstring
 
 import matplotlib
 import numpy as np
+
+matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 from periodictable import formula
-
-matplotlib.use('TkAgg')
 
 
 def joke():
@@ -229,7 +229,7 @@ class Gui(metaclass=abc.ABCMeta):
         fra1 = ttk.Frame(self.root)
         lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
         lab1.grid(row=0, column=0, pady=5, padx=5)
-        but1 = ttk.Button(lab1, text='Добавить диапазон а.о.', command=self.seg1)  # надпись на кнопке
+        but1 = ttk.Button(lab1, text='Добавить диапазон а.о.', command=self.seg1)
         but1.grid(row=0, column=0, padx=10)
         but12 = ttk.Button(lab1, text='Сброс', command=self.sbros_1)
         but12.grid(row=0, column=1, padx=10)
@@ -297,6 +297,8 @@ class App(Gui):
         self.segment_1 = []
         self.segment_2 = []
         self.fig = None
+        self.canvas = None
+        self.toolbar = None
 
     def xvg_stat(self):
         if self.run_flag:
