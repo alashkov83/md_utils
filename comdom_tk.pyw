@@ -6,6 +6,7 @@
 
 """
 
+import abc
 import random
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -76,7 +77,9 @@ def joke():
         "Squash one bug, you'll see ten new bugs popping\n",
         'Everytime i time i touch my code, i give birth to ten new bugs\n',
         'boast = blogging is open & amiable sharing of thoughts\n',
-        'We are sorry, but the number you have dialed is imaginary. Please rotate your phone 90 degrees and try again\n',
+        (
+            'We are sorry, but the number you have dialed is imaginary. '
+            'Please rotate your phone 90 degrees and try again\n'),
         'Cannot find REALITY.SYS. Universe halted\n',
         "If it weren't for C, we'd all be programming in BASI and OBO\n",
         'Bad command or file name! Go stand in the corner\n',
@@ -97,7 +100,9 @@ def joke():
         "Cannot read data, leech the next boy's paper? (Y/N)\n",
         'CONGRESS.SYS Corrupted: Re-boot Washington D.C (Y/n)?\n',
         'Does fuzzy logic tickle?\n',
-        'Helpdesk : Sir, you need to add 10GB space to your HD , Customer : Could you please tell where I can download that?\n',
+        (
+            'Helpdesk : Sir, you need to add 10GB space to your HD , '
+            'Customer : Could you please tell where I can download that?\n'),
         'Windows: Just another pane in the glass\n',
         "Who's General Failure & why's he reading my disk?\n",
         'RAM disk is not an installation procedure\n',
@@ -108,10 +113,14 @@ def joke():
         "Help! I'm modeming... and I can't hang up!!!\n",
         'All wiyht. Rho sritched mg kegtops awound?\n',
         'Once I got this error on my Linux box: Error. Keyboard not attached. Press F1 to continue\n',
-        "Once I got this error on my Linux box: Error. Mouse not attached. Please left click the 'OK' button to continue\n",
+        (
+            "Once I got this error on my Linux box: Error. Mouse not attached. "
+            "Please left click the 'OK' button to continue\n"),
         'Press any key to continue or any other key to quit...\n',
         'Press every key to continue\n',
-        "Helpdesk: Sir if you see the blue screen, press any key to continue. Customer : hm.. just a min.. where's that 'any key'..\n",
+        (
+            "Helpdesk: Sir if you see the blue screen, press any key to continue. "
+            "Customer : hm.. just a min.. where's that 'any key'..\n"),
         'Idiot, Go ahead, make my data!\n',
         'Old programmers never die; they just give up their resources\n',
         'To err is human - and to blame it on a computer is even more so\n',
@@ -212,7 +221,7 @@ def joke():
     return
 
 
-class Gui:
+class Gui(metaclass=abc.ABCMeta):
     def __init__(self, root):
         self.root = root
         self.root.minsize(width=925, height=605)
@@ -256,6 +265,26 @@ class Gui:
     def close_win(self):
         if askyesno('Выход', 'Вы точно хотите выйти?'):
             self.root.destroy()
+
+    @abc.abstractmethod
+    def stop(self):
+        pass
+
+    @abc.abstractmethod
+    def seg1(self):
+        pass
+
+    @abc.abstractmethod
+    def seg2(self):
+        pass
+
+    @abc.abstractmethod
+    def sbros_1(self):
+        pass
+
+    @abc.abstractmethod
+    def sbros_2(self):
+        pass
 
 
 class App(Gui):
