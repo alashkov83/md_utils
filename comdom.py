@@ -16,7 +16,7 @@ from periodictable import formula
 
 
 def joke():
-    joke = [
+    joke_txt = [
         "There are 10 types of people in the world: those who understand binary, and those who don't\n",
         "If at first you don't succeed; call it version 1.0\n",
         "I'm not anti-social; I'm just not user friendly\n",
@@ -29,7 +29,10 @@ def joke():
         "The box said 'Requires Windows 95 or better'. So I installed LINUX\n",
         'A penny saved is 1.39 cents earned, if you consider income tax\n',
         'Unix, DOS and Windows...the good, the bad and the ugly\n',
-        'A computer lets you make more mistakes faster than any invention in human history - with the possible exceptions of handguns and tequila\n',
+        (
+            'A computer lets you make more mistakes faster than any invention in human history - with the possible'
+            ' exceptions of handguns and tequila\n'
+        ),
         'The code that is the hardest to debug is the code that you know cannot possibly be wrong\n',
         'UNIX is basically a simple operating system, but you have to be a genius to understand the simplicity\n',
         'Ethernet (n): something used to catch the etherbunny\n',
@@ -45,16 +48,26 @@ def joke():
         'Be nice to the nerds, for all you know they might be the next Bill Gates!\n',
         'The farther south you go, the more dollar stores there are\n',
         'Beware of programmers that carry screwdrivers\n',
-        'The difference between e-mail and regular mail is that computers handle e-mail, and computers never decide to come to work one day and shoot all the other computers\n',
-        "If you want a language that tries to lock up all the sharp objects and fire-making implements, use Pascal or Ada: the Nerf languages, harmless fun for children of all ages, and they won't mar the furniture\n",
+        (
+            'The difference between e-mail and regular mail is that computers handle e-mail, and computers never decide'
+            ' to come to work one day and shoot all the other computers\n'),
+        (
+            "If you want a language that tries to lock up all the sharp objects and fire-making implements, use Pascal "
+            "or Ada: the Nerf languages, harmless fun for children of all ages, and they won't mar the furniture\n"),
         'COFFEE.EXE Missing - Insert Cup and Press Any Key\n',
-        'Programming today is a race between software engineers striving to build bigger and better idiot-proof programs, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning\n',
+        (
+            'Programming today is a race between software engineers striving to build bigger and better idiot-proof '
+            'programs, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning\n'),
         'LISP = Lots of Irritating Silly Parentheses\n',
-        "The beginning of the programmer's wisdom is understanding the difference between getting program to run and having a runnable program\n",
+        (
+            "The beginning of the programmer's wisdom is understanding the difference between getting program to run"
+            " and having a runnable program\n"),
         "Squash one bug, you'll see ten new bugs popping\n",
         'Everytime i time i touch my code, i give birth to ten new bugs\n',
         'boast = blogging is open & amiable sharing of thoughts\n',
-        'We are sorry, but the number you have dialed is imaginary. Please rotate your phone 90 degrees and try again\n',
+        (
+            'We are sorry, but the number you have dialed is imaginary. '
+            'Please rotate your phone 90 degrees and try again\n'),
         'Cannot find REALITY.SYS. Universe halted\n',
         "If it weren't for C, we'd all be programming in BASI and OBO\n",
         'Bad command or file name! Go stand in the corner\n',
@@ -75,7 +88,9 @@ def joke():
         "Cannot read data, leech the next boy's paper? (Y/N)\n",
         'CONGRESS.SYS Corrupted: Re-boot Washington D.C (Y/n)?\n',
         'Does fuzzy logic tickle?\n',
-        'Helpdesk : Sir, you need to add 10GB space to your HD , Customer : Could you please tell where I can download that?\n',
+        (
+            'Helpdesk : Sir, you need to add 10GB space to your HD , '
+            'Customer : Could you please tell where I can download that?\n'),
         'Windows: Just another pane in the glass\n',
         "Who's General Failure & why's he reading my disk?\n",
         'RAM disk is not an installation procedure\n',
@@ -86,10 +101,14 @@ def joke():
         "Help! I'm modeming... and I can't hang up!!!\n",
         'All wiyht. Rho sritched mg kegtops awound?\n',
         'Once I got this error on my Linux box: Error. Keyboard not attached. Press F1 to continue\n',
-        "Once I got this error on my Linux box: Error. Mouse not attached. Please left click the 'OK' button to continue\n",
+        (
+            "Once I got this error on my Linux box: Error. Mouse not attached. "
+            "Please left click the 'OK' button to continue\n"),
         'Press any key to continue or any other key to quit...\n',
         'Press every key to continue\n',
-        "Helpdesk: Sir if you see the blue screen, press any key to continue. Customer : hm.. just a min.. where's that 'any key'..\n",
+        (
+            "Helpdesk: Sir if you see the blue screen, press any key to continue. "
+            "Customer : hm.. just a min.. where's that 'any key'..\n"),
         'Idiot, Go ahead, make my data!\n',
         'Old programmers never die; they just give up their resources\n',
         'To err is human - and to blame it on a computer is even more so\n',
@@ -155,7 +174,7 @@ def joke():
         "C++ is a write-only language. I can write programs in C++, but I can't read any of them\n",
         'As of next week, passwords will be entered in Morse code\n',
         'earth is 98% full ... please delete anyone you can\n',
-        'A typical yahoo chat room: "A has signed in, A has signed out, B has signed in, B has signed out, C has signed in, C has signed out.."\n',
+        'A typical yahoo chat room: "A has signed in, A has signed out, B has signed in, B has signed out, C has signed in, C has signed out.."_\n',
         'When someone says "I want a programming language in which I need only say what I wish done," give him a lollipop\n',
         'Warning! No processor found! Press any key to continue\n',
         'Failure is not an option. It comes bundled with your Microsoft product\n',
@@ -186,7 +205,7 @@ def joke():
         "I had a dream... and there were 1's and 0's everywhere, and I think I saw a 2!\n",
         'You sir, are an unknown USB device driver\n',
         "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
-    print('>>> ' + random.choice(joke))
+    print('>>> ' + random.choice(joke_txt))
     return
 
 
@@ -198,15 +217,12 @@ def xvg_stat(nparray):
     r_mean = r.mean()
     t_min = t[np.argmin(r)]
     t_max = t[np.argmax(r)]
-    print(
-        'Минимальное расстояние между доменами равно: {0:.3f} А при t= {1:.2f} пc.'.format(
-            r_min,
-            t_min))
-    print(
-        'Максимальное расстояние между доменами равно: {0:.3f} А при t= {1:.2f} пc.'.format(
-            r_max,
-            t_max))
-    print('Среднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+    print('\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+        r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+        r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(
+        r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
+        np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
+        np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
     return
 
 
@@ -295,7 +311,7 @@ for m_1 in range(r_segment_1):
         segment_1.append((chain_name_1, s_1))
 print(segment_1)
 r_segment_2 = int(input('Введите количество сегментов второго домена: '))
-for m_1 in range(r_segment_2):
+for m_2 in range(r_segment_2):
     chain_name_2 = str(input('Введите название цепи второго домена: '))
     r_num_start_2 = int(input('Введите номер первого а.о. второго домена: '))
     r_num_end_2 = int(input('Введите номер последнего а.о. второго домена: '))
@@ -325,7 +341,7 @@ while n < len(s_array):
         xyzm_2 = [float(s[30:38]), float(s[38:46]),
                   float(s[46:54]), round(formula(s[76:78]).mass)]
         xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
-    elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag == False):
+    elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag is False):
         xyzm_array_1.shape = (-1, 4)
         xyzm_array_2.shape = (-1, 4)
         c_mass_1 = cmass(xyzm_array_1)

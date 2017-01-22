@@ -298,6 +298,7 @@ class App(Gui):
         self.fig = None
         self.canvas = None
         self.toolbar = None
+        self.grid = False
 
     def xvg_stat(self):
         if self.run_flag:
@@ -317,14 +318,18 @@ class App(Gui):
         r_mean = r.mean()
         t_min = t[np.argmin(r)]
         t_max = t[np.argmax(r)]
-        showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-            r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-            r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
-        self.tx.insert(tk.END,
-                       '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-                           r_min,
-                           t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-                           r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+        showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
+                r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\ (t= {1:.2f} пc)'.format(
+                r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(
+                r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
+                np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
+                np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
+        self.tx.insert(tk.END, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
+                r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
+                r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(
+                r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
+                np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
+                np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
 
     def save_data(self):
         if self.run_flag:
@@ -374,6 +379,23 @@ class App(Gui):
             except AttributeError:
                 showerror('Ошибка!', 'График недоступен!')
 
+    def grid_set(self):
+        self.grid = bool(askyesno('Cетка', 'Отобразить?'))
+
+        if self.nparray is None:
+            return
+        if self.run_flag:
+            return
+        try:
+            self.canvas.get_tk_widget().destroy()
+            self.toolbar.destroy()
+        except AttributeError:
+            pass
+        try:
+            self._graph()
+        except AttributeError:
+            pass
+
     def _graph(self):
         self.fig = None
         self.fig = Figure()
@@ -388,7 +410,7 @@ class App(Gui):
         else:
             ax.set_xlabel('Time, ps')
         ax.plot(x, y, color='black')
-        ax.grid(True)
+        ax.grid(self.grid)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.fra2)
         self.canvas.show()
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
@@ -604,6 +626,7 @@ def win():
     # пункту располагается на основном меню (m)
     m.add_cascade(label='Запуск', menu=rm)
     rm.add_command(label='Запуск...', command=app.trj_cycle)
+    rm.add_command(label='Сетка графика', command=app.grid_set)
     rm.add_command(label='Статистика', command=app.xvg_stat)
     m.add_command(label='Справка', command=app.about)
     joke()
