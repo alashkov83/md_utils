@@ -300,6 +300,22 @@ class App(Gui):
         self.toolbar = None
         self.grid = False
 
+    @staticmethod
+    def _mass(element):
+        elements = {
+            ' H': 1.0,
+            ' C': 12.0,
+            ' N': 14.0,
+            ' O': 16.0,
+            ' P': 31.0,
+            ' S': 32.0,
+            ' F': 19.0}
+        try:
+            mass = elements[element]
+        except KeyError:
+            mass = round(formula(element).mass)
+        return mass
+
     def xvg_stat(self):
         if self.run_flag:
             showerror('Ошибка!', 'Расчет не закончен!')
@@ -319,17 +335,19 @@ class App(Gui):
         t_min = t[np.argmin(r)]
         t_max = t[np.argmax(r)]
         showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
-                r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\ (t= {1:.2f} пc)'.format(
-                r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(
-                r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
-                np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
-                np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
-        self.tx.insert(tk.END, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
-                r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
-                r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(
-                r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
-                np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
-                np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
+            r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
+            r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(
+            r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
+            np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
+            np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
+        self.tx.insert(tk.END,
+                       '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
+                           r_min,
+                           t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
+                           r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(
+                           r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
+                           np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
+                           np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
 
     def save_data(self):
         if self.run_flag:
@@ -538,11 +556,11 @@ class App(Gui):
                 model_flag = True
             elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_1):
                 xyzm_1 = [float(s[30:38]), float(s[38:46]),
-                          float(s[46:54]), round(formula(s[76:78]).mass)]
+                          float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
             elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_2):
                 xyzm_2 = [float(s[30:38]), float(s[38:46]),
-                          float(s[46:54]), round(formula(s[76:78]).mass)]
+                          float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
             elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag is False):
                 try:
