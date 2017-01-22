@@ -208,6 +208,20 @@ def joke():
     print('>>> ' + random.choice(joke_txt))
     return
 
+def mass(element):
+    elements = {
+        ' H': 1.0,
+        ' C': 12.0,
+        ' N': 14.0,
+        ' O': 16.0,
+        ' P': 31.0,
+        ' S': 32.0,
+        ' F': 19.0}
+    try:
+        mass = elements[element]
+    except KeyError:
+        mass = round(formula(element).mass)
+    return mass
 
 def xvg_stat(nparray):
     t = nparray[:, 0]
@@ -335,11 +349,11 @@ while n < len(s_array):
         model_flag = True
     elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in segment_1):
         xyzm_1 = [float(s[30:38]), float(s[38:46]),
-                  float(s[46:54]), round(formula(s[76:78]).mass)]
+                  float(s[46:54]), mass(s[76:78])]
         xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
     elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in segment_2):
         xyzm_2 = [float(s[30:38]), float(s[38:46]),
-                  float(s[46:54]), round(formula(s[76:78]).mass)]
+                  float(s[46:54]), mass(s[76:78])]
         xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
     elif s[0:6] == 'ENDMDL' or (s[0:3] == 'END' and model_flag is False):
         xyzm_array_1.shape = (-1, 4)
