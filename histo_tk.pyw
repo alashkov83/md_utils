@@ -33,6 +33,8 @@ class Graph:
         opt = {'filetypes': [
             ('Файлы XVG', ('.xvg', '.XVG')), ('Все файлы', '.*')]}
         xvg_file = askopenfilename(**opt)
+        if not xvg_file:
+            return
         try:
             fname = open(xvg_file, 'r')
             n = 0
@@ -134,6 +136,9 @@ class Graph:
         self.canvas._tkcanvas.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
 
     def save_graph(self):
+        if self.fig is None:
+            showerror('Ошибка!', 'График недоступен!')
+            return
         sa = asksaveasfilename()
         if sa:
             try:
@@ -152,10 +157,9 @@ def about():
 def main():
     root = tk.Tk()
     root.title('Histo')
-    root.minsize(width=640, height=515)
-    root.maxsize(width=640, height=515)
-    fra = tk.Frame(root)
-    fra.grid(row=0, column=0)
+    root.resizable(False, False)
+    fra = tk.Frame(root, width=660, height=515)
+    fra.grid(row=0, column=0, padx=5, pady=5)
     graph = Graph(fra)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него

@@ -20,14 +20,15 @@ def open_pdb():
     opt = {'filetypes': [
         ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
     pdb = askopenfilename(**opt)
-    try:
-        with open(pdb, 'r') as f:
-            lines_pdb = f.readlines()
-    except FileNotFoundError:
-        return
-    except UnicodeDecodeError:
-        showerror('Ошибка', 'Некорректный PDB файл!')
-        return
+    if pdb:
+        try:
+            with open(pdb, 'r') as f:
+                lines_pdb = f.readlines()
+        except FileNotFoundError:
+            return
+        except UnicodeDecodeError:
+            showerror('Ошибка', 'Некорректный PDB файл!')
+            return
 
 
 def save_log():
@@ -121,8 +122,7 @@ def main():
     global var1
     root = tk.Tk()
     root.title('Occucheck')
-    root.minsize(width=580, height=240)
-    root.maxsize(width=580, height=240)
+    root.resizable(False, False)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -142,7 +142,7 @@ def main():
     sca1.grid(row=1, column=0, padx=5)
     lab1 = ttk.Label(fra1, text='Минимальная сумма заселенности (%):')
     lab1.grid(row=0, column=0, sticky='W', padx=5)
-    tx = tk.Text(root, width=70, height=10)
+    tx = tk.Text(root, width=80, height=10)
     scr = ttk.Scrollbar(root, command=tx.yview)
     tx.configure(yscrollcommand=scr.set)
     tx.pack(side=tk.LEFT)

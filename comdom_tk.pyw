@@ -224,8 +224,7 @@ def joke():
 class Gui(metaclass=abc.ABCMeta):
     def __init__(self, root):
         self.root = root
-#        self.root.minsize(width=925, height=605)
-#        self.root.maxsize(width=925, height=605)
+        self.root.resizable(False, False)
         fra1 = ttk.Frame(self.root)
         lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
         lab1.grid(row=0, column=0, pady=5, padx=5)
@@ -251,8 +250,8 @@ class Gui(metaclass=abc.ABCMeta):
         fra3 = ttk.Frame(self.root)
         fra1.grid(row=0, column=0)
         self.fra2.grid(row=0, column=1)
-        fra3.grid(row=1, column=1)
-        self.tx = tk.Text(fra3, width=78, height=5)
+        fra3.grid(row=1, column=1, pady=10)
+        self.tx = tk.Text(fra3, width=80, height=5)
         scr = ttk.Scrollbar(fra3, command=self.tx.yview)
         self.tx.configure(yscrollcommand=scr.set)
         self.tx.pack(side=tk.LEFT)
@@ -321,9 +320,11 @@ class App(Gui):
         showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
             r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
             r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
-        self.tx.insert(tk.END, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-            r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
-            r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
+        self.tx.insert(tk.END,
+                       '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+                           r_min,
+                           t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А\nпри t= {1:.2f} пc.'.format(
+                           r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(r_mean))
 
     def save_data(self):
         if self.run_flag:
@@ -412,13 +413,16 @@ class App(Gui):
             return
         opt = {'filetypes': [('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
         pdb = askopenfilename(**opt)
-        try:
-            with open(pdb, 'r') as f:
-                self.s_array = f.readlines()
-        except FileNotFoundError:
-            return
+        if pdb:
+            try:
+                with open(pdb, 'r') as f:
+                    self.s_array = f.readlines()
+            except FileNotFoundError:
+                return
+            else:
+                showinfo('Информация', 'Файл прочитан!')
         else:
-            showinfo('Информация', 'Файл прочитан!')
+            return
         try:
             self.canvas.get_tk_widget().destroy()
             self.toolbar.destroy()

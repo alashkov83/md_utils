@@ -25,15 +25,16 @@ def open_pdb():
     opt = {'filetypes': [
         ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
     pdb_f = askopenfilename(**opt)
-    try:
-        structure = parser.get_structure('X', pdb_f)
-    except FileNotFoundError:
-        return
-    except (KeyError, ValueError):
-        showerror('Ошибка!', 'Некорректный PDB файл: {0:s}!'.format(pdb_f))
-        return
-    else:
-        showinfo('Информация', 'Файл прочитан!')
+    if pdb_f:
+        try:
+            structure = parser.get_structure('X', pdb_f)
+        except FileNotFoundError:
+            return
+        except (KeyError, ValueError):
+            showerror('Ошибка!', 'Некорректный PDB файл: {0:s}!'.format(pdb_f))
+            return
+        else:
+            showinfo('Информация', 'Файл прочитан!')
 
 
 def open_url():
@@ -55,15 +56,16 @@ def open_cif():
     opt = {'filetypes': [
         ('Файлы mmCIF', ('.cif', '.CIF')), ('Все файлы', '.*')]}
     cif_f = askopenfilename(**opt)
-    try:
-        structure = parser.get_structure('X', cif_f)
-    except FileNotFoundError:
-        return
-    except (KeyError, ValueError, AssertionError):
-        showerror('Ошибка!', 'Некорректный CIF файл: {0:s}!'.format(cif_f))
-        return
-    else:
-        showinfo('Информация', 'Файл прочитан!')
+    if cif_f:
+        try:
+            structure = parser.get_structure('X', cif_f)
+        except FileNotFoundError:
+            return
+        except (KeyError, ValueError, AssertionError):
+            showerror('Ошибка!', 'Некорректный CIF файл: {0:s}!'.format(cif_f))
+            return
+        else:
+            showinfo('Информация', 'Файл прочитан!')
 
 
 def save_log():
@@ -116,8 +118,7 @@ def main():
     global var1
     root = tk.Tk()
     root.title('Occucheck 2')
-    root.minsize(width=580, height=240)
-    root.maxsize(width=580, height=240)
+    root.resizable(False, False)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -139,7 +140,7 @@ def main():
     sca1.grid(row=1, column=0, padx=5)
     lab1 = ttk.Label(fra1, text=' Минимальная сумма заселенности (%): ')
     lab1.grid(row=0, column=0, sticky='W', padx=5)
-    tx = tk.Text(root, width=70, height=10)
+    tx = tk.Text(root, width=80, height=10)
     scr = ttk.Scrollbar(root, command=tx.yview)
     tx.configure(yscrollcommand=scr.set)
     tx.pack(side=tk.LEFT)
