@@ -224,8 +224,8 @@ def joke():
 class Gui(metaclass=abc.ABCMeta):
     def __init__(self, root):
         self.root = root
-        self.root.minsize(width=925, height=605)
-        self.root.maxsize(width=925, height=605)
+#        self.root.minsize(width=925, height=605)
+#        self.root.maxsize(width=925, height=605)
         fra1 = ttk.Frame(self.root)
         lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
         lab1.grid(row=0, column=0, pady=5, padx=5)
