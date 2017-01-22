@@ -58,6 +58,7 @@ def main():
     global var
     global tx
     root = tk.Tk()
+    root.protocol('WM_DELETE_WINDOW', close_win)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)

@@ -23,11 +23,15 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 
 class Graph:
     def __init__(self, root):
-        self.fra = root
+        self.root = root
+        self.root.protocol('WM_DELETE_WINDOW', self.close_win)
+        self.fra = tk.Frame(root, width=660, height=515)
+        self.fra.grid(row=0, column=0, padx=5, pady=5)
         self.legend = False
         self.grid = False
         self.xvg_file = None
         self.fig = None
+        self.dpi = 600
 
     def xvg_open(self):
         opt = {'filetypes': [
@@ -140,13 +144,18 @@ class Graph:
             showerror('Ошибка!', 'График недоступен!')
             return
         sa = asksaveasfilename()
+        print(self.dpi)
         if sa:
             try:
-                self.fig.savefig(sa, dpi=600)
+                self.fig.savefig(sa, dpi=self.dpi)
             except FileNotFoundError:
                 pass
             except AttributeError:
                 showerror('Ошибка!', 'График недоступен!')
+
+    def close_win(self):
+        if askyesno('Выход', 'Вы точно хотите выйти?'):
+            self.root.destroy()
 
 
 def about():
@@ -158,9 +167,7 @@ def main():
     root = tk.Tk()
     root.title('Histo')
     root.resizable(False, False)
-    fra = tk.Frame(root, width=660, height=515)
-    fra.grid(row=0, column=0, padx=5, pady=5)
-    graph = Graph(fra)
+    graph = Graph(root)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -169,7 +176,7 @@ def main():
     # формируется список команд пункта меню
     fm.add_command(label='Открыть XVG', command=graph.xvg_open)
     fm.add_command(label='Сохранить график', command=graph.save_graph)
-    fm.add_command(label='Выход', command=root.destroy)
+    fm.add_command(label='Выход', command=graph.close_win)
     rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
     # пункту располагается на основном меню (m)
     m.add_cascade(label='Настройки', menu=rm)

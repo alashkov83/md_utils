@@ -225,6 +225,7 @@ class Gui(metaclass=abc.ABCMeta):
     def __init__(self, root):
         self.root = root
         self.root.resizable(False, False)
+        self.root.protocol('WM_DELETE_WINDOW', self.close_win)
         fra1 = ttk.Frame(self.root)
         lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
         lab1.grid(row=0, column=0, pady=5, padx=5)
@@ -256,6 +257,7 @@ class Gui(metaclass=abc.ABCMeta):
         self.tx.configure(yscrollcommand=scr.set)
         self.tx.pack(side=tk.LEFT)
         scr.pack(side=tk.RIGHT, fill=tk.Y)
+        root.protocol('WM_DELETE_WINDOW', self.close_win)
 
     @staticmethod
     def about():

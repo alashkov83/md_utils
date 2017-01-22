@@ -24,7 +24,10 @@ matplotlib.use('TkAgg')
 
 class Graph:
     def __init__(self, root):
-        self.fra = root
+        self.root = root
+        self.root.protocol('WM_DELETE_WINDOW', self.close_win)
+        self.fra = tk.Frame(root, width=660, height=515)
+        self.fra.grid(row=0, column=0, padx=5, pady=5)
         self.legend = True
         self.grid = False
         self.xvg_file = None
@@ -162,6 +165,10 @@ class Graph:
             except AttributeError:
                 showerror('Ошибка!', 'График недоступен!')
 
+    def close_win(self):
+        if askyesno('Выход', 'Вы точно хотите выйти?'):
+            self.root.destroy()
+
 
 def about():
     showinfo('Информация',
@@ -172,9 +179,7 @@ def win():
     root = tk.Tk()
     root.title('Multigraph')
     root.resizable(False, False)
-    fra = tk.Frame(root, width=660, height=515)
-    fra.grid(row=0, column=0, padx=5, pady=5)
-    graph = Graph(fra)
+    graph = Graph(root)
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)

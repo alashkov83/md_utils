@@ -19,6 +19,7 @@ class Gui:
     def __init__(self, root):
         self.root = root
         self.root.resizable(False, False)
+        self.root.protocol('WM_DELETE_WINDOW', self.close_win)
         self.v1 = tk.StringVar()
         ent1 = ttk.Entry(self.root, textvariable=self.v1, width=5)
         ent1.grid(row=1, column=1, padx=10, pady=5)
