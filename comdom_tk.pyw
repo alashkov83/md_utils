@@ -398,6 +398,8 @@ class App(Gui):
                 return
             except AttributeError:
                 showerror('Ошибка!', 'График недоступен!')
+            except ValueError:
+                showerror('Неподдерживаемый формат файла рисунка!', 'Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 
     def grid_set(self):
         self.grid = bool(askyesno('Cетка', 'Отобразить?'))

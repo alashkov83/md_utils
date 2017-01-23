@@ -14,11 +14,11 @@ from tkinter.messagebox import showerror
 from tkinter.messagebox import showinfo
 
 import matplotlib
-import numpy as np
-
-matplotlib.use('TkAgg')
 from matplotlib.figure import Figure
+matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+
+import numpy as np
 
 
 class Graph:
@@ -151,6 +151,8 @@ class Graph:
                 pass
             except AttributeError:
                 showerror('Ошибка!', 'График недоступен!')
+            except ValueError:
+                showerror('Неподдерживаемый формат файла рисунка!', 'Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 
     def close_win(self):
         if askyesno('Выход', 'Вы точно хотите выйти?'):

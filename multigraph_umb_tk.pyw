@@ -164,6 +164,8 @@ class Graph:
                 pass
             except AttributeError:
                 showerror('Ошибка!', 'График недоступен!')
+            except ValueError:
+                showerror('Неподдерживаемый формат файла рисунка!', 'Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 
     def close_win(self):
         if askyesno('Выход', 'Вы точно хотите выйти?'):
