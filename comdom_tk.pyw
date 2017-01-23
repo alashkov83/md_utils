@@ -18,10 +18,7 @@ from tkinter.messagebox import showinfo
 from tkinter.simpledialog import askinteger
 from tkinter.simpledialog import askstring
 
-import matplotlib
 import numpy as np
-
-matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 from periodictable import formula
@@ -425,12 +422,12 @@ class App(Gui):
         x = self.nparray[:, 0]
         y = self.nparray[:, 1]
         ax.set_title('COM distance vs. time')
-        ax.set_ylabel('COM distance, A')
+        ax.set_ylabel(r'$\xi,\ \AA$')
         if (max(x) - min(x)) > 10000:
-            ax.set_xlabel('Time, ns')
+            ax.set_xlabel(r'$Time,\ ns$')
             x /= 1000
         else:
-            ax.set_xlabel('Time, ps')
+            ax.set_xlabel(r'$Time,\ ps$')
         ax.plot(x, y, color='black')
         ax.grid(self.grid)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.fra2)

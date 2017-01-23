@@ -14,12 +14,9 @@ from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
 from tkinter.messagebox import showinfo
 
-import matplotlib
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
-
-matplotlib.use('TkAgg')
 
 
 class Graph:
@@ -28,10 +25,10 @@ class Graph:
         self.root.protocol('WM_DELETE_WINDOW', self.close_win)
         self.fra = tk.Frame(root, width=660, height=515)
         self.fra.grid(row=0, column=0, padx=5, pady=5)
-        self.legend = True
+        self.legend = False
         self.grid = False
-        self.xvg_file = None
         self.fig = None
+        self.lines = None
         self.nparrays = []
         self.files = []
 
@@ -52,47 +49,37 @@ class Graph:
                     nparray = np.loadtxt(fname, skiprows=n)
                     fname.close()
                     break
+            self.lines = open(xvg_file, 'r').readlines()
             self.nparrays.append(nparray)
-            self.xvg_file = xvg_file
             self.files.append(xvg_file)
             showinfo('Информация', 'Столбцов данных: {0:d}\nCтрок данных: {1:d}\nНомер графика: {2:d}'.format(
                 nparray.shape[1], nparray.shape[0], len(self.nparrays)))
-        except FileNotFoundError:
-            pass
         except UnicodeDecodeError:
             showerror('Ошибка!', 'Неверный формат файла!')
-            fname.close()
+            return
         except ValueError:
             showerror('Ошибка!', 'Неверный формат файла!')
-            fname.close()
+            return
         try:
             self.print_graph()
         except AttributeError:
             pass
 
-    def name_label(self):
-        str_label = str(open(self.xvg_file).readlines()[13])
-        open(self.xvg_file).close()
-        i = str_label.index('"')
-        j = str_label.rindex('"')
-        label = str_label[i + 1:j]
-        return label
-
-    def name_x(self):
-        str_label = str(open(self.xvg_file).readlines()[14])
-        open(self.xvg_file).close()
-        i = str_label.index('"')
-        j = str_label.rindex('"')
-        name_x = str_label[i + 1:j]
-        return name_x
-
-    def name_y(self):
-        str_label = str(open(self.xvg_file).readlines()[15])
-        open(self.xvg_file).close()
-        i = str_label.index('"')
-        j = str_label.rindex('"')
-        name_y = str_label[i + 1:j]
-        return name_y
+    def labels(self):
+        for line in self.lines:
+            if line.find('title') != -1:
+                i = line.index('"')
+                j = line.rindex('"')
+                label = line[i + 1:j]
+            elif line.find('xaxis  label') != -1:
+                i = line.index('"')
+                j = line.rindex('"')
+                name_x = line[i + 1:j]
+            elif line.find('yaxis  label') != -1:
+                i = line.index('"')
+                j = line.rindex('"')
+                name_y = line[i + 1:j]
+        return label, name_x, name_y
 
     def legend_set(self):
         self.legend = bool(askyesno('Техническая легенда', 'Отобразить?'))
@@ -109,7 +96,7 @@ class Graph:
             pass
 
     def print_graph(self):
-        if self.xvg_file is None:
+        if self.lines is None:
             return
         try:
             self.canvas.get_tk_widget().destroy()
@@ -118,18 +105,35 @@ class Graph:
             pass
         self.fig = Figure()
         ax = self.fig.add_subplot(111)
-        try:
-            ax.set_title(self.name_label())
-        except AttributeError:
-            return
-        ax.set_ylabel(self.name_y())
-        ax.set_xlabel(self.name_x())
+        ax.set_title(self.labels()[0])
+        ax.set_xlabel(self.labels()[1])
+        ax.set_ylabel(self.labels()[2])
         ax.grid(self.grid)
+        legends = []
+        for file in self.files:
+            with open(file) as f:
+                lines = f.readlines()
+            for line in lines:
+                if line.find('yaxis  label') != -1:
+                    i = line.index('"')
+                    j = line.rindex('"')
+                    legend = line[i + 1:j]
+                    legends.append(legend)
         i = 0
         for nparray in self.nparrays:
             x = nparray[:, 0]
-            y = nparray[:, 1]
-            ax.plot(x, y, label=os.path.basename(self.files[i]))
+            for j in range(1, nparray.shape[1]):
+                y = nparray[:, j]
+                if nparray.shape[1] == 2 and len(self.nparrays) == 1:
+                    ax.plot(x, y, color='black', label=self.labels()[2])
+                elif len(self.nparrays) == 1:
+                    ax.plot(x, y, label=self.labels()[2] + '_' + str(j))
+                elif nparray.shape[1] == 2:
+                    ax.plot(x, y, label=os.path.splitext(os.path.basename(self.files[i]))[0] + ':' + legends[i])
+                else:
+                    ax.plot(x, y,
+                            label=os.path.splitext(os.path.basename(self.files[i]))[0] + ':' + legends[i] + '_' + str(
+                                j))
             i += 1
         if self.legend:
             ax.legend(loc='best', frameon=False)
@@ -151,6 +155,7 @@ class Graph:
         self.nparrays = []
         self.files = []
         self.fig = None
+        self.lines = None
 
     def save_graph(self):
         if self.fig is None:
@@ -165,7 +170,8 @@ class Graph:
             except AttributeError:
                 showerror('Ошибка!', 'График недоступен!')
             except ValueError:
-                showerror('Неподдерживаемый формат файла рисунка!', 'Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
+                showerror('Неподдерживаемый формат файла рисунка!',
+                          'Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 
     def close_win(self):
         if askyesno('Выход', 'Вы точно хотите выйти?'):
@@ -194,7 +200,6 @@ def win():
     rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
     # пункту располагается на основном меню (m)
     m.add_cascade(label='Настройки', menu=rm)
-    rm.add_command(label='Обновить график', command=graph.print_graph)
     rm.add_command(label='Сброс', command=graph.sbros)
     rm.add_command(label='Легенда', command=graph.legend_set)
     rm.add_command(label='Сетка', command=graph.grid_set)
