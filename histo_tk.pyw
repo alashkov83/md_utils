@@ -144,7 +144,6 @@ class Graph:
             showerror('Ошибка!', 'График недоступен!')
             return
         sa = asksaveasfilename()
-        print(self.dpi)
         if sa:
             try:
                 self.fig.savefig(sa, dpi=self.dpi)
