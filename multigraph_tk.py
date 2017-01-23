@@ -7,6 +7,7 @@
 """
 
 import os.path
+import sys
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
@@ -31,6 +32,34 @@ class Graph:
         self.lines = None
         self.nparrays = []
         self.files = []
+
+    def cmd_open(self):
+        for n in range(len(sys.argv)-1):
+            xvg_file = sys.argv[n+1]
+            if not xvg_file:
+                return
+            try:
+                fname = open(xvg_file, 'r')
+                n = 0
+                while True:
+                    subtitle = str(open(xvg_file, 'r').readlines()[n])
+                    if (subtitle[0] == '@') or (subtitle[0] == '#'):
+                        n += 1
+                    else:
+                        nparray = np.loadtxt(fname, skiprows=n)
+                        fname.close()
+                        break
+                self.lines = open(xvg_file, 'r').readlines()
+                self.nparrays.append(nparray)
+                self.files.append(xvg_file)
+            except UnicodeDecodeError:
+                continue
+            except ValueError:
+                continue
+            try:
+                self.print_graph()
+            except AttributeError:
+                pass
 
     def xvg_open(self):
         opt = {'filetypes': [
@@ -66,6 +95,7 @@ class Graph:
             pass
 
     def labels(self):
+        label, name_x, name_y = '', '', ''
         for line in self.lines:
             if line.find('title') != -1:
                 i = line.index('"')
@@ -180,7 +210,7 @@ class Graph:
 
 def about():
     showinfo('Информация',
-             'Отображение графика по данным xvg-файлов')
+             'Отображение графиков по данным xvg-файлов')
 
 
 def win():
@@ -188,6 +218,8 @@ def win():
     root.title('Multigraph')
     root.resizable(False, False)
     graph = Graph(root)
+    if len(sys.argv) > 1:
+        graph.cmd_open()
     m = tk.Menu(root)  # создается объект Меню на главном окне
     root.config(menu=m)  # окно конфигурируется с указанием меню для него
     fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -196,7 +228,7 @@ def win():
     # формируется список команд пункта меню
     fm.add_command(label='Открыть XVG', command=graph.xvg_open)
     fm.add_command(label='Сохранить график', command=graph.save_graph)
-    fm.add_command(label='Выход', command=root.destroy)
+    fm.add_command(label='Выход', command=graph.close_win)
     rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
     # пункту располагается на основном меню (m)
     m.add_cascade(label='Настройки', menu=rm)

@@ -266,13 +266,17 @@ def save_graph():
 
 
 def graph(nparray):
+    x = nparray[:, 0]
     fig = plt.figure()
-    plt.title('COM distance vs. time')
-    plt.ylabel('COM distance, A')
-    plt.xlabel('Time, ps')
     plt.grid(True)
     ax = fig.add_subplot(111)
-    x = nparray[:, 0]
+    ax.set_title('COM distance vs. time')
+    ax.set_ylabel(r'$\xi,\ \AA$')
+    if (max(x) - min(x)) > 10000:
+        ax.set_xlabel(r'$Time,\ ns$')
+        x /= 1000
+    else:
+        ax.set_xlabel(r'$Time,\ ps$')
     y = nparray[:, 1]
     ax.plot(x, y, color='black')
     print('Что вы хотите сделать с графиком? sc - отобразить, sv - сохранить')
