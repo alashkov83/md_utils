@@ -6,7 +6,6 @@
 
 """
 
-import abc
 import random
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -25,6 +24,7 @@ from periodictable import formula
 
 
 def joke():
+    """Шутка юмора :-)"""
     joke_txt = [
         "There are 10 types of people in the world: those who understand binary, and those who don't\n",
         "If at first you don't succeed; call it version 1.0\n",
@@ -218,30 +218,14 @@ def joke():
     return
 
 
-class Gui(tk.Tk, metaclass=abc.ABCMeta):
+class Gui(tk.Tk):
+    """ГУЙ"""
     def __init__(self):
         super().__init__()
         self.title('Comdom')
         self.resizable(False, False)
         self.protocol('WM_DELETE_WINDOW', self.close_win)
-        m = tk.Menu(self)  # создается объект Меню на главном окне
-        self.config(menu=m)  # окно конфигурируется с указанием меню для него
-        fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
-        # пункту располагается на основном меню (m)
-        m.add_cascade(label='Файл', menu=fm)
-        # формируется список команд пункта меню
-        fm.add_command(label='Открыть PDB', command=self.open_pdb)
-        fm.add_command(label='Сохранить график', command=self.save_graph)
-        fm.add_command(label='Сохранить данные', command=self.save_data)
-        fm.add_command(label='Сохранить LOG', command=self.save_log)
-        fm.add_command(label='Выход', command=self.close_win)
-        rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
-        # пункту располагается на основном меню (m)
-        m.add_cascade(label='Запуск', menu=rm)
-        rm.add_command(label='Запуск...', command=self.trj_cycle)
-        rm.add_command(label='Сетка графика', command=self.grid_set)
-        rm.add_command(label='Статистика', command=self.xvg_stat)
-        m.add_command(label='Справка', command=self.about)
+        self.menu()
         fra1 = ttk.Frame(self)
         lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
         lab1.grid(row=0, column=0, pady=5, padx=5)
@@ -278,32 +262,33 @@ class Gui(tk.Tk, metaclass=abc.ABCMeta):
     def about():
         showinfo('Информация', 'Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД')
 
+    def menu(self):
+        m = tk.Menu(self)  # создается объект Меню на главном окне
+        self.config(menu=m)  # окно конфигурируется с указанием меню для него
+        fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
+        # пункту располагается на основном меню (m)
+        m.add_cascade(label='Файл', menu=fm)
+        # формируется список команд пункта меню
+        fm.add_command(label='Открыть PDB', command=self.open_pdb)
+        fm.add_command(label='Сохранить график', command=self.save_graph)
+        fm.add_command(label='Сохранить данные', command=self.save_data)
+        fm.add_command(label='Сохранить LOG', command=self.save_log)
+        fm.add_command(label='Выход', command=self.close_win)
+        rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
+        # пункту располагается на основном меню (m)
+        m.add_cascade(label='Запуск', menu=rm)
+        rm.add_command(label='Запуск...', command=self.trj_cycle)
+        rm.add_command(label='Сетка графика', command=self.grid_set)
+        rm.add_command(label='Статистика', command=self.xvg_stat)
+        m.add_command(label='Справка', command=self.about)
+    
     def close_win(self):
         if askyesno('Выход', 'Вы точно хотите выйти?'):
             self.destroy()
 
-    @abc.abstractmethod
-    def stop(self):
-        pass
-
-    @abc.abstractmethod
-    def seg1(self):
-        pass
-
-    @abc.abstractmethod
-    def seg2(self):
-        pass
-
-    @abc.abstractmethod
-    def sbros_1(self):
-        pass
-
-    @abc.abstractmethod
-    def sbros_2(self):
-        pass
-
 
 class App(Gui):
+    """Класс логики работы программы"""
     def __init__(self):
         super().__init__()
         self.s_array = None
@@ -545,6 +530,7 @@ class App(Gui):
         self.segment_2 = []
 
     def trj_cycle(self):
+        """Основной алгоритм программы"""
         if self.run_flag:
             showerror('Ошибка!', 'Расчет уже идёт!')
             return
@@ -651,6 +637,7 @@ class App(Gui):
 
 
 def win():
+    """Главная функция окна"""
     app = App()
     joke()
     app.mainloop()

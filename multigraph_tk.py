@@ -20,12 +20,46 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 
 
-class Graph:
-    def __init__(self, root):
-        self.root = root
-        self.root.protocol('WM_DELETE_WINDOW', self.close_win)
-        self.fra = tk.Frame(root, width=660, height=515)
+class Gui(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title('Multigraph')
+        self.resizable(False, False)
+        self.protocol('WM_DELETE_WINDOW', self.close_win)
+        self.fra = tk.Frame(self, width=660, height=515)
         self.fra.grid(row=0, column=0, padx=5, pady=5)
+        self.menu()
+
+    def menu(self):
+        m = tk.Menu(self)  # создается объект Меню на главном окне
+        self.config(menu=m)  # окно конфигурируется с указанием меню для него
+        fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
+        # пункту располагается на основном меню (m)
+        m.add_cascade(label='Файл', menu=fm)
+        # формируется список команд пункта меню
+        fm.add_command(label='Открыть XVG', command=self.xvg_open)
+        fm.add_command(label='Сохранить график', command=self.save_graph)
+        fm.add_command(label='Выход', command=self.close_win)
+        rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
+        # пункту располагается на основном меню (m)
+        m.add_cascade(label='Настройки', menu=rm)
+        rm.add_command(label='Сброс', command=self.sbros)
+        rm.add_command(label='Легенда', command=self.legend_set)
+        rm.add_command(label='Сетка', command=self.grid_set)
+        m.add_command(label='Справка', command=self.about)
+
+    def close_win(self):
+        if askyesno('Выход', 'Вы точно хотите выйти?'):
+            self.destroy()
+
+    @staticmethod
+    def about():
+        showinfo('Информация', 'Отображение графиков по данным xvg-файлов')
+
+
+class Graph(Gui):
+    def __init__(self):
+        super().__init__()
         self.legend = False
         self.grid = False
         self.fig = None
@@ -140,6 +174,7 @@ class Graph:
         ax.set_ylabel(self.labels()[2])
         ax.grid(self.grid)
         legends = []
+        legend = None
         for file in self.files:
             with open(file) as f:
                 lines = f.readlines()
@@ -149,6 +184,8 @@ class Graph:
                     j = line.rindex('"')
                     legend = line[i + 1:j]
                     legends.append(legend)
+            if not legend:
+                legends.append('')
         i = 0
         for nparray in self.nparrays:
             x = nparray[:, 0]
@@ -203,42 +240,14 @@ class Graph:
                 showerror('Неподдерживаемый формат файла рисунка!',
                           'Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 
-    def close_win(self):
-        if askyesno('Выход', 'Вы точно хотите выйти?'):
-            self.root.destroy()
-
-
-def about():
-    showinfo('Информация',
-             'Отображение графиков по данным xvg-файлов')
-
 
 def win():
-    root = tk.Tk()
-    root.title('Multigraph')
-    root.resizable(False, False)
-    graph = Graph(root)
+    graph = Graph()
     if len(sys.argv) > 1:
         graph.cmd_open()
-    m = tk.Menu(root)  # создается объект Меню на главном окне
-    root.config(menu=m)  # окно конфигурируется с указанием меню для него
-    fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
-    # пункту располагается на основном меню (m)
-    m.add_cascade(label='Файл', menu=fm)
-    # формируется список команд пункта меню
-    fm.add_command(label='Открыть XVG', command=graph.xvg_open)
-    fm.add_command(label='Сохранить график', command=graph.save_graph)
-    fm.add_command(label='Выход', command=graph.close_win)
-    rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
-    # пункту располагается на основном меню (m)
-    m.add_cascade(label='Настройки', menu=rm)
-    rm.add_command(label='Сброс', command=graph.sbros)
-    rm.add_command(label='Легенда', command=graph.legend_set)
-    rm.add_command(label='Сетка', command=graph.grid_set)
-    m.add_command(label='Справка', command=about)
     showinfo('Внимание!!!', ('Спецформат меток grace не поддерживается\n'
                              'для нормального отображения меток удалите символы форматирования в исходном файле!'))
-    root.mainloop()
+    graph.mainloop()
 
 
 if __name__ == '__main__':
