@@ -227,6 +227,7 @@ class Gui(tk.Tk):
         self.protocol('WM_DELETE_WINDOW', self.close_win)
         self.menu()
         fra1 = ttk.Frame(self)
+        fra1.grid(row=0, column=0)
         lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
         lab1.grid(row=0, column=0, pady=5, padx=5)
         but1 = ttk.Button(lab1, text='Добавить диапазон а.о.', command=self.seg1)
@@ -248,9 +249,8 @@ class Gui(tk.Tk):
         self.pb = ttk.Progressbar(fra1, orient='horizontal', mode='determinate', length=240)
         self.pb.grid(row=4, column=0, columnspan=2)
         self.fra2 = ttk.Frame(self, width=660, height=515)
-        fra3 = ttk.Frame(self)
-        fra1.grid(row=0, column=0)
         self.fra2.grid(row=0, column=1)
+        fra3 = ttk.Frame(self)
         fra3.grid(row=1, column=1, pady=10)
         self.tx = tk.Text(fra3, width=80, height=5)
         scr = ttk.Scrollbar(fra3, command=self.tx.yview)
@@ -263,6 +263,7 @@ class Gui(tk.Tk):
         showinfo('Информация', 'Построение зависимости расстояния\nмежду центрами масс доменов белка от времени МД')
 
     def menu(self):
+        """Метод инициалиции меню"""
         m = tk.Menu(self)  # создается объект Меню на главном окне
         self.config(menu=m)  # окно конфигурируется с указанием меню для него
         fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -283,6 +284,7 @@ class Gui(tk.Tk):
         m.add_command(label='Справка', command=self.about)
     
     def close_win(self):
+        """Самоуничтожение с вопросом"""
         if askyesno('Выход', 'Вы точно хотите выйти?'):
             self.destroy()
 
@@ -304,6 +306,7 @@ class App(Gui):
 
     @staticmethod
     def _cmass(str_nparray):
+        """Вычисление положения центра массс"""
         mass_sum = float(str_nparray[:, 3].sum())
         mx = (str_nparray[:, 3]) * (str_nparray[:, 0])
         my = (str_nparray[:, 3]) * (str_nparray[:, 1])
@@ -315,6 +318,7 @@ class App(Gui):
 
     @staticmethod
     def _mass(element):
+        """Масса атома"""
         elements = {
             ' H': 1.0,
             ' C': 12.0,
@@ -330,6 +334,7 @@ class App(Gui):
         return mass
 
     def xvg_stat(self):
+        """Большая ложь т.е. статистика"""
         if self.run_flag:
             showerror('Ошибка!', 'Расчет не закончен!')
             return
@@ -430,6 +435,7 @@ class App(Gui):
             pass
 
     def _graph(self):
+        """Графулька без эксэльки"""
         self.fig = None
         self.fig = Figure()
         ax = self.fig.add_subplot(111)
@@ -483,11 +489,13 @@ class App(Gui):
         self.tx.configure(state='disabled')
 
     def stop(self):
+        """Стоять я сказал!"""
         if self.run_flag:
             if askyesno('Прервать?', 'Вы точно хотите прервать расчет?'):
                 self.stop_flag = True
 
     def seg1(self):
+        """Задание а.о. первого домена"""
         if self.run_flag:
             showerror('Ошибка!', 'Расчет уже идёт!')
             return
@@ -503,6 +511,7 @@ class App(Gui):
         print(self.segment_1)
 
     def seg2(self):
+        """Задание а.о. второго домена"""
         if self.run_flag:
             showerror('Ошибка!', 'Расчет уже идёт!')
             return
