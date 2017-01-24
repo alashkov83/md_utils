@@ -333,20 +333,20 @@ class App(Gui):
         r_mean = r.mean()
         t_min = t[np.argmin(r)]
         t_max = t[np.argmax(r)]
-        showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
-            r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
-            r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(
-            r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
-            np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
+        showinfo('Статистика', 'Минимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
+            r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
+            r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} \u212b'.format(
+            r_mean) + '\nСтандартное отклонение: {0:.3f} \u212b'.format(
+            np.std(r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
             np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
         self.tx.configure(state='normal')
         self.tx.insert(tk.END,
-                       '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
+                       '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
                            r_min,
-                           t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
-                           r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} А'.format(
-                           r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
-                           np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
+                           t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
+                           r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} \u212b'.format(
+                           r_mean) + '\nСтандартное отклонение: {0:.3f} \u212b'.format(
+                           np.std(r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
                            np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
         self.tx.configure(state='disabled')
 
@@ -594,17 +594,17 @@ class App(Gui):
                                                                                    c_mass_2[2]) ** 2)) ** 0.5
                 self.tx.configure(state='normal')
                 self.tx.insert(tk.END,
-                               'Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
+                               'Координаты центра масс первого домена: C1 ({0:.3f} \u212b, {1:.3f} \u212b, {2:.3f} \u212b)'.format(
                                    c_mass_1[0],
                                    c_mass_1[1],
                                    c_mass_1[2]) +
                                '\n' +
-                               'второго домена: C2 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
+                               'второго домена: C2 ({0:.3f} \u212b, {1:.3f} \u212b, {2:.3f} \u212b)'.format(
                                    c_mass_2[0],
                                    c_mass_2[1],
                                    c_mass_2[2]) +
                                '\n' +
-                               'расстояние между доменами: {0:.3f} A\n'.format(r))
+                               'расстояние между доменами: {0:.3f} \u212b\n'.format(r))
                 self.tx.configure(state='disabled')
                 r_array.append(r)
                 del xyzm_array_1
