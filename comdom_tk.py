@@ -218,12 +218,31 @@ def joke():
     return
 
 
-class Gui(metaclass=abc.ABCMeta):
-    def __init__(self, root):
-        self.root = root
-        self.root.resizable(False, False)
-        self.root.protocol('WM_DELETE_WINDOW', self.close_win)
-        fra1 = ttk.Frame(self.root)
+class Gui(tk.Tk, metaclass=abc.ABCMeta):
+    def __init__(self):
+        super().__init__()
+        self.title('Comdom')
+        self.resizable(False, False)
+        self.protocol('WM_DELETE_WINDOW', self.close_win)
+        m = tk.Menu(self)  # создается объект Меню на главном окне
+        self.config(menu=m)  # окно конфигурируется с указанием меню для него
+        fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
+        # пункту располагается на основном меню (m)
+        m.add_cascade(label='Файл', menu=fm)
+        # формируется список команд пункта меню
+        fm.add_command(label='Открыть PDB', command=self.open_pdb)
+        fm.add_command(label='Сохранить график', command=self.save_graph)
+        fm.add_command(label='Сохранить данные', command=self.save_data)
+        fm.add_command(label='Сохранить LOG', command=self.save_log)
+        fm.add_command(label='Выход', command=self.close_win)
+        rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
+        # пункту располагается на основном меню (m)
+        m.add_cascade(label='Запуск', menu=rm)
+        rm.add_command(label='Запуск...', command=self.trj_cycle)
+        rm.add_command(label='Сетка графика', command=self.grid_set)
+        rm.add_command(label='Статистика', command=self.xvg_stat)
+        m.add_command(label='Справка', command=self.about)
+        fra1 = ttk.Frame(self)
         lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
         lab1.grid(row=0, column=0, pady=5, padx=5)
         but1 = ttk.Button(lab1, text='Добавить диапазон а.о.', command=self.seg1)
@@ -244,8 +263,8 @@ class Gui(metaclass=abc.ABCMeta):
         but3.grid(row=2, column=0, columnspan=2, pady=10)
         self.pb = ttk.Progressbar(fra1, orient='horizontal', mode='determinate', length=240)
         self.pb.grid(row=4, column=0, columnspan=2)
-        self.fra2 = ttk.Frame(self.root, width=660, height=515)
-        fra3 = ttk.Frame(self.root)
+        self.fra2 = ttk.Frame(self, width=660, height=515)
+        fra3 = ttk.Frame(self)
         fra1.grid(row=0, column=0)
         self.fra2.grid(row=0, column=1)
         fra3.grid(row=1, column=1, pady=10)
@@ -254,7 +273,6 @@ class Gui(metaclass=abc.ABCMeta):
         self.tx.configure(yscrollcommand=scr.set, state='disabled')
         self.tx.pack(side=tk.LEFT)
         scr.pack(side=tk.RIGHT, fill=tk.Y)
-        root.protocol('WM_DELETE_WINDOW', self.close_win)
 
     @staticmethod
     def about():
@@ -262,7 +280,7 @@ class Gui(metaclass=abc.ABCMeta):
 
     def close_win(self):
         if askyesno('Выход', 'Вы точно хотите выйти?'):
-            self.root.destroy()
+            self.destroy()
 
     @abc.abstractmethod
     def stop(self):
@@ -286,8 +304,8 @@ class Gui(metaclass=abc.ABCMeta):
 
 
 class App(Gui):
-    def __init__(self, root):
-        super().__init__(root)
+    def __init__(self):
+        super().__init__()
         self.s_array = None
         self.nparray = None
         self.stop_flag = False
@@ -298,6 +316,17 @@ class App(Gui):
         self.canvas = None
         self.toolbar = None
         self.grid = False
+
+    @staticmethod
+    def _cmass(str_nparray):
+        mass_sum = float(str_nparray[:, 3].sum())
+        mx = (str_nparray[:, 3]) * (str_nparray[:, 0])
+        my = (str_nparray[:, 3]) * (str_nparray[:, 1])
+        mz = (str_nparray[:, 3]) * (str_nparray[:, 2])
+        c_mass_x = float(mx.sum()) / mass_sum
+        c_mass_y = float(my.sum()) / mass_sum
+        c_mass_z = float(mz.sum()) / mass_sum
+        return [c_mass_x, c_mass_y, c_mass_z]
 
     @staticmethod
     def _mass(element):
@@ -340,14 +369,12 @@ class App(Gui):
             np.std(r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
             np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
         self.tx.configure(state='normal')
-        self.tx.insert(tk.END,
-                       '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
-                           r_min,
-                           t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
-                           r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} \u212b'.format(
-                           r_mean) + '\nСтандартное отклонение: {0:.3f} \u212b'.format(
-                           np.std(r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
-                           np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
+        self.tx.insert(tk.END, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
+                r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
+                r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} \u212b'.format(
+                r_mean) + '\nСтандартное отклонение: {0:.3f} \u212b'.format(
+                np.std(r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
+                np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
         self.tx.configure(state='disabled')
 
     def save_data(self):
@@ -398,7 +425,8 @@ class App(Gui):
             except AttributeError:
                 showerror('Ошибка!', 'График недоступен!')
             except ValueError:
-                showerror('Неподдерживаемый формат файла рисунка!', 'Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
+                showerror('Неподдерживаемый формат файла рисунка!',
+                          'Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 
     def grid_set(self):
         self.grid = bool(askyesno('Cетка', 'Отобразить?'))
@@ -437,17 +465,6 @@ class App(Gui):
         self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.fra2)
         self.toolbar.update()
         self.canvas._tkcanvas.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
-
-    @staticmethod
-    def _cmass(str_nparray):
-        mass_sum = float(str_nparray[:, 3].sum())
-        mx = (str_nparray[:, 3]) * (str_nparray[:, 0])
-        my = (str_nparray[:, 3]) * (str_nparray[:, 1])
-        mz = (str_nparray[:, 3]) * (str_nparray[:, 2])
-        c_mass_x = float(mx.sum()) / mass_sum
-        c_mass_y = float(my.sum()) / mass_sum
-        c_mass_z = float(mz.sum()) / mass_sum
-        return [c_mass_x, c_mass_y, c_mass_z]
 
     def open_pdb(self):
         if self.run_flag:
@@ -634,29 +651,9 @@ class App(Gui):
 
 
 def win():
-    root = tk.Tk()
-    root.title('Comdom')
-    app = App(root)
-    m = tk.Menu(root)  # создается объект Меню на главном окне
-    root.config(menu=m)  # окно конфигурируется с указанием меню для него
-    fm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
-    # пункту располагается на основном меню (m)
-    m.add_cascade(label='Файл', menu=fm)
-    # формируется список команд пункта меню
-    fm.add_command(label='Открыть PDB', command=app.open_pdb)
-    fm.add_command(label='Сохранить график', command=app.save_graph)
-    fm.add_command(label='Сохранить данные', command=app.save_data)
-    fm.add_command(label='Сохранить LOG', command=app.save_log)
-    fm.add_command(label='Выход', command=app.close_win)
-    rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
-    # пункту располагается на основном меню (m)
-    m.add_cascade(label='Запуск', menu=rm)
-    rm.add_command(label='Запуск...', command=app.trj_cycle)
-    rm.add_command(label='Сетка графика', command=app.grid_set)
-    rm.add_command(label='Статистика', command=app.xvg_stat)
-    m.add_command(label='Справка', command=app.about)
+    app = App()
     joke()
-    root.mainloop()
+    app.mainloop()
 
 
 if __name__ == '__main__':

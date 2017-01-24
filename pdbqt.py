@@ -9,6 +9,7 @@ Created on Tue Jan 24 17:46:41 2017
 import sys
 import Bio.PDB as pdb
 
+
 def open_pdb(pdb_f):
     parser = pdb.PDBParser()
     try:
@@ -22,7 +23,8 @@ def open_pdb(pdb_f):
     else:
         print("Информация", "Файл прочитан!")
         return structure
-    
+
+
 io = pdb.PDBIO()
 io.set_structure(open_pdb(sys.argv[1]))
 io.save(sys.argv[2])
