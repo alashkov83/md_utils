@@ -65,9 +65,11 @@ def check_occupancy(atom, occupancy, resn, chain_id, res_name):
             atom3.append(atom[n])
             res_name2.append(res_name[n])
         if (sum(occupancy2) > 1.00) or (sum(occupancy2) < min_ocu):
+            tx.configure(state='normal')
             tx.insert(tk.INSERT, ('Для атома {0:s} а.о. {1:s}:{2:4d} цепи {3:s} cумма'
                                   ' заселенностей равна {4:.2f}\n').format(
                 ''.join(set(atom3)), ' '.join(set(res_name2)), resn, chain_id, sum(occupancy2)))
+            tx.configure(state='disabled')
             root.update()
         del occupancy2
         del atom3
@@ -144,7 +146,7 @@ def main():
     lab1.grid(row=0, column=0, sticky='W', padx=5)
     tx = tk.Text(root, width=80, height=10)
     scr = ttk.Scrollbar(root, command=tx.yview)
-    tx.configure(yscrollcommand=scr.set)
+    tx.configure(yscrollcommand=scr.set, state='disabled')
     tx.pack(side=tk.LEFT)
     scr.pack(side=tk.RIGHT, fill=tk.Y)
     root.mainloop()

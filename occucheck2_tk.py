@@ -96,7 +96,9 @@ def check_pdb():
     except NameError:
         showerror('Ошибка!', 'Структура не загружена!')
         return
+    tx.configure(state='normal')
     tx.delete(1.0, tk.END)
+    tx.configure(state='disabled')
     for atom in atoms:
         sum_ocu = 0.0
         if atom.is_disordered() == 0:
@@ -106,10 +108,12 @@ def check_pdb():
                 atom.disordered_select(X)
                 sum_ocu += atom.get_occupancy()
         if (sum_ocu > 1.00) or (sum_ocu < min_ocu):
+            tx.configure(state='normal')
             tx.insert(tk.INSERT, ('Для атома {0:s} а.о. {1:s}:{2:4d} цепи {3:s}'
                                   ' cумма заселенностей равна {4:.2f}\n').format(
                 atom.get_fullname(), (atom.get_parent()).get_resname(), int(
                     atom.get_full_id()[3][1]), atom.get_full_id()[2], sum_ocu))
+            tx.configure(state='disabled')
 
 
 def main():
@@ -142,7 +146,7 @@ def main():
     lab1.grid(row=0, column=0, sticky='W', padx=5)
     tx = tk.Text(root, width=80, height=10)
     scr = ttk.Scrollbar(root, command=tx.yview)
-    tx.configure(yscrollcommand=scr.set)
+    tx.configure(yscrollcommand=scr.set, state='disabled')
     tx.pack(side=tk.LEFT)
     scr.pack(side=tk.RIGHT, fill=tk.Y)
     root.mainloop()

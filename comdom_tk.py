@@ -251,7 +251,7 @@ class Gui(metaclass=abc.ABCMeta):
         fra3.grid(row=1, column=1, pady=10)
         self.tx = tk.Text(fra3, width=80, height=5)
         scr = ttk.Scrollbar(fra3, command=self.tx.yview)
-        self.tx.configure(yscrollcommand=scr.set)
+        self.tx.configure(yscrollcommand=scr.set, state='disabled')
         self.tx.pack(side=tk.LEFT)
         scr.pack(side=tk.RIGHT, fill=tk.Y)
         root.protocol('WM_DELETE_WINDOW', self.close_win)
@@ -339,6 +339,7 @@ class App(Gui):
             r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
             np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
             np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
+        self.tx.configure(state='normal')
         self.tx.insert(tk.END,
                        '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} А (t= {1:.2f} пc)'.format(
                            r_min,
@@ -347,6 +348,7 @@ class App(Gui):
                            r_mean) + '\nСтандартное отклонение: {0:.3f} A'.format(
                            np.std(r)) + '\nКвартили: (25%) = {0:.3f} A, (50%) = {1:.3f} A, (75%) = {2:.3f} A'.format(
                            np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
+        self.tx.configure(state='disabled')
 
     def save_data(self):
         if self.run_flag:
@@ -400,7 +402,6 @@ class App(Gui):
 
     def grid_set(self):
         self.grid = bool(askyesno('Cетка', 'Отобразить?'))
-
         if self.nparray is None:
             return
         if self.run_flag:
@@ -475,7 +476,9 @@ class App(Gui):
         self.pb['value'] = 0
         self.pb.update()
         self.fig = None
+        self.tx.configure(state='normal')
         self.tx.delete('1.0', tk.END)
+        self.tx.configure(state='disabled')
 
     def stop(self):
         if self.run_flag:
@@ -534,7 +537,9 @@ class App(Gui):
             self.toolbar.destroy()
         except AttributeError:
             pass
+        self.tx.configure(state='disabled')
         self.tx.delete('1.0', tk.END)
+        self.tx.configure(state='normal')
         t_array = []
         r_array = []
         xyzm_array_1 = []
@@ -587,6 +592,7 @@ class App(Gui):
                 r = (((c_mass_1[0] - c_mass_2[0]) ** 2) + ((c_mass_1[1] -
                                                             c_mass_2[1]) ** 2) + ((c_mass_1[2] -
                                                                                    c_mass_2[2]) ** 2)) ** 0.5
+                self.tx.configure(state='normal')
                 self.tx.insert(tk.END,
                                'Координаты центра масс первого домена: C1 ({0:.3f} A, {1:.3f} A, {2:.3f} A)'.format(
                                    c_mass_1[0],
@@ -599,6 +605,7 @@ class App(Gui):
                                    c_mass_2[2]) +
                                '\n' +
                                'расстояние между доменами: {0:.3f} A\n'.format(r))
+                self.tx.configure(state='disabled')
                 r_array.append(r)
                 del xyzm_array_1
                 del xyzm_array_2
