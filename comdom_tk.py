@@ -549,9 +549,9 @@ class App(Gui):
             self.toolbar.destroy()
         except AttributeError:
             pass
-        self.tx.configure(state='disabled')
-        self.tx.delete('1.0', tk.END)
         self.tx.configure(state='normal')
+        self.tx.delete('1.0', tk.END)
+        self.tx.configure(state='disabled')
         t_array = []
         r_array = []
         xyzm_array_1 = []

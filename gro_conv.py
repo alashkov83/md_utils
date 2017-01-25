@@ -13,16 +13,12 @@ new_file = sys.argv[2]
 with open(old_file, 'r') as of:
     lines = of.readlines()
 nf = open(new_file, 'a')
-i=1
+i = 1
 for line in lines:
-    if i > 2 and i < len(lines):
+    if 2 < i < len(lines):
         s = line[0:10] + '{0:>5s}'.format(line[10:13].strip()) + line[15:]
     else:
         s = line[:]
     nf.write(s)
-    i+=1
+    i += 1
 nf.close()
-
-    
-    
- 

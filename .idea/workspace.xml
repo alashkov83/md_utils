@@ -7,6 +7,8 @@
     <list default="true" id="5ab12951-9d2f-4b7e-866d-b8daa7f97fcc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comdom_tk.py" afterPath="$PROJECT_DIR$/comdom_tk.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gro_conv.py" afterPath="$PROJECT_DIR$/gro_conv.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multigraph_tk.py" afterPath="$PROJECT_DIR$/multigraph_tk.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,11 +23,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="comdom_tk.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="comdom_tk.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/comdom_tk.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="438" column="23" lean-forward="true" selection-start-line="438" selection-start-column="23" selection-end-line="438" selection-end-column="23" />
+            <state relative-caret-position="1632">
+              <caret line="463" column="0" lean-forward="false" selection-start-line="463" selection-start-column="0" selection-end-line="464" selection-end-column="36" />
               <folding>
                 <element signature="e#111#124#0" expanded="true" />
               </folding>
@@ -33,26 +35,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pdbqt.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pdbqt.py">
+      <file leaf-file-name="multigraph_tk.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/multigraph_tk.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+            <state relative-caret-position="-2180">
+              <caret line="106" column="40" lean-forward="false" selection-start-line="106" selection-start-column="40" selection-end-line="106" selection-end-column="40" />
               <folding>
-                <element signature="e#110#120#0" expanded="true" />
+                <element signature="e#111#125#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="multigraph_tk.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/multigraph_tk.py">
+      <file leaf-file-name="gro_conv.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gro_conv.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3565">
-              <caret line="244" column="10" lean-forward="false" selection-start-line="244" selection-start-column="10" selection-end-line="244" selection-end-column="10" />
-              <folding>
-                <element signature="e#111#125#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="225">
+              <caret line="15" column="1" lean-forward="false" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -90,8 +90,8 @@
       <file leaf-file-name="setb_tk.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/setb_tk.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="35" column="46" lean-forward="false" selection-start-line="35" selection-start-column="46" selection-end-line="35" selection-end-column="46" />
+            <state relative-caret-position="450">
+              <caret line="102" column="6" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="104" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -134,10 +134,11 @@
         <option value="$PROJECT_DIR$/comdom.py" />
         <option value="$PROJECT_DIR$/occucheck_tk.py" />
         <option value="$PROJECT_DIR$/pdbqt.py" />
-        <option value="$PROJECT_DIR$/multigraph_tk.py" />
         <option value="$PROJECT_DIR$/setb_tk.py" />
         <option value="$PROJECT_DIR$/chain_trjpdb_tk.py" />
+        <option value="$PROJECT_DIR$/gro_conv.py" />
         <option value="$PROJECT_DIR$/comdom_tk.py" />
+        <option value="$PROJECT_DIR$/multigraph_tk.py" />
       </list>
     </option>
   </component>
@@ -161,6 +162,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -175,15 +178,13 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="/usr/bin/python3" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.comdom_tk.pyw">
+  <component name="RunManager" selected="Python.multigraph_umb_tk.pyw">
     <configuration default="false" name="histo_tk.pyw" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -430,9 +431,9 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.setb_tk.pyw" />
-        <item index="1" class="java.lang.String" itemvalue="Python.chain_trjpdb_tk.pyw" />
-        <item index="2" class="java.lang.String" itemvalue="Python.multigraph_umb_tk.pyw" />
+        <item index="0" class="java.lang.String" itemvalue="Python.multigraph_umb_tk.pyw" />
+        <item index="1" class="java.lang.String" itemvalue="Python.setb_tk.pyw" />
+        <item index="2" class="java.lang.String" itemvalue="Python.chain_trjpdb_tk.pyw" />
         <item index="3" class="java.lang.String" itemvalue="Python.histo_tk.pyw" />
         <item index="4" class="java.lang.String" itemvalue="Python.dna_srg_tk.pyw" />
       </list>
@@ -624,7 +625,14 @@
       <option name="project" value="LOCAL" />
       <updated>1485289230165</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Add docstrings">
+      <created>1485290953659</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1485290953659</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -642,7 +650,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39937106" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -666,7 +674,8 @@
     <MESSAGE value="root.protocol('WM_DELETE_WINDOW')" />
     <MESSAGE value="Repository revised" />
     <MESSAGE value="Refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring" />
+    <MESSAGE value="Add docstrings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add docstrings" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -682,13 +691,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/comdom_tk.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7480">
-          <caret line="440" column="0" lean-forward="false" selection-start-line="440" selection-start-column="0" selection-end-line="440" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/occucheck2_tk.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2329">
@@ -926,26 +928,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pdbqt.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding>
-            <element signature="e#110#120#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setb.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setb_tk.py">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
-          <caret line="35" column="46" lean-forward="false" selection-start-line="35" selection-start-column="46" selection-end-line="35" selection-end-column="46" />
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf_rename.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="14" column="61" lean-forward="false" selection-start-line="14" selection-start-column="61" selection-end-line="14" selection-end-column="61" />
           <folding />
         </state>
       </provider>
@@ -958,30 +949,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/multigraph_tk.py">
+    <entry file="file://$PROJECT_DIR$/setb.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3565">
-          <caret line="244" column="10" lean-forward="false" selection-start-line="244" selection-start-column="10" selection-end-line="244" selection-end-column="10" />
-          <folding>
-            <element signature="e#111#125#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf_rename.py">
+    <entry file="file://$PROJECT_DIR$/gro_conv.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="14" column="61" lean-forward="false" selection-start-line="14" selection-start-column="61" selection-end-line="14" selection-end-column="61" />
+        <state relative-caret-position="225">
+          <caret line="15" column="1" lean-forward="false" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/comdom_tk.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="438" column="23" lean-forward="true" selection-start-line="438" selection-start-column="23" selection-end-line="438" selection-end-column="23" />
+        <state relative-caret-position="1632">
+          <caret line="463" column="0" lean-forward="false" selection-start-line="463" selection-start-column="0" selection-end-line="464" selection-end-column="36" />
           <folding>
             <element signature="e#111#124#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setb_tk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="102" column="6" lean-forward="true" selection-start-line="102" selection-start-column="0" selection-end-line="104" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/multigraph_tk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2180">
+          <caret line="106" column="40" lean-forward="false" selection-start-line="106" selection-start-column="40" selection-end-line="106" selection-end-column="40" />
+          <folding>
+            <element signature="e#111#125#0" expanded="true" />
           </folding>
         </state>
       </provider>
