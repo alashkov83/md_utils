@@ -220,6 +220,7 @@ def joke():
 
 class Gui(tk.Tk):
     """ГУЙ"""
+
     def __init__(self):
         super().__init__()
         self.title('Comdom')
@@ -253,7 +254,7 @@ class Gui(tk.Tk):
         scr2 = ttk.Scrollbar(fra12, command=self.tx2.yview)
         self.tx2.configure(yscrollcommand=scr2.set, state='disabled')
         self.tx2.pack(side=tk.LEFT)
-        scr2.pack(side=tk.RIGHT, fill=tk.Y)        
+        scr2.pack(side=tk.RIGHT, fill=tk.Y)
         lab3 = ttk.Label(fra1, text='Прогресс:')
         lab3.grid(row=4, column=0, columnspan=4, pady=5)
         s = ttk.Style()
@@ -296,7 +297,7 @@ class Gui(tk.Tk):
         rm.add_command(label='Сетка графика', command=self.grid_set)
         rm.add_command(label='Статистика', command=self.xvg_stat)
         m.add_command(label='Справка', command=self.about)
-    
+
     def close_win(self):
         """Самоуничтожение с вопросом"""
         if askyesno('Выход', 'Вы точно хотите выйти?'):
@@ -305,6 +306,7 @@ class Gui(tk.Tk):
 
 class App(Gui):
     """Класс логики работы программы"""
+
     def __init__(self):
         super().__init__()
         self.s_array = None
@@ -373,12 +375,15 @@ class App(Gui):
             np.std(r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
             np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
         self.tx.configure(state='normal')
-        self.tx.insert(tk.END, '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
-                r_min, t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
-                r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} \u212b'.format(
-                r_mean) + '\nСтандартное отклонение: {0:.3f} \u212b'.format(
-                np.std(r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
-                np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
+        self.tx.insert(tk.END,
+                       '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
+                           r_min,
+                           t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
+                           r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} \u212b'.format(
+                           r_mean) + '\nСтандартное отклонение: {0:.3f} \u212b'.format(
+                           np.std(
+                               r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
+                           np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
         self.tx.configure(state='disabled')
 
     def save_data(self):
@@ -496,7 +501,7 @@ class App(Gui):
         self.segment_2 = []
         self.tx1.configure(state='normal')
         self.tx1.delete('1.0', tk.END)
-        self.tx1.configure(state='disabled')        
+        self.tx1.configure(state='disabled')
         self.tx2.configure(state='normal')
         self.tx2.delete('1.0', tk.END)
         self.tx2.configure(state='disabled')
@@ -529,9 +534,9 @@ class App(Gui):
             showerror('Ошибка!', 'Номер первого а.о. должен быть не больше последнего!')
             return
         self.tx1.configure(state='normal')
-        self.tx1.insert(tk.END, 
+        self.tx1.insert(tk.END,
                         'Цепь {0:s}, а.о. с {1:>4d} по {2:>4d}\n'.format(
-                        chain_name_1, r_num_start_1, r_num_end_1))
+                            chain_name_1, r_num_start_1, r_num_end_1))
         self.tx1.configure(state='disabled')
         for s_1 in range(r_num_start_1, r_num_end_1 + 1):
             self.segment_1.append((chain_name_1, s_1))
@@ -553,9 +558,9 @@ class App(Gui):
             showerror('Ошибка!', 'Номер первого а.о. должен быть не больше последнего!')
             return
         self.tx2.configure(state='normal')
-        self.tx2.insert(tk.END, 
+        self.tx2.insert(tk.END,
                         'Цепь {0:s}, а.о. с {1:>4d} по {2:>4d}\n'.format(
-                        chain_name_2, r_num_start_2, r_num_end_2))
+                            chain_name_2, r_num_start_2, r_num_end_2))
         self.tx2.configure(state='disabled')
         for s_2 in range(r_num_start_2, r_num_end_2 + 1):
             self.segment_2.append((chain_name_2, s_2))
@@ -573,7 +578,7 @@ class App(Gui):
         if self.run_flag:
             showerror('Ошибка!', 'Расчет уже идёт!')
             return
-        self.segment_2 = []        
+        self.segment_2 = []
         self.tx2.configure(state='normal')
         self.tx2.delete('1.0', tk.END)
         self.tx2.configure(state='disabled')
