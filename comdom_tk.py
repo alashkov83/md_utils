@@ -227,27 +227,41 @@ class Gui(tk.Tk):
         self.protocol('WM_DELETE_WINDOW', self.close_win)
         self.menu()
         fra1 = ttk.Frame(self)
-        fra1.grid(row=0, column=0)
+        fra1.grid(row=0, rowspan=2, column=0)
         lab1 = ttk.LabelFrame(fra1, text='Первый домен', labelanchor='n', borderwidth=5)
         lab1.grid(row=0, column=0, pady=5, padx=5)
         but1 = ttk.Button(lab1, text='Добавить диапазон а.о.', command=self.seg1)
         but1.grid(row=0, column=0, padx=10)
         but12 = ttk.Button(lab1, text='Сброс', command=self.sbros_1)
         but12.grid(row=0, column=1, padx=10)
+        fra11 = ttk.Frame(fra1)
+        fra11.grid(row=1, column=0, pady=10)
+        self.tx1 = tk.Text(fra11, width=40, height=5)
+        scr1 = ttk.Scrollbar(fra11, command=self.tx1.yview)
+        self.tx1.configure(yscrollcommand=scr1.set, state='disabled')
+        self.tx1.pack(side=tk.LEFT)
+        scr1.pack(side=tk.RIGHT, fill=tk.Y)
         lab2 = ttk.LabelFrame(fra1, text='Второй домен', labelanchor='n', borderwidth=5)
-        lab2.grid(row=1, column=0, pady=5, padx=5)
+        lab2.grid(row=2, column=0, pady=5, padx=5)
         but2 = ttk.Button(lab2, text='Добавить диапазон а.о.', command=self.seg2)
         but2.grid(row=0, column=0, padx=10)
         but22 = ttk.Button(lab2, text='Сброс', command=self.sbros_2)
         but22.grid(row=0, column=1, padx=10)
+        fra12 = ttk.Frame(fra1)
+        fra12.grid(row=3, column=0, pady=10)
+        self.tx2 = tk.Text(fra12, width=40, height=5)
+        scr2 = ttk.Scrollbar(fra12, command=self.tx2.yview)
+        self.tx2.configure(yscrollcommand=scr2.set, state='disabled')
+        self.tx2.pack(side=tk.LEFT)
+        scr2.pack(side=tk.RIGHT, fill=tk.Y)        
         lab3 = ttk.Label(fra1, text='Прогресс:')
-        lab3.grid(row=3, column=0, columnspan=4, pady=5)
+        lab3.grid(row=4, column=0, columnspan=4, pady=5)
         s = ttk.Style()
         s.configure('My.TButton', font=('Helvetica', 10), foreground='red')
         but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton', command=self.stop)
-        but3.grid(row=2, column=0, columnspan=2, pady=10)
-        self.pb = ttk.Progressbar(fra1, orient='horizontal', mode='determinate', length=240)
-        self.pb.grid(row=4, column=0, columnspan=2)
+        but3.grid(row=6, column=0, columnspan=2, pady=10)
+        self.pb = ttk.Progressbar(fra1, orient='horizontal', mode='determinate', length=270)
+        self.pb.grid(row=5, column=0, columnspan=2)
         self.fra2 = ttk.Frame(self, width=660, height=515)
         self.fra2.grid(row=0, column=1)
         fra3 = ttk.Frame(self)
@@ -480,7 +494,12 @@ class App(Gui):
             pass
         self.segment_1 = []
         self.segment_2 = []
-        showinfo('Внимание', 'Диапазоны а.о. доменов обнулены!')
+        self.tx1.configure(state='normal')
+        self.tx1.delete('1.0', tk.END)
+        self.tx1.configure(state='disabled')        
+        self.tx2.configure(state='normal')
+        self.tx2.delete('1.0', tk.END)
+        self.tx2.configure(state='disabled')
         self.pb['value'] = 0
         self.pb.update()
         self.fig = None
@@ -506,6 +525,14 @@ class App(Gui):
         r_num_end_1 = askinteger('Первый домен', 'Номер последнего а.о.: ')
         if (r_num_start_1 is None) or (r_num_end_1 is None):
             return
+        if r_num_start_1 > r_num_end_1:
+            showerror('Ошибка!', 'Номер первого а.о. должен быть не больше последнего!')
+            return
+        self.tx1.configure(state='normal')
+        self.tx1.insert(tk.END, 
+                        'Цепь {0:s}, а.о. с {1:>4d} по {2:>4d}\n'.format(
+                        chain_name_1, r_num_start_1, r_num_end_1))
+        self.tx1.configure(state='disabled')
         for s_1 in range(r_num_start_1, r_num_end_1 + 1):
             self.segment_1.append((chain_name_1, s_1))
         print(self.segment_1)
@@ -522,6 +549,14 @@ class App(Gui):
         r_num_end_2 = askinteger('Второй домен', 'Номер последнего а.о.: ')
         if (r_num_start_2 is None) or (r_num_end_2 is None):
             return
+        if r_num_start_2 > r_num_end_2:
+            showerror('Ошибка!', 'Номер первого а.о. должен быть не больше последнего!')
+            return
+        self.tx2.configure(state='normal')
+        self.tx2.insert(tk.END, 
+                        'Цепь {0:s}, а.о. с {1:>4d} по {2:>4d}\n'.format(
+                        chain_name_2, r_num_start_2, r_num_end_2))
+        self.tx2.configure(state='disabled')
         for s_2 in range(r_num_start_2, r_num_end_2 + 1):
             self.segment_2.append((chain_name_2, s_2))
         print(self.segment_2)
@@ -531,12 +566,17 @@ class App(Gui):
             showerror('Ошибка!', 'Расчет уже идёт!')
             return
         self.segment_1 = []
+        self.tx1.configure(state='normal')
+        self.tx1.delete('1.0', tk.END)
 
     def sbros_2(self):
         if self.run_flag:
             showerror('Ошибка!', 'Расчет уже идёт!')
             return
-        self.segment_2 = []
+        self.segment_2 = []        
+        self.tx2.configure(state='normal')
+        self.tx2.delete('1.0', tk.END)
+        self.tx2.configure(state='disabled')
 
     def trj_cycle(self):
         """Основной алгоритм программы"""
