@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="5ab12951-9d2f-4b7e-866d-b8daa7f97fcc" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/multigraph_tk.py" afterPath="$PROJECT_DIR$/multigraph_tk.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comdom.py" afterPath="$PROJECT_DIR$/comdom.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/comdom_tk.py" afterPath="$PROJECT_DIR$/comdom_tk.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,10 +22,50 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="multigraph_tk.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="comdom_tk.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/comdom_tk.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-480">
+              <caret line="619" column="38" lean-forward="false" selection-start-line="619" selection-start-column="38" selection-end-line="619" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="occucheck2_tk.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/occucheck2_tk.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-600">
+              <caret line="45" column="15" lean-forward="false" selection-start-line="45" selection-start-column="15" selection-end-line="45" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="occucheck_tk.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/occucheck_tk.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1260">
+              <caret line="90" column="9" lean-forward="true" selection-start-line="90" selection-start-column="9" selection-end-line="90" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="comdom.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/comdom.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2045">
+              <caret line="224" column="15" lean-forward="true" selection-start-line="224" selection-start-column="15" selection-end-line="224" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="multigraph_tk.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/multigraph_tk.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1308">
+            <state relative-caret-position="-1983">
               <caret line="82" column="22" lean-forward="true" selection-start-line="82" selection-start-column="22" selection-end-line="82" selection-end-column="22" />
               <folding>
                 <element signature="e#111#125#0" expanded="true" />
@@ -67,14 +108,14 @@
         <option value="$PROJECT_DIR$/multigraph_umb_tk.pyw" />
         <option value="$PROJECT_DIR$/multigraph_tk.pyw" />
         <option value="$PROJECT_DIR$/comdom_tk.pyw" />
-        <option value="$PROJECT_DIR$/comdom.py" />
         <option value="$PROJECT_DIR$/occucheck_tk.py" />
         <option value="$PROJECT_DIR$/pdbqt.py" />
         <option value="$PROJECT_DIR$/setb_tk.py" />
         <option value="$PROJECT_DIR$/chain_trjpdb_tk.py" />
         <option value="$PROJECT_DIR$/gro_conv.py" />
-        <option value="$PROJECT_DIR$/comdom_tk.py" />
         <option value="$PROJECT_DIR$/multigraph_tk.py" />
+        <option value="$PROJECT_DIR$/comdom_tk.py" />
+        <option value="$PROJECT_DIR$/comdom.py" />
       </list>
     </option>
   </component>
@@ -120,7 +161,7 @@
     <property name="last_opened_file_path" value="/usr/bin/python3" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.multigraph_umb_tk.pyw">
+  <component name="RunManager" selected="Python.comdom_tk.pyw">
     <configuration default="false" name="histo_tk.pyw" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -582,17 +623,24 @@
       <option name="project" value="LOCAL" />
       <updated>1485888298464</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Minor changes">
+      <created>1485973805430</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1485973805431</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-1" width="1920" height="1053" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17447917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection Results" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29874215" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29874215" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914045" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -627,7 +675,8 @@
     <MESSAGE value="Add docstrings" />
     <MESSAGE value="Fixed bugs, add statistic data and native label in multigraph" />
     <MESSAGE value="pyFormat" />
-    <option name="LAST_COMMIT_MESSAGE" value="pyFormat" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -829,13 +878,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/occucheck_tk.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="30" column="12" lean-forward="false" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/occucheck2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="825">
@@ -850,20 +892,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/comdom.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3930">
-          <caret line="268" column="21" lean-forward="false" selection-start-line="268" selection-start-column="21" selection-end-line="268" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/occucheck2_tk.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="45" column="15" lean-forward="false" selection-start-line="45" selection-start-column="15" selection-end-line="45" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/occucheck.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="610">
@@ -875,16 +903,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
           <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/comdom_tk.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="653" column="31" lean-forward="false" selection-start-line="653" selection-start-column="31" selection-end-line="653" selection-end-column="31" />
-          <folding>
-            <element signature="e#111#124#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -938,11 +956,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/multigraph_tk.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1308">
+        <state relative-caret-position="-1983">
           <caret line="82" column="22" lean-forward="true" selection-start-line="82" selection-start-column="22" selection-end-line="82" selection-end-column="22" />
           <folding>
             <element signature="e#111#125#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/comdom.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2045">
+          <caret line="224" column="15" lean-forward="true" selection-start-line="224" selection-start-column="15" selection-end-line="224" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/comdom_tk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-480">
+          <caret line="619" column="38" lean-forward="false" selection-start-line="619" selection-start-column="38" selection-end-line="619" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/occucheck2_tk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-600">
+          <caret line="45" column="15" lean-forward="false" selection-start-line="45" selection-start-column="15" selection-end-line="45" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/occucheck_tk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1260">
+          <caret line="90" column="9" lean-forward="true" selection-start-line="90" selection-start-column="9" selection-end-line="90" selection-end-column="9" />
+          <folding />
         </state>
       </provider>
     </entry>

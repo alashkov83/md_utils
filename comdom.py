@@ -208,6 +208,7 @@ def joke():
     print('>>> ' + random.choice(joke_txt))
     return
 
+
 def mass(element):
     elements = {
         ' H': 1.0,
@@ -222,6 +223,7 @@ def mass(element):
     except KeyError:
         mass = round(formula(element).mass)
     return mass
+
 
 def xvg_stat(nparray):
     t = nparray[:, 0]
@@ -342,10 +344,8 @@ xyzm_array_1 = []
 xyzm_array_2 = []
 bar1 = progressbar.ProgressBar(maxval=len(
     s_array), redirect_stdout=True).start()
-n = 0
 model_flag = False
-while n < len(s_array):
-    s = str(s_array[n])
+for n, s in enumerate(s_array):
     if s.find('t=') != -1:
         t = float(s[s.find('t=') + 2:-1])
         t_array.append(t)
@@ -384,7 +384,6 @@ while n < len(s_array):
         xyzm_array_1 = []
         xyzm_array_2 = []
     bar1.update(n)
-    n += 1
 bar1.finish()
 if len(r_array) != 1:
     if len(t_array) == 0:

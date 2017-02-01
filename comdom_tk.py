@@ -607,11 +607,9 @@ class App(Gui):
             showerror('Ошибка!', 'Не загружен файл!')
             return
         self.pb['maximum'] = len(self.s_array)
-        n = 0
         model_flag = False
         self.stop_flag = False
-        while n < len(self.s_array):
-            s = str(self.s_array[n])
+        for n, s in enumerate(self.s_array):
             if s.find('t=') != -1:
                 t = float(s[s.find('t=') + 2:-1])
                 t_array.append(t)
@@ -672,7 +670,6 @@ class App(Gui):
                     break
             self.pb['value'] = n
             self.pb.update()
-            n += 1
         self.run_flag = False
         if len(r_array) > 1:
             if len(t_array) == 0:
