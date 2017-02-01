@@ -75,6 +75,15 @@ class Graph(Gui):
         self.nparrays = []
         self.files = []
 
+    # @staticmethod
+    # def convert(s):
+    #     s = s.strip()
+    #     trans = {r' ':r'\ ', r'\xx\f{}':r'\xi'}
+    #     for grace, tex in trans.items():
+    #         s = s.replace(grace, tex)
+    #     s = '$'+ s +'$'
+    #     return s
+
     def xvg_stat(self, x, y, lab):
         """Большая ложь т.е. статистика"""
         y_min = min(y)
@@ -124,7 +133,6 @@ class Graph(Gui):
                 self.nparrays.append(nparray)
                 self.files.append(xvg_file)
                 self.headers.append(header)
-                print(header)
                 print('Информация:\nСтолбцов данных: {0:d}\nCтрок данных: {1:d}\nНомер графика: {2:d}'.format(
                     nparray.shape[1], nparray.shape[0], len(self.nparrays)))
             except UnicodeDecodeError:
@@ -158,7 +166,6 @@ class Graph(Gui):
             self.nparrays.append(nparray)
             self.files.append(xvg_file)
             self.headers.append(header)
-            print(header)
             showinfo('Информация', 'Столбцов данных: {0:d}\nCтрок данных: {1:d}\nНомер графика: {2:d}'.format(
                 nparray.shape[1], nparray.shape[0], len(self.nparrays)))
         except UnicodeDecodeError:
@@ -220,8 +227,7 @@ class Graph(Gui):
         ax.set_xlabel(self.labels()[1])
         ax.set_ylabel(self.labels()[2])
         ax.grid(self.grid)
-        i = 0
-        for nparray in self.nparrays:
+        for i, nparray in enumerate(self.nparrays):
             legends = []
             name_fail = " "
             for line in self.headers[i]:
@@ -251,7 +257,6 @@ class Graph(Gui):
                     lab = os.path.splitext(os.path.basename(self.files[i]))[0] + ':' + legends[j]
                 ax.plot(x, y, label=lab)
                 self.xvg_stat(x, y, lab)
-            i += 1
         if self.legend:
             ax.legend(loc='best', frameon=False)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.fra)
