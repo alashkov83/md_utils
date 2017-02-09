@@ -15,8 +15,15 @@ from tkinter.messagebox import showerror
 from tkinter.messagebox import showinfo
 from tkinter.simpledialog import askstring
 
-import Bio.PDB as pdb
-from Bio.PDB.mmtf import MMTFParser
+try:
+    import Bio.PDB as pdb
+    from Bio.PDB.mmtf import MMTFParser
+except ImportError:
+    imp_err = True
+    pdb = None
+    MMTFParser = None
+else:
+    imp_err = False
 
 
 class Gui(tk.Tk):
@@ -55,6 +62,10 @@ class Gui(tk.Tk):
         fm.add_command(label='Сохранить LOG', command=self.save_log)
         fm.add_command(label='Выход', command=self.close_win)
         m.add_command(label='Запуск...', command=self.check_pdb)
+        om = tk.Menu(m)
+        m.add_cascade(label='Режим', menu=om)
+        om.add_command(label='Простой режим', command=self.simple_mod_set)
+        om.add_command(label='Режим BioPython', command=self.bio_mod_set)
         m.add_command(label='Справка', command=self.about)
 
     def close_win(self):
@@ -73,16 +84,44 @@ class App(Gui):
     def __init__(self):
         super().__init__()
         self.structure = None
+        self.lines_pdb = None
+        if imp_err:
+            self.simple = True
+            showerror('Ошибка импорта',
+                      'Программа переключилась в простой режим!\nНекоторые функции недоступны!'
+                      '\nДля исправления установите biopython и mmtf!')
+        else:
+            self.simple = False
+
+    def simple_mod_set(self):
+        self.simple = True
+        self.structure = None
+
+    def bio_mod_set(self):
+        if imp_err:
+            self.simple = True
+            showerror('Ошибка импорта',
+                      'Режим BioPython недоступен!\nДля исправления установите biopython и mmtf!')
+        else:
+            self.simple = False
+            self.lines_pdb = None
 
     def open_pdb(self):
-        parser = pdb.PDBParser()
         opt = {'filetypes': [
             ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
         pdb_f = askopenfilename(**opt)
         if pdb_f:
             try:
-                self.structure = parser.get_structure('X', pdb_f)
+                if self.simple:
+                    with open(pdb_f, 'r') as f:
+                        self.lines_pdb = f.readlines()
+                else:
+                    parser = pdb.PDBParser()
+                    self.structure = parser.get_structure('X', pdb_f)
             except FileNotFoundError:
+                return
+            except UnicodeDecodeError:
+                showerror('Ошибка', 'Некорректный PDB файл!')
                 return
             except (KeyError, ValueError):
                 showerror('Ошибка!', 'Некорректный PDB файл: {0:s}!'.format(pdb_f))
@@ -91,6 +130,9 @@ class App(Gui):
                 showinfo('Информация', 'Файл прочитан!')
 
     def open_url(self):
+        if self.simple:
+            showerror('Ошибка!', 'Функция недоступна в простом режиме')
+            return
         url = askstring('Загрузить', 'ID PDB:')
         if url is not None:
             try:
@@ -102,6 +144,9 @@ class App(Gui):
                 showinfo('Информация', 'Файл загружен!')
 
     def open_cif(self):
+        if self.simple:
+            showerror('Ошибка!', 'Функция недоступна в простом режиме')
+            return
         parser = pdb.MMCIFParser()
         opt = {'filetypes': [
             ('Файлы mmCIF', ('.cif', '.CIF')), ('Все файлы', '.*')]}
@@ -128,6 +173,77 @@ class App(Gui):
                 return
 
     def check_pdb(self):
+        if self.simple:
+            self.check_pdb_simple()
+        else:
+            self.check_pdb_bio()
+
+    def check_occupancy(self, atom, occupancy, resn, chain_id, res_name):
+        min_ocu = (self.var1.get()) / 100
+        atom_uniq = [e for i, e in enumerate(atom) if e not in atom[:i]]
+        for x in atom_uniq:
+            i = [index for index, val in enumerate(atom) if val == x]
+            occupancy2 = []
+            atom3 = []
+            res_name2 = []
+            for n in i:
+                occupancy2.append(occupancy[n])
+                atom3.append(atom[n])
+                res_name2.append(res_name[n])
+            if (sum(occupancy2) > 1.00) or (sum(occupancy2) < min_ocu):
+                self.tx.configure(state='normal')
+                self.tx.insert(tk.INSERT, ('Для атома {0:s} а.о. {1:s}:{2:4d} цепи {3:s} cумма'
+                                           ' заселенностей равна {4:.2f}\n').format(
+                    ''.join(set(atom3)), ' '.join(set(res_name2)), resn, chain_id, sum(occupancy2)))
+                self.tx.configure(state='disabled')
+                self.update()
+            del occupancy2
+            del atom3
+            del res_name2
+
+    def check_pdb_simple(self):
+        if self.lines_pdb is None:
+            showerror('Ошибка', 'Не загружен PDB файл!')
+            return
+        if len(self.lines_pdb) < 10:
+            showerror('Ошибка', 'Некорректный PDB файл!')
+            return
+        self.tx.configure(state='normal')
+        self.tx.delete('1.0', tk.END)
+        self.tx.configure(state='disabled')
+        atom = []
+        occupancy = []
+        res_name = []
+        n = 0
+        while n < len(self.lines_pdb) - 1:
+            s = self.lines_pdb[n]
+            if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
+                try:
+                    resn_curent = int(s[22:26])
+                except ValueError:
+                    showerror('Ошибка', 'Некорректный PDB файл!')
+                    return
+                chain_id_curent = str(s[21])
+                while n < len(self.lines_pdb) - 1:
+                    if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
+                        resn = int(s[22:26])
+                        chain_id = str(s[21])
+                        if (chain_id != chain_id_curent) or (resn_curent != resn):
+                            self.check_occupancy(atom, occupancy,
+                                                 resn_curent, chain_id_curent, res_name)
+                            n -= 1
+                            atom.clear()
+                            occupancy.clear()
+                            res_name.clear()
+                            break
+                        atom.append(str(s[12:16]))
+                        occupancy.append(float(s[54:60]))
+                        res_name.append(str(s[17:20]))
+                    n += 1
+                    s = self.lines_pdb[n]
+            n += 1
+
+    def check_pdb_bio(self):
         min_ocu = (self.var1.get()) / 100
         try:
             atoms = self.structure.get_atoms()
