@@ -178,18 +178,22 @@ def joke():
         'You have received a new mail which is 195537 hours old\n',
         'Yahoo! Mail: Your email was sent successfully. The email will delivered in 4 days and 8 hours\n',
         "I'm sorry for the double slash (Tim Berners-Lee in a Panel Discussion, WWW7, Brisbane, 1998)\n",
-        'Ah, young webmaster... java leads to shockwave. Shockwave leads to realaudio. And realaudio leads to suffering\n',
+        'Ah, young webmaster... java leads to shockwave. '
+        'Shockwave leads to realaudio. And realaudio leads to suffering\n',
         'What color do you want that database?\n',
         "C++ is a write-only language. I can write programs in C++, but I can't read any of them\n",
         'As of next week, passwords will be entered in Morse code\n',
         'earth is 98% full ... please delete anyone you can\n',
-        'A typical yahoo chat room: "A has signed in, A has signed out, B has signed in, B has signed out, C has signed in, C has signed out.."_\n',
-        'When someone says "I want a programming language in which I need only say what I wish done," give him a lollipop\n',
+        'A typical yahoo chat room: "A has signed in, A has signed out, '
+        'B has signed in, B has signed out, C has signed in, C has signed out.."_\n',
+        'When someone says "I want a programming language in which '
+        'I need only say what I wish done," give him a lollipop\n',
         'Warning! No processor found! Press any key to continue\n',
         'Failure is not an option. It comes bundled with your Microsoft product\n',
         'NT is the only OS that has caused me to beat a piece of hardware to death with my bare hands\n',
         'Warning! Kernel crashed, Run for your lives !\n',
-        'NASA uses Windows? Oh great. If Apollo 13 went off course today the manual would just tell them to open the airlock, flush the astronauts out, and re-install new one\n',
+        'NASA uses Windows? Oh great. If Apollo 13 went off course today '
+        'the manual would just tell them to open the airlock, flush the astronauts out, and re-install new one\n',
         'JavaScript: An authorizing language designed to make Netscape crash\n',
         "How's my programming? Call 1-800-DEV-NULL\n",
         'Yes, friends and neighbors, boys and girls - my PC speaker crashed NT\n',
@@ -198,14 +202,16 @@ def joke():
         'Quake and uptime do not like each other\n',
         'Unix...best if used before: Tue Jan 19 03:14:08 GMT 2038\n',
         'As you well know, magic and weapons are prohibited inside the cafeteria -- Final Fantasy VIII\n',
-        'Man is the best computer we can put aboard a spacecraft...and the only one that can be mass produced with unskilled labo\n',
+        'Man is the best computer we can put aboard a spacecraft...'
+        'and the only one that can be mass produced with unskilled labo\n',
         'Unix is the only virus with a command line interface\n',
         'Windows 95 makes Unix look like an operating system\n',
         "How are we supposed to hack your system if it's always down!\n",
         'God is real, unless declared integer\n',
         "I'm tempted to buy the slashdot staff a grammar checker. What do they do for 40 hours a week?\n",
         'Paypal : Please enter your credit card number to continue\n',
-        'It takes a million monkeys at typewriters to write Shakespeare, but only a dozen monkeys at computers to run Network Solutions\n',
+        'It takes a million monkeys at typewriters to write Shakespeare, '
+        'but only a dozen monkeys at computers to run Network Solutions\n',
         'Please help - firewall burnt down - lost packet - reward $$$\n',
         'If Linux were a beer, it would be shipped in open barrels so that anybody could piss in it before delivery\n',
         'Thank you Mario! But our princess is in another castle\n',
@@ -213,7 +219,8 @@ def joke():
         'Norton: Incoming virus - (D)ownload and save (R)un after download\n',
         "I had a dream... and there were 1's and 0's everywhere, and I think I saw a 2!\n",
         'You sir, are an unknown USB device driver\n',
-        "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
+        "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, "
+        "of pointers to functions that return pointers to functions that return void\n"]
     showinfo(';-)', random.choice(joke_txt))
     return
 
