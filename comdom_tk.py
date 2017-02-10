@@ -9,6 +9,7 @@
 import random
 import tkinter as tk
 import tkinter.ttk as ttk
+from math import factorial
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askyesno
@@ -178,18 +179,22 @@ def joke():
         'You have received a new mail which is 195537 hours old\n',
         'Yahoo! Mail: Your email was sent successfully. The email will delivered in 4 days and 8 hours\n',
         "I'm sorry for the double slash (Tim Berners-Lee in a Panel Discussion, WWW7, Brisbane, 1998)\n",
-        'Ah, young webmaster... java leads to shockwave. Shockwave leads to realaudio. And realaudio leads to suffering\n',
+        'Ah, young webmaster... java leads to shockwave. '
+        'Shockwave leads to realaudio. And realaudio leads to suffering\n',
         'What color do you want that database?\n',
         "C++ is a write-only language. I can write programs in C++, but I can't read any of them\n",
         'As of next week, passwords will be entered in Morse code\n',
         'earth is 98% full ... please delete anyone you can\n',
-        'A typical yahoo chat room: "A has signed in, A has signed out, B has signed in, B has signed out, C has signed in, C has signed out.."_\n',
-        'When someone says "I want a programming language in which I need only say what I wish done," give him a lollipop\n',
+        'A typical yahoo chat room: "A has signed in, A has signed out, B has signed in, B has signed out, '
+        'C has signed in, C has signed out.."_\n',
+        'When someone says "I want a programming language in which '
+        'I need only say what I wish done," give him a lollipop\n',
         'Warning! No processor found! Press any key to continue\n',
         'Failure is not an option. It comes bundled with your Microsoft product\n',
         'NT is the only OS that has caused me to beat a piece of hardware to death with my bare hands\n',
         'Warning! Kernel crashed, Run for your lives !\n',
-        'NASA uses Windows? Oh great. If Apollo 13 went off course today the manual would just tell them to open the airlock, flush the astronauts out, and re-install new one\n',
+        'NASA uses Windows? Oh great. If Apollo 13 went off course today the manual would just tell them to '
+        'open the airlock, flush the astronauts out, and re-install new one\n',
         'JavaScript: An authorizing language designed to make Netscape crash\n',
         "How's my programming? Call 1-800-DEV-NULL\n",
         'Yes, friends and neighbors, boys and girls - my PC speaker crashed NT\n',
@@ -198,14 +203,16 @@ def joke():
         'Quake and uptime do not like each other\n',
         'Unix...best if used before: Tue Jan 19 03:14:08 GMT 2038\n',
         'As you well know, magic and weapons are prohibited inside the cafeteria -- Final Fantasy VIII\n',
-        'Man is the best computer we can put aboard a spacecraft...and the only one that can be mass produced with unskilled labo\n',
+        'Man is the best computer we can put aboard a spacecraft...'
+        'and the only one that can be mass produced with unskilled labo\n',
         'Unix is the only virus with a command line interface\n',
         'Windows 95 makes Unix look like an operating system\n',
         "How are we supposed to hack your system if it's always down!\n",
         'God is real, unless declared integer\n',
         "I'm tempted to buy the slashdot staff a grammar checker. What do they do for 40 hours a week?\n",
         'Paypal : Please enter your credit card number to continue\n',
-        'It takes a million monkeys at typewriters to write Shakespeare, but only a dozen monkeys at computers to run Network Solutions\n',
+        'It takes a million monkeys at typewriters to write Shakespeare, '
+        'but only a dozen monkeys at computers to run Network Solutions\n',
         'Please help - firewall burnt down - lost packet - reward $$$\n',
         'If Linux were a beer, it would be shipped in open barrels so that anybody could piss in it before delivery\n',
         'Thank you Mario! But our princess is in another castle\n',
@@ -213,9 +220,80 @@ def joke():
         'Norton: Incoming virus - (D)ownload and save (R)un after download\n',
         "I had a dream... and there were 1's and 0's everywhere, and I think I saw a 2!\n",
         'You sir, are an unknown USB device driver\n',
-        "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
+        "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, "
+        "of pointers to functions that return pointers to functions that return void\n"]
     showinfo(';-)', random.choice(joke_txt))
     return
+
+
+def savitzky_golay(y, window_size, order, deriv=0, rate=1):
+    r"""Smooth (and optionally differentiate) data with a Savitzky-Golay filter.
+    The Savitzky-Golay filter removes high frequency noise from data.
+    It has the advantage of preserving the original shape and
+    features of the signal better than other types of filtering
+    approaches, such as moving averages techniques.
+    Parameters
+    ----------
+    y : array_like, shape (N,)
+        the values of the time history of the signal.
+    window_size : int
+        the length of the window. Must be an odd integer number.
+    order : int
+        the order of the polynomial used in the filtering.
+        Must be less then `window_size` - 1.
+    deriv: int
+        the order of the derivative to compute (default = 0 means only smoothing)
+    Returns
+    -------
+    ys : ndarray, shape (N)
+        the smoothed signal (or it's n-th derivative).
+    Notes
+    -----
+    The Savitzky-Golay is a type of low-pass filter, particularly
+    suited for smoothing noisy data. The main idea behind this
+    approach is to make for each point a least-square fit with a
+    polynomial of high order over a odd-sized window centered at
+    the point.
+    Examples
+    --------
+    t = np.linspace(-4, 4, 500)
+    y = np.exp( -t**2 ) + np.random.normal(0, 0.05, t.shape)
+    ysg = savitzky_golay(y, window_size=31, order=4)
+    import matplotlib.pyplot as plt
+    plt.plot(t, y, label='Noisy signal')
+    plt.plot(t, np.exp(-t**2), 'k', lw=1.5, label='Original signal')
+    plt.plot(t, ysg, 'r', label='Filtered signal')
+    plt.legend()
+    plt.show()
+    References
+    ----------
+    .. [1] A. Savitzky, M. J. E. Golay, Smoothing and Differentiation of
+       Data by Simplified Least Squares Procedures. Analytical
+       Chemistry, 1964, 36 (8), pp 1627-1639.
+    .. [2] Numerical Recipes 3rd Edition: The Art of Scientific Computing
+       W.H. Press, S.A. Teukolsky, W.T. Vetterling, B.P. Flannery
+       Cambridge University Press ISBN-13: 9780521880688
+    """
+    try:
+        window_size = np.abs(np.int(window_size))
+        order = np.abs(np.int(order))
+    except ValueError:
+        raise ValueError("window_size and order have to be of type int")
+    if window_size % 2 != 1 or window_size < 1:
+        raise TypeError("window_size size must be a positive odd number")
+    if window_size < order + 2:
+        raise TypeError("window_size is too small for the polynomials order")
+    order_range = range(order + 1)
+    half_window = (window_size - 1) // 2
+    # precompute coefficients
+    b = np.mat([[k ** i for i in order_range] for k in range(-half_window, half_window + 1)])
+    m = np.linalg.pinv(b).A[deriv] * rate ** deriv * factorial(deriv)
+    # pad the signal at the extremes with
+    # values taken from the signal itself
+    firstvals = y[0] - np.abs(y[1:half_window + 1][::-1] - y[0])
+    lastvals = y[-1] + np.abs(y[-half_window - 1:-1][::-1] - y[-1])
+    y = np.concatenate((firstvals, y, lastvals))
+    return np.convolve(m[::-1], y, mode='valid')
 
 
 class Gui(tk.Tk):
@@ -295,6 +373,8 @@ class Gui(tk.Tk):
         m.add_cascade(label='Запуск', menu=rm)
         rm.add_command(label='Запуск...', command=self.trj_cycle)
         rm.add_command(label='Сетка графика', command=self.grid_set)
+        rm.add_command(label='Легенда', command=self.legend_set)
+        rm.add_command(label='Сглаживание', command=self.smoth_set)
         rm.add_command(label='Статистика', command=self.xvg_stat)
         m.add_command(label='Справка', command=self.about)
 
@@ -319,6 +399,8 @@ class App(Gui):
         self.canvas = None
         self.toolbar = None
         self.grid = False
+        self.legend = False
+        self.smoth = False
 
     @staticmethod
     def _cmass(str_nparray):
@@ -453,6 +535,38 @@ class App(Gui):
         except AttributeError:
             pass
 
+    def legend_set(self):
+        self.legend = bool(askyesno('Техническая легенда', 'Отобразить?'))
+        if self.nparray is None:
+            return
+        if self.run_flag:
+            return
+        try:
+            self.canvas.get_tk_widget().destroy()
+            self.toolbar.destroy()
+        except AttributeError:
+            pass
+        try:
+            self._graph()
+        except AttributeError:
+            pass
+
+    def smoth_set(self):
+        self.smoth = bool(askyesno('Сглаживание по Савицкому-Голаю', 'Отобразить?'))
+        if self.nparray is None:
+            return
+        if self.run_flag:
+            return
+        try:
+            self.canvas.get_tk_widget().destroy()
+            self.toolbar.destroy()
+        except AttributeError:
+            pass
+        try:
+            self._graph()
+        except AttributeError:
+            pass
+
     def _graph(self):
         """Графулька без эксэльки"""
         self.fig = None
@@ -467,8 +581,13 @@ class App(Gui):
             x /= 1000
         else:
             ax.set_xlabel(r'$Time,\ ps$')
-        ax.plot(x, y, color='black')
+        ax.plot(x, y, color='black', label='Raw COM distance')
+        if self.smoth:
+            ysg = savitzky_golay(y, window_size=31, order=4)
+            ax.plot(x, ysg, 'r', label='Filtered COM distance')
         ax.grid(self.grid)
+        if self.legend:
+            ax.legend(loc='best', frameon=False)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.fra2)
         self.canvas.show()
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
