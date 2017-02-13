@@ -354,11 +354,12 @@ class Graph(Gui):
 
     @staticmethod
     def convert(s):
-        s = s.strip()
-        trans = {r' ': r'\ ', r'\xx\f{}': r'\xi'}
-        for grace, tex in trans.items():
-            s = s.replace(grace, tex)
-        s = re.sub(r'\\S([^\\]+)\\N', r'^{\1}', s)
+        if s != ' ':
+            s = s.strip()
+            trans = {r' ': r'\ ', r'\xx\f{}': r'\xi'}
+            for grace, tex in trans.items():
+                s = s.replace(grace, tex)
+            s = re.sub(r'\\S([^\\]+)\\N', r'^{\1}', s)
         s = '$' + s + '$'
         return s
 
