@@ -356,7 +356,7 @@ class Graph(Gui):
     def convert(s):
         if s != ' ':
             s = s.strip()
-            trans = {r' ': r'\ ', r'\xx\f{}': r'\xi'}
+            trans = {r' ': r'\ ', r'\xx\f{}': r'\xi ', r'\xl\f{}': r'\lambda ', r'\xD\f{}': r'\Delta '}
             for grace, tex in trans.items():
                 s = s.replace(grace, tex)
             s = re.sub(r'\\S([^\\]+)\\N', r'^{\1}', s)
@@ -372,12 +372,12 @@ class Graph(Gui):
         x_max = x[np.argmax(y)]
         self.tx.configure(state='normal')
         self.tx.insert(tk.END, 'Статистика для {0:s}:'.format(
-                lab) + '\nМинимальное значение y = {0:.3f} при x = {1:.2f}'.format(
-                y_min, x_min) + '\nМаксимальное значение y = {0:.3f} при x = {1:.2f}'.format(
-                y_max, x_max) + '\nСреднее значение y = {0:.3f}'.format(
-                y_mean) + '\nСтандартное отклонение y = {0:.3f}'.format(
-                np.std(y)) + '\nКвартили: y (25%) = {0:.3f}, y (50%) = {1:.3f}, y (75%) = {2:.3f}\n\n'.format(
-                np.percentile(y, 25), np.percentile(y, 50), np.percentile(y, 75)))
+            lab) + '\nМинимальное значение y = {0:.3f} при x = {1:.2f}'.format(
+            y_min, x_min) + '\nМаксимальное значение y = {0:.3f} при x = {1:.2f}'.format(
+            y_max, x_max) + '\nСреднее значение y = {0:.3f}'.format(
+            y_mean) + '\nСтандартное отклонение y = {0:.3f}'.format(
+            np.std(y)) + '\nКвартили: y (25%) = {0:.3f}, y (50%) = {1:.3f}, y (75%) = {2:.3f}\n\n'.format(
+            np.percentile(y, 25), np.percentile(y, 50), np.percentile(y, 75)))
         self.tx.configure(state='disabled')
 
     def save_stat(self):
