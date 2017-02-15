@@ -301,7 +301,7 @@ class Gui(tk.Tk):
         self.title('Multigraph')
         self.resizable(False, False)
         self.protocol('WM_DELETE_WINDOW', self.close_win)
-        self.fra = tk.Frame(self, width=660, height=515)
+        self.fra = tk.Frame(self, width=660, height=525)
         self.fra.grid(row=0, column=0, padx=5, pady=5)
         fra2 = tk.Frame(self)
         fra2.grid(row=1, column=0, pady=10)
@@ -360,6 +360,8 @@ class Graph(Gui):
             for grace, tex in trans.items():
                 s = s.replace(grace, tex)
             s = re.sub(r'\\S([^\\]+)\\N', r'^{\1}', s)
+        else:
+            s = r'\ '
         s = '$' + s + '$'
         return s
 
@@ -459,21 +461,25 @@ class Graph(Gui):
             pass
 
     def labels(self):
-        label, name_x, name_y = ' ', ' ', ' '
+        label, subtitle, name_x, name_y = ' ', ' ', ' ', ' '
         for line in self.headers[0]:
-            if line.find('title') != -1:
+            if line.find(' title ') != -1:
                 i = line.index('"')
                 j = line.rindex('"')
                 label = line[i + 1:j]
-            elif line.find('xaxis  label') != -1:
+            elif line.find(' subtitle ') != -1:
+                i = line.index('"')
+                j = line.rindex('"')
+                subtitle = line[i + 1:j]
+            elif line.find(' xaxis  label ') != -1:
                 i = line.index('"')
                 j = line.rindex('"')
                 name_x = line[i + 1:j]
-            elif line.find('yaxis  label') != -1:
+            elif line.find(' yaxis  label ') != -1:
                 i = line.index('"')
                 j = line.rindex('"')
                 name_y = line[i + 1:j]
-        return label, name_x, name_y
+        return label, subtitle, name_x, name_y
 
     def legend_set(self):
         self.legend = bool(askyesno('Техническая легенда', 'Отобразить?'))
@@ -508,10 +514,12 @@ class Graph(Gui):
         self.tx.delete('1.0', tk.END)
         self.tx.configure(state='disabled')
         self.fig = Figure()
+        self.fig.suptitle(self.convert(self.labels()[0]), style='oblique', fontsize=16, fontweight='bold')
         ax = self.fig.add_subplot(111)
-        ax.set_title(self.convert(self.labels()[0]))
-        ax.set_xlabel(self.convert(self.labels()[1]))
-        ax.set_ylabel(self.convert(self.labels()[2]))
+        if self.labels()[1] != ' ':
+            ax.set_title(self.convert(self.labels()[1]))
+        ax.set_xlabel(self.convert(self.labels()[2]))
+        ax.set_ylabel(self.convert(self.labels()[3]))
         ax.grid(self.grid)
         for i, nparray in enumerate(self.nparrays):
             legends = []
