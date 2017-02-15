@@ -514,9 +514,11 @@ class Graph(Gui):
         self.tx.delete('1.0', tk.END)
         self.tx.configure(state='disabled')
         self.fig = Figure()
-        self.fig.suptitle(self.convert(self.labels()[0]), style='oblique', fontsize=16, fontweight='bold')
         ax = self.fig.add_subplot(111)
-        if self.labels()[1] != ' ':
+        if self.labels()[1] == ' ':
+            ax.set_title(self.convert(self.labels()[0]), style='oblique', fontsize=16, fontweight='bold')
+        else:
+            self.fig.suptitle(self.convert(self.labels()[0]), style='oblique', fontsize=16, fontweight='bold')
             ax.set_title(self.convert(self.labels()[1]))
         ax.set_xlabel(self.convert(self.labels()[2]))
         ax.set_ylabel(self.convert(self.labels()[3]))
