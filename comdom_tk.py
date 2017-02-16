@@ -314,7 +314,7 @@ class Gui(tk.Tk):
         but12 = ttk.Button(lab1, text='Сброс', command=self.sbros_1)
         but12.grid(row=0, column=1, padx=10)
         fra11 = ttk.Frame(fra1)
-        fra11.grid(row=1, column=0, pady=10)
+        fra11.grid(row=1, column=0, pady=10, padx=10)
         self.tx1 = tk.Text(fra11, width=40, height=5)
         scr1 = ttk.Scrollbar(fra11, command=self.tx1.yview)
         self.tx1.configure(yscrollcommand=scr1.set, state='disabled')
@@ -327,7 +327,7 @@ class Gui(tk.Tk):
         but22 = ttk.Button(lab2, text='Сброс', command=self.sbros_2)
         but22.grid(row=0, column=1, padx=10)
         fra12 = ttk.Frame(fra1)
-        fra12.grid(row=3, column=0, pady=10)
+        fra12.grid(row=3, column=0, pady=10, padx=10)
         self.tx2 = tk.Text(fra12, width=40, height=5)
         scr2 = ttk.Scrollbar(fra12, command=self.tx2.yview)
         self.tx2.configure(yscrollcommand=scr2.set, state='disabled')
@@ -339,7 +339,7 @@ class Gui(tk.Tk):
         s.configure('My.TButton', font=('Helvetica', 10), foreground='red')
         but3 = ttk.Button(fra1, text='Остановить!', style='My.TButton', command=self.stop)
         but3.grid(row=6, column=0, columnspan=2, pady=10)
-        self.pb = ttk.Progressbar(fra1, orient='horizontal', mode='determinate', length=270)
+        self.pb = ttk.Progressbar(fra1, orient='horizontal', mode='determinate', length=290)
         self.pb.grid(row=5, column=0, columnspan=2)
         self.fra2 = ttk.Frame(self, width=660, height=515)
         self.fra2.grid(row=0, column=1)
@@ -376,6 +376,7 @@ class Gui(tk.Tk):
         rm.add_command(label='Легенда', command=self.legend_set)
         rm.add_command(label='Сглаживание', command=self.smoth_set)
         rm.add_command(label='Статистика', command=self.xvg_stat)
+        rm.add_command(label='Кластерный анализ', command=self.cluster_an)
         m.add_command(label='Справка', command=self.about)
 
     def close_win(self):
@@ -466,6 +467,79 @@ class App(Gui):
                            np.std(
                                r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
                            np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
+        self.tx.configure(state='disabled')
+
+    def cluster_an(self):
+        try:
+            from sklearn.cluster import MeanShift
+            from sklearn.metrics import silhouette_score
+        except ImportError:
+            showerror('Ошибка!', 'Библиотека scikit-learn не установлена!')
+            return
+        if self.run_flag:
+            showerror('Ошибка!', 'Расчет не закончен!')
+            return
+        if self.nparray is None:
+            showinfo('Информация', 'Статистика недоступна')
+            return
+        try:
+            r = self.nparray[:, 1]
+        except NameError:
+            showinfo('Информация', 'Данные недоступны')
+            return
+        fig = Figure()
+        ax = fig.add_subplot(111)
+        ax.set_title('Cluster analysis')
+        ax.set_ylabel(r'$\% \ \tau$')
+        ax.set_xlabel(r'$\xi,\ \AA$')
+        ax.grid(self.grid)
+        ap = MeanShift().fit(r.reshape(-1, 1))
+        yhist = []
+        for n in range(len(ap.cluster_centers_)):
+            yhist.append(100 * len(list(filter(lambda x: x == n, ap.labels_))) / len(ap.labels_))
+        xhist = ap.cluster_centers_
+        # The Silhouette Coefficient is calculated using the mean intra-cluster distance
+        # (a) and the mean nearest-cluster distance (b) for each sample.
+        # The best value is 1 and the worst value is -1.
+        # Values near 0 indicate overlapping clusters.
+        # Negative values generally indicate that a sample has been assigned
+        # to the wrong cluster, as a different cluster is more similar.
+        si_score = silhouette_score(r.reshape(-1, 1), ap.labels_)
+        zipped = list(zip(r.flatten(), ap.labels_))
+        std_dev = []
+        for n in range(len(ap.cluster_centers_)):
+            std_dev.append(np.std([x[0] for x in zipped if x[1] == n]))
+        ax.bar(xhist.flatten(), yhist, width=[3 * x for x in std_dev], align='center')
+        win_cls = tk.Toplevel(self)
+        win_cls.title("Кластерный анализ")
+        win_cls.minsize(width=640, height=600)
+        win_cls.resizable(False, False)
+        fra4 = ttk.Frame(win_cls)
+        fra4.grid(row=0, column=0)
+        canvas = FigureCanvasTkAgg(fig, master=fra4)
+        canvas.show()
+        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        toolbar = NavigationToolbar2TkAgg(canvas, fra4)
+        toolbar.update()
+        canvas._tkcanvas.pack(fill=tk.BOTH, side=tk.TOP, expand=1)
+        fra5 = ttk.Frame(win_cls)
+        fra5.grid(row=1, column=0)
+        tx = tk.Text(fra5, width=85, height=10)
+        scr = ttk.Scrollbar(fra5, command=self.tx.yview)
+        tx.configure(yscrollcommand=scr.set)
+        tx.pack(side=tk.LEFT)
+        scr.pack(side=tk.RIGHT, fill=tk.Y)
+        tx.configure(state='normal')
+        tx.insert(tk.END, 'Количество кластеров равно {0:d}\nSilhouette Coefficient = {1:.2f}\n'
+                          '(The best value is 1 and the worst value is -1.\n'
+                          'Values near 0 indicate overlapping clusters.\n'
+                          'Negative values generally indicate that a sample has been assigned\n'
+                          'to the wrong cluster, as a different cluster is more similar.)\nКластеры:'.format(
+            len(ap.cluster_centers_), si_score))
+        for n, cls_center in enumerate(ap.cluster_centers_.flatten()):
+            tx.insert(tk.END,
+                      '\nКластер № {0:d}: точек траектории {1:.1f} %, положение центроида - {2:.3f} \u212b, '
+                      'СКО = {3:.3f} \u212b'.format(n + 1, yhist[n], cls_center, std_dev[n]))
         self.tx.configure(state='disabled')
 
     def save_data(self):
@@ -659,7 +733,6 @@ class App(Gui):
         self.tx1.configure(state='disabled')
         for s_1 in range(r_num_start_1, r_num_end_1 + 1):
             self.segment_1.append((chain_name_1, s_1))
-        print(self.segment_1)
 
     def seg2(self):
         """Задание а.о. второго домена"""
@@ -683,7 +756,6 @@ class App(Gui):
         self.tx2.configure(state='disabled')
         for s_2 in range(r_num_start_2, r_num_end_2 + 1):
             self.segment_2.append((chain_name_2, s_2))
-        print(self.segment_2)
 
     def sbros_1(self):
         if self.run_flag:
@@ -704,6 +776,9 @@ class App(Gui):
 
     def trj_cycle(self):
         """Основной алгоритм программы"""
+        if self.s_array is None:
+            showerror('Ошибка!', 'Не загружен файл!')
+            return
         if self.run_flag:
             showerror('Ошибка!', 'Расчет уже идёт!')
             return
@@ -722,9 +797,6 @@ class App(Gui):
         xyzm_array_2 = []
         self.nparray = None
         self.fig = None
-        if self.s_array is None:
-            showerror('Ошибка!', 'Не загружен файл!')
-            return
         self.pb['maximum'] = len(self.s_array)
         model_flag = False
         self.stop_flag = False
@@ -794,7 +866,6 @@ class App(Gui):
             if len(t_array) == 0:
                 t_array = list(range(0, len(r_array)))
             self.nparray = np.column_stack((t_array, r_array))
-            print(self.nparray)
             self._graph()
         elif len(r_array) == 0:
             showerror('Ощибка!', 'Данные не собраны!')
