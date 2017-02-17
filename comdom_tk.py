@@ -827,12 +827,12 @@ class App(Gui):
             elif s[0:5] == 'MODEL':
                 model_flag = True
             elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_1) and (
-                (self.all_res is True) or (str(s[17:20]) in hydrfob)):
+                        (self.all_res is True) or (str(s[17:20]) in hydrfob)):
                 xyzm_1 = [float(s[30:38]), float(s[38:46]),
                           float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
             elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_2) and (
-                (self.all_res is True) or (str(s[17:20]) in hydrfob)):
+                        (self.all_res is True) or (str(s[17:20]) in hydrfob)):
                 xyzm_2 = [float(s[30:38]), float(s[38:46]),
                           float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
