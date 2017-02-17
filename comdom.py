@@ -224,6 +224,38 @@ def mass(element):
         mass = round(formula(element).mass)
     return mass
 
+def cluster_an(nparray):
+    try:
+        from sklearn.cluster import MeanShift
+        from sklearn.metrics import silhouette_score
+    except ImportError:
+        print('Ошибка! Библиотека scikit-learn не установлена!')
+        return
+    r = nparray[:, 1]
+    ap = MeanShift().fit(r.reshape(-1, 1))
+    yhist = []
+    for n in range(len(ap.cluster_centers_)):
+        yhist.append(100 * len(list(filter(lambda x: x == n, ap.labels_))) / len(ap.labels_))
+    # The Silhouette Coefficient is calculated using the mean intra-cluster distance
+    # (a) and the mean nearest-cluster distance (b) for each sample.
+    # The best value is 1 and the worst value is -1.
+    # Values near 0 indicate overlapping clusters.
+    # Negative values generally indicate that a sample has been assigned
+    # to the wrong cluster, as a different cluster is more similar.
+    si_score = silhouette_score(r.reshape(-1, 1), ap.labels_)
+    zipped = list(zip(r.flatten(), ap.labels_))
+    std_dev = []
+    for n in range(len(ap.cluster_centers_)):
+        std_dev.append(np.std([x[0] for x in zipped if x[1] == n]))
+    print('Кластерный анализ (MeanShift): \nКоличество кластеров равно {0:d}\nSilhouette Coefficient = {1:.2f}\n'
+            '(The best value is 1 and the worst value is -1.\n'
+            'Values near 0 indicate overlapping clusters.\n'
+            'Negative values generally indicate that a sample has been assigned\n'
+            'to the wrong cluster, as a different cluster is more similar.)\nКластеры:'.format(
+        len(ap.cluster_centers_), si_score))
+    for n, cls_center in enumerate(ap.cluster_centers_.flatten()):
+        print('Кластер № {0:d}: точек траектории {1:.1f} %, положение центроида - {2:.3f} \u212b, '
+            'СКО = {3:.3f} \u212b'.format(n + 1, yhist[n], cls_center, std_dev[n]))
 
 def xvg_stat(nparray):
     t = nparray[:, 0]
@@ -394,4 +426,5 @@ if len(r_array) != 1:
         save_data(xvg_array)
     graph(xvg_array)
     xvg_stat(xvg_array)
+    cluster_an(xvg_array)
 joke()
