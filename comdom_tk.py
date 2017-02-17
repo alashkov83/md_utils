@@ -371,12 +371,16 @@ class Gui(tk.Tk):
         rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
         # пункту располагается на основном меню (m)
         m.add_cascade(label='Запуск', menu=rm)
-        rm.add_command(label='Запуск...', command=self.trj_cycle)
-        rm.add_command(label='Сетка графика', command=self.grid_set)
-        rm.add_command(label='Легенда', command=self.legend_set)
-        rm.add_command(label='Сглаживание', command=self.smoth_set)
-        rm.add_command(label='Статистика', command=self.xvg_stat)
-        rm.add_command(label='Кластерный анализ', command=self.cluster_an)
+        rm.add_command(label='Все а.о.', command=self.trj_cycle)
+        rm.add_command(label='Гидрофобные а.о.', command=self.trj_cycle_hf)
+        om = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
+        # пункту располагается на основном меню (m)
+        m.add_cascade(label='Опции', menu=om)
+        om.add_command(label='Сетка графика', command=self.grid_set)
+        om.add_command(label='Легенда', command=self.legend_set)
+        om.add_command(label='Сглаживание', command=self.smoth_set)
+        om.add_command(label='Статистика', command=self.xvg_stat)
+        om.add_command(label='Кластерный анализ', command=self.cluster_an)
         m.add_command(label='Справка', command=self.about)
 
     def close_win(self):
@@ -402,6 +406,7 @@ class App(Gui):
         self.grid = False
         self.legend = False
         self.smoth = False
+        self.all_res = True
 
     @staticmethod
     def _cmass(str_nparray):
@@ -472,6 +477,7 @@ class App(Gui):
     def cluster_an(self):
         try:
             from sklearn.cluster import MeanShift
+            from sklearn.cluster import KMeans
             from sklearn.metrics import silhouette_score
         except ImportError:
             showerror('Ошибка!', 'Библиотека scikit-learn не установлена!')
@@ -493,7 +499,16 @@ class App(Gui):
         ax.set_ylabel(r'$\% \ \tau$')
         ax.set_xlabel(r'$\xi,\ \AA$')
         ax.grid(self.grid)
-        ap = MeanShift().fit(r.reshape(-1, 1))
+        while True:
+            n_cluster = askinteger('Число кластеров', 'Введите число кластеров (0-автоопределение, алгоритм MeanShift)')
+            if n_cluster is None:
+                continue
+            if n_cluster == 0:
+                ap = MeanShift().fit(r.reshape(-1, 1))
+                break
+            elif n_cluster > 0:
+                ap = KMeans(n_cluster).fit(r.reshape(-1, 1))
+                break
         yhist = []
         for n in range(len(ap.cluster_centers_)):
             yhist.append(100 * len(list(filter(lambda x: x == n, ap.labels_))) / len(ap.labels_))
@@ -774,6 +789,10 @@ class App(Gui):
         self.tx2.delete('1.0', tk.END)
         self.tx2.configure(state='disabled')
 
+    def trj_cycle_hf(self):
+        self.all_res = False
+        self.trj_cycle()
+
     def trj_cycle(self):
         """Основной алгоритм программы"""
         if self.s_array is None:
@@ -795,6 +814,7 @@ class App(Gui):
         r_array = []
         xyzm_array_1 = []
         xyzm_array_2 = []
+        hydrfob = ('ALA', 'VAL', 'PRO', 'LEU', 'ILE', 'PHE', 'MET', 'TRP')
         self.nparray = None
         self.fig = None
         self.pb['maximum'] = len(self.s_array)
@@ -806,11 +826,13 @@ class App(Gui):
                 t_array.append(t)
             elif s[0:5] == 'MODEL':
                 model_flag = True
-            elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_1):
+            elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_1) and (
+                (self.all_res is True) or (str(s[17:20]) in hydrfob)):
                 xyzm_1 = [float(s[30:38]), float(s[38:46]),
                           float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
-            elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_2):
+            elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_2) and (
+                (self.all_res is True) or (str(s[17:20]) in hydrfob)):
                 xyzm_2 = [float(s[30:38]), float(s[38:46]),
                           float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
@@ -874,6 +896,7 @@ class App(Gui):
                 self.canvas.get_tk_widget().destroy()
             except AttributeError:
                 pass
+        self.all_res = True
         showinfo('Внимание', 'Диапазоны а.о. доменов не обнулены!')
 
 

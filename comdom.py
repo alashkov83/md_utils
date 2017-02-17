@@ -227,12 +227,23 @@ def mass(element):
 def cluster_an(nparray):
     try:
         from sklearn.cluster import MeanShift
+        from sklearn.cluster import KMeans
         from sklearn.metrics import silhouette_score
     except ImportError:
         print('Ошибка! Библиотека scikit-learn не установлена!')
         return
     r = nparray[:, 1]
-    ap = MeanShift().fit(r.reshape(-1, 1))
+    while True:
+        try:
+            n_cluster = int(input('Введите число кластеров (0-автоопределение, алгоритм MeanShift): '))
+        except ValueError:
+            continue
+        if n_cluster == 0:
+            ap = MeanShift().fit(r.reshape(-1, 1))
+            break
+        elif n_cluster > 0:
+            ap = KMeans(n_cluster).fit(r.reshape(-1, 1))
+            break
     yhist = []
     for n in range(len(ap.cluster_centers_)):
         yhist.append(100 * len(list(filter(lambda x: x == n, ap.labels_))) / len(ap.labels_))
