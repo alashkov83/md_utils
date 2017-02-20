@@ -475,6 +475,7 @@ class App(Gui):
         self.tx.configure(state='disabled')
 
     def cluster_an(self):
+        # Scikit - learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825 - 2830, 2011.
         try:
             from sklearn.cluster import MeanShift
             from sklearn.cluster import KMeans
