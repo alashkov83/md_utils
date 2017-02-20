@@ -268,7 +268,7 @@ def cluster_an(nparray):
     std_dev = []
     for n in range(len(ap.cluster_centers_)):
         std_dev.append(np.std([x[0] for x in zipped if x[1] == n]))
-    print('Кластерный анализ (MeanShift): \nКоличество кластеров равно {0:d}\nSilhouette Coefficient = {1:.2f}\n'
+    print('Кластерный анализ (MeanShift или KMeans): \nКоличество кластеров равно {0:d}\nSilhouette Coefficient = {1:.2f}\n'
           '(The best value is 1 and the worst value is -1.\n'
           'Values near 0 indicate overlapping clusters.\n'
           'Negative values generally indicate that a sample has been assigned\n'

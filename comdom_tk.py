@@ -527,7 +527,7 @@ class App(Gui):
             std_dev.append(np.std([x[0] for x in zipped if x[1] == n]))
         ax.bar(xhist.flatten(), yhist, width=[3 * x for x in std_dev], align='center')
         win_cls = tk.Toplevel(self)
-        win_cls.title("Кластерный анализ")
+        win_cls.title("Кластерный анализ (MeanShift или KMeans)")
         win_cls.minsize(width=640, height=600)
         win_cls.resizable(False, False)
         fra4 = ttk.Frame(win_cls)
