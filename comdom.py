@@ -263,7 +263,10 @@ def cluster_an(nparray):
     # Values near 0 indicate overlapping clusters.
     # Negative values generally indicate that a sample has been assigned
     # to the wrong cluster, as a different cluster is more similar.
-    si_score = silhouette_score(r.reshape(-1, 1), ap.labels_)
+    if len(ap.cluster_centers_) > 1:
+        si_score = silhouette_score(r.reshape(-1, 1), ap.labels_)
+    else:
+        si_score = 1.0
     zipped = list(zip(r.flatten(), ap.labels_))
     std_dev = []
     for n in range(len(ap.cluster_centers_)):
