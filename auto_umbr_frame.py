@@ -53,9 +53,9 @@ def udistgen(namespace):
         os.rename('FRAMES_ALL', 'FRAMES_ALL_OLD')
     os.mkdir('FRAMES_ALL')
     if os.path.isfile('md.xtc'):
-        os.system('gmx trjconv -f md.xtc -s md.tpr -o ./FRAMES_ALL/conf.gro -sep')
+        os.system('echo "0" | gmx trjconv -f md.xtc -s md.tpr -o ./FRAMES_ALL/conf.gro -sep')
     elif os.path.isfile('md.trr'):
-        os.system('gmx trjconv -f md.trr -s md.tpr -o ./FRAMES_ALL/conf.gro -sep')
+        os.system('echo "0" | gmx trjconv -f md.trr -s md.tpr -o ./FRAMES_ALL/conf.gro -sep')
     else:
         print('Файл траектории не найден в каталоге ' + os.getcwd())
         sys.exit()

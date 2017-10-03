@@ -6,6 +6,7 @@
 
 """
 
+import os.path
 import random
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -22,6 +23,8 @@ import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 from periodictable import formula
+from xlsxwriter import Workbook
+from xlwt import Workbook as Workbook_xsl
 
 
 def joke():
@@ -365,7 +368,7 @@ class Gui(tk.Tk):
         # формируется список команд пункта меню
         fm.add_command(label='Открыть PDB', command=self.open_pdb)
         fm.add_command(label='Сохранить график', command=self.save_graph)
-        fm.add_command(label='Сохранить данные', command=self.save_data)
+        fm.add_command(label='Сохранить как...', command=self.save_data)
         fm.add_command(label='Сохранить LOG', command=self.save_log)
         fm.add_command(label='Выход', command=self.close_win)
         rm = tk.Menu(m)  # создается пункт меню с размещением на основном меню (m)
@@ -574,17 +577,43 @@ class App(Gui):
         except NameError:
             showinfo('Информация', 'Данные недоступны')
             return
-        r_n = r_a / 10
-        n_nparray = np.column_stack((t, r_n))
-        sa = asksaveasfilename()
+        opt = {'parent': self, 'filetypes': [('DAT', '.dat'), ('Microsoft Excel 97-2003 (xls)', '.xls'),
+                                             ('Microsoft Excel 2007+ (xlsx)', '.xlsx')],
+               'initialfile': 'summary_distances.dat', 'title': 'Сохранить как...'}
+        sa = asksaveasfilename(**opt)
+        ext = os.path.splitext(sa)[1][1:].strip().lower()
         if sa:
             try:
-                np.savetxt(sa, n_nparray, delimiter='\t', fmt=['%d', '%.3f'])
+                if ext == 'dat':
+                    r_n = r_a / 10
+                    n_nparray = np.column_stack((t, r_n))
+                    np.savetxt(sa, n_nparray, delimiter='\t', fmt=['%d', '%.3f'])
+                elif ext == 'xslx':
+                    workbook = Workbook(sa)
+                    ws = workbook.add_worksheet("summary_distances")
+                    ws.write_row(0, 0, ('Time, ps', 'COM, \u212b'))
+                    ws.write_column(1, 0, t)
+                    ws.write_column(1, 1, r_a)
+                    workbook.close()
+                elif ext == 'xls':
+                    wb = Workbook_xsl()
+                    ws = wb.add_sheet("summary_distances")
+                    ws.write(0, 0, 'Time, ps')
+                    ws.write(0, 1, 'COM, \u212b')
+                    for i, t_i in enumerate(t, start=1):
+                        ws.write(i, 0, t_i)
+                    for j, r_a_j in enumerate(r_a, start=1):
+                        ws.write(j, 1, r_a_j)
+                    wb.save(sa)
+                else:
+                    showerror('Ошибка!', 'Неподдерживаемый форат файла!')
+                    return
             except OSError:
                 showerror('Ошибка!', 'Не удалось сохранить {0:s}'.format(sa))
 
     def save_log(self):
-        sa = asksaveasfilename()
+        opt = {'parent': self, 'filetypes': [('LOG', '.log'), ], 'initialfile': 'myfile.log', 'title': 'Сохранить LOG'}
+        sa = asksaveasfilename(**opt)
         if sa:
             letter = self.tx.get(1.0, tk.END)
             try:
@@ -600,7 +629,11 @@ class App(Gui):
         if self.fig is None:
             showerror('Ошибка!', 'График недоступен!')
             return
-        sa = asksaveasfilename()
+        opt = {'parent': self, 'filetypes': [('Все поддерживаесые форматы', (
+            '.eps', '.jpeg', '.jpg', '.pdf', '.pgf', '.png', '.ps', '.raw', '.rgba', '.svg', '.svgz', '.tif',
+            '.tiff')), ],
+               'initialfile': 'myfile.png', 'title': 'Сохранить график'}
+        sa = asksaveasfilename(**opt)
         if sa:
             try:
                 self.fig.savefig(sa, dpi=600)
