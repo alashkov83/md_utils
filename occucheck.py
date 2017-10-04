@@ -52,7 +52,6 @@ except FileNotFoundError:
     sys.exit()
 except ValueError:
     print('Неверный формат файла!')
-    fname.close()
     sys.exit()
 atom = []
 occupancy = []

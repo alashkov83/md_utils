@@ -33,7 +33,6 @@ def dna_gen(event=''):
     tx.insert(tk.END, txt_dna)
 
 
-
 def save_txt():
     sa = asksaveasfilename()
     if sa:
