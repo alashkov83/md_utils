@@ -577,7 +577,7 @@ class App(Gui):
             showinfo('Информация', 'Данные недоступны')
             return
         opt = {'parent': self, 'filetypes': [('DAT', '.dat'), ('Microsoft Excel 97-2003 (xls)', '.xls'),
-                                             ('Microsoft Excel 2007+ (xlsx)', '.xlsx')],
+                                             ('Microsoft Excel 2007+ (xslx)', '.xslx')],
                'initialfile': 'summary_distances.dat', 'title': 'Сохранить как...'}
         sa = asksaveasfilename(**opt)
         ext = os.path.splitext(sa)[1][1:].strip().lower()
