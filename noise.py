@@ -12,13 +12,13 @@ import math
 
 
 def random_plus(orig_xyz, std_dev, n):
-    noise = np.random.normal(loc=0.0, scale=std_dev, size=3) * (math.sin(n * float(sys.argv[4]))) ** 2
+    noise = np.random.normal(scale=std_dev, size=3) * (math.sin(n * float(sys.argv[4]))) ** 2
     return orig_xyz + noise
 
 
 old_file = sys.argv[1]
 new_file = sys.argv[2]
-with open(old_file, 'r') as of:
+with open(old_file) as of:
     lines = of.readlines()
 nf = open(new_file, 'a')
 n = 0

@@ -740,7 +740,7 @@ class App(Gui):
         pdb = askopenfilename(**opt)
         if pdb:
             try:
-                with open(pdb, 'r') as f:
+                with open(pdb) as f:
                     self.s_array = f.readlines()
             except FileNotFoundError:
                 return

@@ -12,7 +12,7 @@ j = int(input('Введите номер последнего а.о.: '))
 ink = int(input('Введите инкремент перенумерации: '))
 chain_name = str(input('Введите новое название цепи: '))
 new_filename = str(input('Введите имя выходного файла: '))
-oldfile = open(old_filename, 'r')
+oldfile = open(old_filename)
 newfile = open(new_filename, 'a')
 for line in oldfile:
     s = str(line)

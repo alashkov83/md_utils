@@ -24,7 +24,8 @@ def joke():
         "The box said 'Requires Windows 95 or better'. So I installed LINUX\n",
         'A penny saved is 1.39 cents earned, if you consider income tax\n',
         'Unix, DOS and Windows...the good, the bad and the ugly\n',
-        'A computer lets you make more mistakes faster than any invention in human history - with the possible exceptions of handguns and tequila\n',
+        'A computer lets you make more mistakes faster than any invention in human history - with the possible '
+        'exceptions of handguns and tequila\n',
         'The code that is the hardest to debug is the code that you know cannot possibly be wrong\n',
         'UNIX is basically a simple operating system, but you have to be a genius to understand the simplicity\n',
         'Ethernet (n): something used to catch the etherbunny\n',
@@ -40,7 +41,8 @@ def joke():
         'Be nice to the nerds, for all you know they might be the next Bill Gates!\n',
         'The farther south you go, the more dollar stores there are\n',
         'Beware of programmers that carry screwdrivers\n',
-        'The difference between e-mail and regular mail is that computers handle e-mail, and computers never decide to come to work one day and shoot all the other computers\n',
+        'The difference between e-mail and regular mail is that computers handle e-mail, and computers never decide '
+        'to come to work one day and shoot all the other computers\n',
         "If you want a language that tries to lock up all the sharp objects and fire-making implements, use Pascal or Ada: the Nerf languages, harmless fun for children of all ages, and they won't mar the furniture\n",
         'COFFEE.EXE Missing - Insert Cup and Press Any Key\n',
         'Programming today is a race between software engineers striving to build bigger and better idiot-proof programs, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning\n',
@@ -210,7 +212,7 @@ else:
     sys.exit()
 b_factor = str('{0:6.2f}'.format(B))
 try:
-    oldfile = open(old_filename, 'r')
+    oldfile = open(old_filename)
 except FileNotFoundError:
     print('Файл ' + old_filename + ' не найден!')
     joke()

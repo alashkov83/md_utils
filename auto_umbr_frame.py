@@ -68,7 +68,8 @@ def udistgen(namespace):
     for i in number_list:
         bar1.update(i)
         os.system(
-            "gmx distance -s md.tpr -f ./FRAMES_ALL/conf{0:d}.gro -oall ./FRAMES_ALL/dist{0:d}.xvg -select 'com of group {1:d} plus com of group {2:d}' > /dev/null 2>&1".format(
+            "gmx distance -s md.tpr -f ./FRAMES_ALL/conf{0:d}.gro -oall ./FRAMES_ALL/dist{0:d}.xvg"
+            " -select 'com of group {1:d} plus com of group {2:d}' > /dev/null 2>&1".format(
                 i, com1, com2))
     bar1.finish()
     dist_file = open('summary_distances.dat', 'a')
@@ -76,7 +77,7 @@ def udistgen(namespace):
     bar2 = progressbar.ProgressBar(maxval=max(number_list)).start()
     for i in number_list:
         bar2.update(i)
-        with open('./FRAMES_ALL/dist{0:d}.xvg'.format(i), 'r') as xvg_file:
+        with open('./FRAMES_ALL/dist{0:d}.xvg'.format(i)) as xvg_file:
             s_xvg = xvg_file.readlines()
             dist_d = xvg_extract(s_xvg)
             dist_file.write('{0:d}\t{1:.3f}\n'.format(i, dist_d))

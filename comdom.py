@@ -271,7 +271,8 @@ def cluster_an(nparray):
     std_dev = []
     for n in range(len(ap.cluster_centers_)):
         std_dev.append(np.std([x[0] for x in zipped if x[1] == n]))
-    print('Кластерный анализ (MeanShift или KMeans): \nКоличество кластеров равно {0:d}\nSilhouette Coefficient = {1:.2f}\n'
+    print('Кластерный анализ (MeanShift или KMeans): \nКоличество кластеров равно {0:d}\n'
+          'Silhouette Coefficient = {1:.2f}\n'
           '(The best value is 1 and the worst value is -1.\n'
           'Values near 0 indicate overlapping clusters.\n'
           'Negative values generally indicate that a sample has been assigned\n'
@@ -373,7 +374,7 @@ if len(sys.argv) > 1:
 else:
     filename = str(input('Введите имя входного файла: '))
 try:
-    file_pdb = open(filename, 'r')
+    file_pdb = open(filename)
     s_array = file_pdb.readlines()
     file_pdb.close()
 except FileNotFoundError:

@@ -113,7 +113,7 @@ class App(Gui):
         if pdb_f:
             try:
                 if self.simple:
-                    with open(pdb_f, 'r') as f:
+                    with open(pdb_f) as f:
                         self.lines_pdb = f.readlines()
                 else:
                     parser = pdb.PDBParser()

@@ -10,7 +10,7 @@ import sys
 
 old_file = sys.argv[1]
 new_file = sys.argv[2]
-with open(old_file, 'r') as of:
+with open(old_file) as of:
     lines = of.readlines()
 nf = open(new_file, 'a')
 i = 1

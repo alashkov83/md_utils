@@ -45,7 +45,7 @@ if (len(sys.argv) < 2) or (len(sys.argv) > 3):
     print('Использование: occucheck.py file.pdb ocu')
     sys.exit()
 try:
-    fname = open(sys.argv[1], 'r')
+    fname = open(sys.argv[1])
     lines_pdb = fname.readlines()
 except FileNotFoundError:
     print('Файл не найден!')

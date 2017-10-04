@@ -202,10 +202,10 @@ def sort_file(list_file):
 
 
 def trj_time():
-    fname = open('md_0_pullf.xvg', 'r')
+    fname = open('md_0_pullf.xvg')
     n = 0
     while True:
-        subtitle = str(open('md_0_pullf.xvg', 'r').readlines()[n])
+        subtitle = str(open('md_0_pullf.xvg').readlines()[n])
         if (subtitle[0] == '@') or (subtitle[0] == '#'):
             n += 1
         else:

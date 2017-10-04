@@ -88,7 +88,7 @@ class App(Gui):
             ('Файлы PDB', ('.pdb', '.PDB', '.ent')), ('Все файлы', '.*')]}
         pdb = askopenfilename(**opt)
         try:
-            with open(pdb, 'r') as oldfile:
+            with open(pdb) as oldfile:
                 self.s_lines = oldfile.readlines()
         except FileNotFoundError:
             return

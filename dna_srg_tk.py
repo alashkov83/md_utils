@@ -13,8 +13,9 @@ from tkinter.messagebox import showerror
 from tkinter.messagebox import showinfo
 
 
-def dna_gen():
+def dna_gen(event=''):
     at_ratio = var.get() / 100
+    print(event)
     try:
         dna_len = int(ent.get())
     except ValueError:
@@ -31,9 +32,6 @@ def dna_gen():
     tx.delete(1.0, tk.END)
     tx.insert(tk.END, txt_dna)
 
-
-def dna_gen_ev(event):
-    dna_gen()
 
 
 def save_txt():
@@ -72,7 +70,7 @@ def main():
     fra1 = tk.Frame(root)
     fra1.grid(row=0, column=0)
     ent = tk.Entry(fra1, width=10, bd=3)
-    ent.bind('<Return>', dna_gen_ev)
+    ent.bind('<Return>', dna_gen)
     var = tk.IntVar()
     sca = tk.Scale(fra1, orient='horizontal', length=300, from_=0, to=100, tickinterval=10, resolution=1, variable=var)
     ent.grid(row=1, column=0)

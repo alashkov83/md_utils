@@ -400,7 +400,7 @@ class Graph(Gui):
             if not xvg_file:
                 return
             try:
-                fname = open(xvg_file, 'r')
+                fname = open(xvg_file)
                 n = 0
                 header = []
                 for line in fname:
@@ -408,7 +408,7 @@ class Graph(Gui):
                         header.append(line)
                         n += 1
                 fname.close()
-                with open(xvg_file, 'r') as fname:
+                with open(xvg_file) as fname:
                     nparray = np.loadtxt(fname, skiprows=n)
                 if not header:
                     header = "Header not found"
@@ -433,7 +433,7 @@ class Graph(Gui):
         if not xvg_file:
             return
         try:
-            fname = open(xvg_file, 'r')
+            fname = open(xvg_file)
             n = 0
             header = []
             for line in fname:
@@ -441,7 +441,7 @@ class Graph(Gui):
                     header.append(line)
                     n += 1
             fname.close()
-            with open(xvg_file, 'r') as fname:
+            with open(xvg_file) as fname:
                 nparray = np.loadtxt(fname, skiprows=n)
             if not header:
                 header = "Header not found"
