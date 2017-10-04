@@ -23,8 +23,6 @@ import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 from periodictable import formula
-from xlsxwriter import Workbook
-from xlwt import Workbook as Workbook_xsl
 
 
 def joke():
@@ -246,6 +244,7 @@ def savitzky_golay(y, window_size, order, deriv=0, rate=1):
         Must be less then `window_size` - 1.
     deriv: int
         the order of the derivative to compute (default = 0 means only smoothing)
+    rate: int
     Returns
     -------
     ys : ndarray, shape (N)
@@ -425,7 +424,7 @@ class App(Gui):
 
     @staticmethod
     def _mass(element):
-        """Масса атома"""
+        """Масса атома. Использование словаря для часто встречающихся в биоорганике типов атомов ускоряет расчёты."""
         elements = {
             ' H': 1.0,
             ' C': 12.0,
@@ -589,14 +588,24 @@ class App(Gui):
                     n_nparray = np.column_stack((t, r_n))
                     np.savetxt(sa, n_nparray, delimiter='\t', fmt=['%d', '%.3f'])
                 elif ext == 'xslx':
-                    workbook = Workbook(sa)
-                    ws = workbook.add_worksheet("summary_distances")
+                    try:
+                        from xlsxwriter import Workbook
+                    except ImportError:
+                        showerror('Ошибка!', 'xlsxwriter не установлен! Сохранение в Microsoft Excel 2007+ невозможно!')
+                        return
+                    wb = Workbook(sa)
+                    ws = wb.add_worksheet("summary_distances")
                     ws.write_row(0, 0, ('Time, ps', 'COM, \u212b'))
                     ws.write_column(1, 0, t)
                     ws.write_column(1, 1, r_a)
-                    workbook.close()
+                    wb.close()
                 elif ext == 'xls':
-                    wb = Workbook_xsl()
+                    try:
+                        from xlwt import Workbook as Workbook
+                    except ImportError:
+                        showerror('Ошибка!', 'xlwt не установлен! Сохранение в Microsoft Excel 97-2003 невозможно!')
+                        return
+                    wb = Workbook()
                     ws = wb.add_sheet("summary_distances")
                     ws.write(0, 0, 'Time, ps')
                     ws.write(0, 1, 'COM, \u212b')
