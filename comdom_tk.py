@@ -907,6 +907,8 @@ class App(Gui):
                                                             c_mass_2[1]) ** 2) + ((c_mass_1[2] -
                                                                                    c_mass_2[2]) ** 2)) ** 0.5
                 self.tx.configure(state='normal')
+                if t_array:
+                    self.tx.insert(tk.END, 'При t = {0:.3f} {1:s}\n'.format(t if t < 1000 else t/1000, "пс" if t < 1000 else "нс"))
                 self.tx.insert(tk.END,
                                'Координаты центра масс первого домена: C1 ({0:.3f} \u212b, {1:.3f} \u212b, {2:.3f} \u212b)'.format(
                                    c_mass_1[0],
