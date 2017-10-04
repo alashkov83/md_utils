@@ -466,13 +466,15 @@ class App(Gui):
             np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
         self.tx.configure(state='normal')
         self.tx.insert(tk.END,
-                       '\nСтатистика:\nМинимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
-                           r_min,
-                           t_min) + '\nМаксимальное расстояние между доменами равно: {0:.3f} \u212b (t= {1:.2f} пc)'.format(
+                       '\nСтатистика:\nМинимальное расстояние между доменами равно:'
+                       ' {0:.3f} \u212b (t= {1:.2f} пc)'.format(
+                           r_min, t_min) + '\nМаксимальное расстояние между доменами равно:'
+                                           ' {0:.3f} \u212b (t= {1:.2f} пc)'.format(
                            r_max, t_max) + '\nСреднее расстояние между доменами равно: {0:.3f} \u212b'.format(
                            r_mean) + '\nСтандартное отклонение: {0:.3f} \u212b'.format(
                            np.std(
-                               r)) + '\nКвартили: (25%) = {0:.3f} \u212b, (50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
+                               r)) + '\nКвартили: (25%) = {0:.3f} \u212b, '
+                                     '(50%) = {1:.3f} \u212b, (75%) = {2:.3f} \u212b'.format(
                            np.percentile(r, 25), np.percentile(r, 50), np.percentile(r, 75)))
         self.tx.configure(state='disabled')
 
@@ -532,7 +534,7 @@ class App(Gui):
             std_dev.append(np.std([x[0] for x in zipped if x[1] == n]))
         ax.bar(xhist.flatten(), yhist, width=[3 * x for x in std_dev], align='center')
         win_cls = tk.Toplevel(self)
-        win_cls.title("Кластерный анализ (MeanShift или KMeans)")
+        win_cls.title("Кластерный анализ {:s}".format('MeanShift' if n_cluster == 0 else 'KMeans'))
         win_cls.minsize(width=640, height=600)
         win_cls.resizable(False, False)
         fra4 = ttk.Frame(win_cls)
@@ -555,8 +557,8 @@ class App(Gui):
                           '(The best value is 1 and the worst value is -1.\n'
                           'Values near 0 indicate overlapping clusters.\n'
                           'Negative values generally indicate that a sample has been assigned\n'
-                          'to the wrong cluster, as a different cluster is more similar.)\nКластеры:'.format(
-            len(ap.cluster_centers_), si_score))
+                          'to the wrong cluster, as a different cluster is more similar.'
+                          ')\nКластеры:'.format(len(ap.cluster_centers_), si_score))
         for n, cls_center in enumerate(ap.cluster_centers_.flatten()):
             tx.insert(tk.END,
                       '\nКластер № {0:d}: точек траектории {1:.1f} %, положение центроида - {2:.3f} \u212b, '
@@ -837,6 +839,7 @@ class App(Gui):
 
     def trj_cycle_hf(self):
         self.all_res = False
+        showinfo('Внимание!', 'Нестандартные аминокислоты и лиганды принимаются за гидрофобные!')
         self.trj_cycle()
 
     def trj_cycle(self):
@@ -861,6 +864,8 @@ class App(Gui):
         xyzm_array_1 = []
         xyzm_array_2 = []
         hydrfob = ('ALA', 'VAL', 'PRO', 'LEU', 'ILE', 'PHE', 'MET', 'TRP')
+        all_aa = ('ALA', 'CYS', 'ASP', 'GLU', 'PHE', 'GLY', 'HIS', 'ILE', 'LYS', 'LEU', 'MET', 'ASN', 'PRO', 'GLN',
+                  'ARG', 'SER', 'THR', 'VAL', 'TRP', 'TYR')
         self.nparray = None
         self.fig = None
         self.pb['maximum'] = len(self.s_array)
@@ -873,12 +878,12 @@ class App(Gui):
             elif s[0:5] == 'MODEL':
                 model_flag = True
             elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_1) and (
-                        (self.all_res is True) or (str(s[17:20]) in hydrfob)):
+                        (self.all_res is True) or ((str(s[17:20]) in hydrfob) or (str(s[17:20]) not in all_aa))):
                 xyzm_1 = [float(s[30:38]), float(s[38:46]),
                           float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
             elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_2) and (
-                        (self.all_res is True) or (str(s[17:20]) in hydrfob)):
+                        (self.all_res is True) or ((str(s[17:20]) in hydrfob) or (str(s[17:20]) not in all_aa))):
                 xyzm_2 = [float(s[30:38]), float(s[38:46]),
                           float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))
@@ -908,9 +913,11 @@ class App(Gui):
                                                                                    c_mass_2[2]) ** 2)) ** 0.5
                 self.tx.configure(state='normal')
                 if t_array:
-                    self.tx.insert(tk.END, 'При t = {0:.3f} {1:s}\n'.format(t if t < 1000 else t/1000, "пс" if t < 1000 else "нс"))
+                    self.tx.insert(tk.END, 'При t = {0:.3f} {1:s}\n'.format(
+                        t if t < 1000 else t / 1000, "пс" if t < 1000 else "нс"))
                 self.tx.insert(tk.END,
-                               'Координаты центра масс первого домена: C1 ({0:.3f} \u212b, {1:.3f} \u212b, {2:.3f} \u212b)'.format(
+                               'Координаты центра масс первого домена: '
+                               'C1 ({0:.3f} \u212b, {1:.3f} \u212b, {2:.3f} \u212b)'.format(
                                    c_mass_1[0],
                                    c_mass_1[1],
                                    c_mass_1[2]) +
