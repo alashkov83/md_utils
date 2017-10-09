@@ -586,7 +586,10 @@ class Graph(Gui):
         if self.fig is None:
             showerror('Ошибка!', 'График недоступен!')
             return
-        sa = asksaveasfilename()
+        opt = {'parent': self, 'filetypes': [('Все поддерживаесые форматы', (
+            '.eps', '.jpeg', '.jpg', '.pdf', '.pgf', '.png', '.ps', '.raw', '.rgba', '.svg', '.svgz', '.tif',
+            '.tiff')), ], 'initialfile': 'myfile.png', 'title': 'Сохранить график'}
+        sa = asksaveasfilename(**opt)
         if sa:
             try:
                 self.fig.savefig(sa, dpi=600)
