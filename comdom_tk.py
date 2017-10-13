@@ -491,7 +491,7 @@ class App(Gui):
             showerror('Ошибка!', 'Расчет не закончен!')
             return
         if self.nparray is None:
-            showinfo('Информация', 'Статистика недоступна')
+            showinfo('Информация', 'Данные недоступны')
             return
         try:
             r = self.nparray[:, 1]

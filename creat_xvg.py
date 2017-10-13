@@ -28,7 +28,8 @@ def joke():
         "The box said 'Requires Windows 95 or better'. So I installed LINUX\n",
         'A penny saved is 1.39 cents earned, if you consider income tax\n',
         'Unix, DOS and Windows...the good, the bad and the ugly\n',
-        'A computer lets you make more mistakes faster than any invention in human history - with the possible exceptions of handguns and tequila\n',
+        'A computer lets you make more mistakes faster than any invention in human history - '
+        'with the possible exceptions of handguns and tequila\n',
         'The code that is the hardest to debug is the code that you know cannot possibly be wrong\n',
         'UNIX is basically a simple operating system, but you have to be a genius to understand the simplicity\n',
         'Ethernet (n): something used to catch the etherbunny\n',
@@ -44,16 +45,22 @@ def joke():
         'Be nice to the nerds, for all you know they might be the next Bill Gates!\n',
         'The farther south you go, the more dollar stores there are\n',
         'Beware of programmers that carry screwdrivers\n',
-        'The difference between e-mail and regular mail is that computers handle e-mail, and computers never decide to come to work one day and shoot all the other computers\n',
-        "If you want a language that tries to lock up all the sharp objects and fire-making implements, use Pascal or Ada: the Nerf languages, harmless fun for children of all ages, and they won't mar the furniture\n",
+        'The difference between e-mail and regular mail is that computers handle e-mail, '
+        'and computers never decide to come to work one day and shoot all the other computers\n',
+        "If you want a language that tries to lock up all the sharp objects and fire-making implements, use Pascal "
+        "or Ada: the Nerf languages, harmless fun for children of all ages, and they won't mar the furniture\n",
         'COFFEE.EXE Missing - Insert Cup and Press Any Key\n',
-        'Programming today is a race between software engineers striving to build bigger and better idiot-proof programs, and the Universe trying to produce bigger and better idiots. So far, the Universe is winning\n',
+        'Programming today is a race between software engineers striving to build bigger and '
+        'better idiot-proof programs, and the Universe trying to produce bigger and better idiots. '
+        'So far, the Universe is winning\n',
         'LISP = Lots of Irritating Silly Parentheses\n',
-        "The beginning of the programmer's wisdom is understanding the difference between getting program to run and having a runnable program\n",
+        "The beginning of the programmer's wisdom is understanding the difference between getting program to run "
+        "and having a runnable program\n",
         "Squash one bug, you'll see ten new bugs popping\n",
         'Everytime i time i touch my code, i give birth to ten new bugs\n',
         'boast = blogging is open & amiable sharing of thoughts\n',
-        'We are sorry, but the number you have dialed is imaginary. Please rotate your phone 90 degrees and try again\n',
+        'We are sorry, but the number you have dialed is imaginary. '
+        'Please rotate your phone 90 degrees and try again\n',
         'Cannot find REALITY.SYS. Universe halted\n',
         "If it weren't for C, we'd all be programming in BASI and OBO\n",
         'Bad command or file name! Go stand in the corner\n',
@@ -74,7 +81,8 @@ def joke():
         "Cannot read data, leech the next boy's paper? (Y/N)\n",
         'CONGRESS.SYS Corrupted: Re-boot Washington D.C (Y/n)?\n',
         'Does fuzzy logic tickle?\n',
-        'Helpdesk : Sir, you need to add 10GB space to your HD , Customer : Could you please tell where I can download that?\n',
+        'Helpdesk : Sir, you need to add 10GB space to your HD , '
+        'Customer : Could you please tell where I can download that?\n',
         'Windows: Just another pane in the glass\n',
         "Who's General Failure & why's he reading my disk?\n",
         'RAM disk is not an installation procedure\n',
@@ -85,10 +93,12 @@ def joke():
         "Help! I'm modeming... and I can't hang up!!!\n",
         'All wiyht. Rho sritched mg kegtops awound?\n',
         'Once I got this error on my Linux box: Error. Keyboard not attached. Press F1 to continue\n',
-        "Once I got this error on my Linux box: Error. Mouse not attached. Please left click the 'OK' button to continue\n",
+        "Once I got this error on my Linux box: Error. Mouse not attached. "
+        "Please left click the 'OK' button to continue\n",
         'Press any key to continue or any other key to quit...\n',
         'Press every key to continue\n',
-        "Helpdesk: Sir if you see the blue screen, press any key to continue. Customer : hm.. just a min.. where's that 'any key'..\n",
+        "Helpdesk: Sir if you see the blue screen, press any key to continue. "
+        "Customer : hm.. just a min.. where's that 'any key'..\n",
         'Idiot, Go ahead, make my data!\n',
         'Old programmers never die; they just give up their resources\n',
         'To err is human - and to blame it on a computer is even more so\n',
@@ -149,18 +159,22 @@ def joke():
         'You have received a new mail which is 195537 hours old\n',
         'Yahoo! Mail: Your email was sent successfully. The email will delivered in 4 days and 8 hours\n',
         "I'm sorry for the double slash (Tim Berners-Lee in a Panel Discussion, WWW7, Brisbane, 1998)\n",
-        'Ah, young webmaster... java leads to shockwave. Shockwave leads to realaudio. And realaudio leads to suffering\n',
+        'Ah, young webmaster... java leads to shockwave. Shockwave leads to realaudio. '
+        'And realaudio leads to suffering\n',
         'What color do you want that database?\n',
         "C++ is a write-only language. I can write programs in C++, but I can't read any of them\n",
         'As of next week, passwords will be entered in Morse code\n',
         'earth is 98% full ... please delete anyone you can\n',
-        'A typical yahoo chat room: "A has signed in, A has signed out, B has signed in, B has signed out, C has signed in, C has signed out.."\n',
-        'When someone says "I want a programming language in which I need only say what I wish done," give him a lollipop\n',
+        'A typical yahoo chat room: "A has signed in, A has signed out, B has signed in, B has signed out, '
+        'C has signed in, C has signed out.."\n',
+        'When someone says "I want a programming language in which I need only say what I wish done," '
+        'give him a lollipop\n',
         'Warning! No processor found! Press any key to continue\n',
         'Failure is not an option. It comes bundled with your Microsoft product\n',
         'NT is the only OS that has caused me to beat a piece of hardware to death with my bare hands\n',
         'Warning! Kernel crashed, Run for your lives !\n',
-        'NASA uses Windows? Oh great. If Apollo 13 went off course today the manual would just tell them to open the airlock, flush the astronauts out, and re-install new one\n',
+        'NASA uses Windows? Oh great. If Apollo 13 went off course today the manual would just tell them to open '
+        'the airlock, flush the astronauts out, and re-install new one\n',
         'JavaScript: An authorizing language designed to make Netscape crash\n',
         "How's my programming? Call 1-800-DEV-NULL\n",
         'Yes, friends and neighbors, boys and girls - my PC speaker crashed NT\n',
@@ -169,14 +183,16 @@ def joke():
         'Quake and uptime do not like each other\n',
         'Unix...best if used before: Tue Jan 19 03:14:08 GMT 2038\n',
         'As you well know, magic and weapons are prohibited inside the cafeteria -- Final Fantasy VIII\n',
-        'Man is the best computer we can put aboard a spacecraft...and the only one that can be mass produced with unskilled labo\n',
+        'Man is the best computer we can put aboard a spacecraft...'
+        'and the only one that can be mass produced with unskilled labo\n',
         'Unix is the only virus with a command line interface\n',
         'Windows 95 makes Unix look like an operating system\n',
         "How are we supposed to hack your system if it's always down!\n",
         'God is real, unless declared integer\n',
         "I'm tempted to buy the slashdot staff a grammar checker. What do they do for 40 hours a week?\n",
         'Paypal : Please enter your credit card number to continue\n',
-        'It takes a million monkeys at typewriters to write Shakespeare, but only a dozen monkeys at computers to run Network Solutions\n',
+        'It takes a million monkeys at typewriters to write Shakespeare, '
+        'but only a dozen monkeys at computers to run Network Solutions\n',
         'Please help - firewall burnt down - lost packet - reward $$$\n',
         'If Linux were a beer, it would be shipped in open barrels so that anybody could piss in it before delivery\n',
         'Thank you Mario! But our princess is in another castle\n',
@@ -184,7 +200,8 @@ def joke():
         'Norton: Incoming virus - (D)ownload and save (R)un after download\n',
         "I had a dream... and there were 1's and 0's everywhere, and I think I saw a 2!\n",
         'You sir, are an unknown USB device driver\n',
-        "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, of pointers to functions that return pointers to functions that return void\n"]
+        "C isn't that hard: void (*(*f[])())() defines f as an array of unspecified size, "
+        "of pointers to functions that return pointers to functions that return void\n"]
     print('>>> ' + random.choice(joke_txt))
 
 
