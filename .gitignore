@@ -90,3 +90,10 @@ ENV/
 
 #PyCharm projekt settings
 .idea/
+
+#kdevelop4 project settings
+md_utils.kdev4
+.kdev4/
+
+#xscode settings
+.vscode/
