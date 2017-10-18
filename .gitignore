@@ -30,6 +30,7 @@ eggs/
 # dotenv
 # virtualenv
 # Spyder project settings
+.spyproject/
 # Rope project settings
 #PyCharm projekt settings
 .idea/

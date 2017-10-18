@@ -218,6 +218,7 @@ def joke():
 
 
 def mass(element):
+    """Масса атома. Использование словаря для часто встречающихся в биоорганике типов атомов ускоряет расчёты."""
     elements = {
         ' H': 1.0,
         ' C': 12.0,
@@ -226,12 +227,7 @@ def mass(element):
         ' P': 31.0,
         ' S': 32.0,
         ' F': 19.0}
-    try:
-        mass = elements[element]
-    except KeyError:
-        mass = round(formula(element).mass)
-    return mass
-
+    return elements.get(element, round(formula(element).mass))
 
 def cluster_an(nparray):
     # Scikit - learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825 - 2830, 2011

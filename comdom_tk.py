@@ -433,11 +433,7 @@ class App(Gui):
             ' P': 31.0,
             ' S': 32.0,
             ' F': 19.0}
-        try:
-            mass = elements[element]
-        except KeyError:
-            mass = round(formula(element).mass)
-        return mass
+        return elements.get(element, round(formula(element).mass))
 
     def xvg_stat(self):
         """Большая ложь т.е. статистика"""
@@ -721,7 +717,11 @@ class App(Gui):
         ax.plot(x, y, color='black', label='Raw COM distance')
         if self.smoth:
             ysg = savitzky_golay(y, window_size=31, order=4)
-            ax.plot(x, ysg, 'r', label='Filtered COM distance')
+            if len(ysg) == len(x):
+                ax.plot(x, ysg, 'r', label='Filtered COM distance')
+            else:
+                showerror('Ошибка!', 'Не возможно выполнить сглаживание!')
+                self.smoth = False
         ax.grid(self.grid)
         if self.legend:
             ax.legend(loc='best', frameon=False)
