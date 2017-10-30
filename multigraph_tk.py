@@ -417,9 +417,14 @@ class Graph(Gui):
                 self.headers.append(header)
                 print('Информация:\nСтолбцов данных: {0:d}\nCтрок данных: {1:d}\nНомер графика: {2:d}'.format(
                     nparray.shape[1], nparray.shape[0], len(self.nparrays)))
-            except UnicodeDecodeError:
+            except UnicodeDecodeError as e:
+                print('Ошибка! {:s}'.format(str(e)))
                 continue
-            except ValueError:
+            except ValueError as e:
+                print('Ошибка! {:s}'.format(str(e)))
+                continue
+            except FileNotFoundError:
+                print('Ошибка! Файл {:s} не найден!'.format(xvg_file))
                 continue
             try:
                 self.print_graph()
