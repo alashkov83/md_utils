@@ -54,8 +54,6 @@ multigraph_tk.py – numpy, matplotlib
 
 occucheck2.py – biopython, numpy, mmtf
 
-udistgen.py – numpy, matplotlib, progressbar
-
 ________________________________________________________________________
 *- tk версия не зависит от progressbar.
 У tk версий зависимости те же, что и у консольных (кроме *).
