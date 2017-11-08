@@ -79,12 +79,12 @@ def check_res(atom, vector, element, occupancy, alter, resn_curent, chain_id_cur
             min_dist = dist_dict.get(el, (0.8, 1.5))[0]
             max_dist = dist_dict.get(el, (0.8, 1.5))[1]
             if r > max_dist and check_link(occupancy[ih], oc, alter[ih], alt):
-                print("""Похоже, что водород {1:s}:{0:s} остатка {2:s}:{3:d} цепи {4:s} не связан с тяжёлыми атомами! 
-Минимальное расстояние c {5:s}:{6:s} = {7:6.2f} \u212b!""".format(
-                    atom[ih], alter[ih], res_name[ih], resn_curent, chain_id_curent, alt, at, r))
+                print("""Похоже, что водород {1:s}:{0:s} остатка {2:s}{8:s}{3:d} цепи {4:s} не связан с тяжёлыми атомами! 
+Минимальное расстояние c {5:s}{9:s}{6:s} = {7:6.2f} \u212b!""".format(
+                    atom[ih], alter[ih], res_name[ih], resn_curent, chain_id_curent, alt, at, r, '' if alter[ih] ==' ' else ':', '' if alt ==' ' else ':'))
             elif r < min_dist and check_link(occupancy[ih], oc, alter[ih], alt):
-                print("""Похоже, что водород {1:s}:{0:s} остатка {2:s}:{3:d} цепи {4:s} конфликтует с {5:s}:{6:s}!
-r = {7:6.2f} \u212b!""".format(atom[ih], alter[ih], res_name[ih], resn_curent, chain_id_curent, alt, at, r))
+                print("""Похоже, что водород {1:s}:{0:s} остатка {2:s}{8:s}{3:d} цепи {4:s} конфликтует с {5:s}{9:s}{6:s}!
+r = {7:6.2f} \u212b!""".format(atom[ih], alter[ih], res_name[ih], resn_curent, chain_id_curent, alt, at, r, '' if alter[ih] ==' ' else ':', '' if alt ==' ' else ':'))
 
 
 if len(sys.argv) != 2:
