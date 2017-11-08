@@ -10,11 +10,47 @@ import sys
 
 
 def rast(vector1, vector2):
+    """
+    Евклидово расстояние
+    :param vector1:
+    :param vector2:
+    :return:
+    """
     return (((vector1[0] - vector2[0]) ** 2) + ((vector1[1] -
                                                  vector2[1]) ** 2) + ((vector1[2] - vector2[2]) ** 2)) ** 0.5
 
 
-def check_res(atom, vector, element, occupancy, resn_curent, chain_id_curent, res_name):
+def check_link(ocu_h, ocu_noh, alt_h, alt_noh):
+    """
+    Формальная проверка связности атомов.
+    :param ocu_h:
+    :param ocu_noh:
+    :param alt_h:
+    :param alt_noh:
+    :return:
+    """
+    if ocu_h == 1.0 and ocu_noh == 1.0:
+        return True
+    elif (ocu_h < 1.0 and ocu_noh < 1.0) and (alt_h == alt_noh):
+        return True
+    elif (ocu_h < 1.0 and ocu_noh == 1.0) and alt_noh == ' ':
+        return True
+    else:
+        return False
+
+
+def check_res(atom, vector, element, occupancy, alter, resn_curent, chain_id_curent, res_name):
+    """
+    Проверка остатка на "проблемные" атомы водорода.
+    :param atom:
+    :param vector:
+    :param element:
+    :param occupancy:
+    :param alter:
+    :param resn_curent:
+    :param chain_id_curent:
+    :param res_name:
+    """
     dist_dict = {
         ' C': (0.82, 1.12),
         ' N': (0.80, 1.06),
@@ -39,17 +75,16 @@ def check_res(atom, vector, element, occupancy, resn_curent, chain_id_curent, re
             at = atom_noh[rast_e.index(r)]
             el = elements[rast_e.index(r)]
             oc = occupancy[rast_e.index(r)]
+            alt = alter[rast_e.index(r)]
             min_dist = dist_dict.get(el, (0.8, 1.5))[0]
             max_dist = dist_dict.get(el, (0.8, 1.5))[1]
-            if r > max_dist:
-                print(
-                    """Похоже, что водород {0:s} остатка {1:s}:{2:d} цепи {3:s} не связан с тяжёлыми атомами! 
-Минимальное расстояние c {4:s} = {5:6.2f} \u212b!""".format(
-                        atom[ih], res_name[ih], resn_curent, chain_id_curent, at, r))
-            elif r < min_dist and not (occupancy[ih] < 1.0 and oc < 1.0):
-                print(
-                    'Похоже, что водород {0:s} остатка {1:s}:{2:d} цепи {3:s} конфликтует с {4:s}, r = {5:6.2f} \u212b!'.format(
-                        atom[ih], res_name[ih], resn_curent, chain_id_curent, at, r))
+            if r > max_dist and check_link(occupancy[ih], oc, alter[ih], alt):
+                print("""Похоже, что водород {1:s}:{0:s} остатка {2:s}:{3:d} цепи {4:s} не связан с тяжёлыми атомами! 
+Минимальное расстояние c {5:s}:{6:s} = {7:6.2f} \u212b!""".format(
+                    atom[ih], alter[ih], res_name[ih], resn_curent, chain_id_curent, alt, at, r))
+            elif r < min_dist and check_link(occupancy[ih], oc, alter[ih], alt):
+                print("""Похоже, что водород {1:s}:{0:s} остатка {2:s}:{3:d} цепи {4:s} конфликтует с {5:s}:{6:s}!
+r = {7:6.2f} \u212b!""".format(atom[ih], alter[ih], res_name[ih], resn_curent, chain_id_curent, alt, at, r))
 
 
 if len(sys.argv) != 2:
@@ -59,7 +94,7 @@ try:
     fname = open(sys.argv[1])
     lines_pdb = fname.readlines()
 except FileNotFoundError:
-    print('Файл не найден!')
+    print('Файл {:s} не найден!'.format(sys.argv[1]))
     sys.exit()
 except ValueError:
     print('Неверный формат файла!')
@@ -69,6 +104,7 @@ res_name = []
 vector = []
 element = []
 occupancy = []
+alter = []
 n = 0
 while n < len(lines_pdb) - 1:
     s = lines_pdb[n]
@@ -80,7 +116,7 @@ while n < len(lines_pdb) - 1:
                 resn = int(s[22:26])
                 chain_id = s[21]
                 if (chain_id != chain_id_curent) or (resn_curent != resn):
-                    check_res(atom, vector, element, occupancy,
+                    check_res(atom, vector, element, occupancy, alter,
                               resn_curent, chain_id_curent, res_name)
                     n -= 1
                     atom.clear()
@@ -88,13 +124,15 @@ while n < len(lines_pdb) - 1:
                     res_name.clear()
                     element.clear()
                     occupancy.clear()
+                    alter.clear()
                     break
-                atom.append(s[12:16])
+                atom.append(s[12:16].strip())
                 element.append(s[76:78])
                 vector.append(
                     (float(s[30:38]), float(s[38:46]), float(s[46:54])))
-                res_name.append(s[17:20])
+                res_name.append(s[17:20].strip())
                 occupancy.append(float(s[54:60]))
+                alter.append(s[16])
             n += 1
             s = lines_pdb[n]
     n += 1
