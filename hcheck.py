@@ -97,7 +97,7 @@ except FileNotFoundError:
     print('Файл {:s} не найден!'.format(sys.argv[1]))
     sys.exit()
 except ValueError:
-    print('Неверный формат файла!')
+    print('Неверный формат файла {:s}!'.format(sys.argv[1]))
     sys.exit()
 atom = []
 res_name = []
