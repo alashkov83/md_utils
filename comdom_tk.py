@@ -411,7 +411,7 @@ class App(Gui):
         self.all_res = True
 
     @staticmethod
-    def _cmass(str_nparray):
+    def _cmass(str_nparray: np.ndarray) -> list:
         """Вычисление положения центра массс"""
         mass_sum = float(str_nparray[:, 3].sum())
         mx = (str_nparray[:, 3]) * (str_nparray[:, 0])
@@ -423,7 +423,7 @@ class App(Gui):
         return [c_mass_x, c_mass_y, c_mass_z]
 
     @staticmethod
-    def _mass(element):
+    def _mass(element: str) -> float:
         """Масса атома. Использование словаря для часто встречающихся в биоорганике типов атомов ускоряет расчёты."""
         elements = {
             ' H': 1.0,

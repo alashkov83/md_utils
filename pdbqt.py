@@ -7,11 +7,11 @@ Created on Tue Jan 24 17:46:41 2017
 """
 
 import sys
-import Bio.PDB as pdb
+import Bio.PDB as PDB
 
 
 def open_pdb(pdb_f):
-    parser = pdb.PDBParser()
+    parser = PDB.PDBParser()
     try:
         structure = parser.get_structure('X', pdb_f)
     except FileNotFoundError:
@@ -25,6 +25,6 @@ def open_pdb(pdb_f):
         return structure
 
 
-io = pdb.PDBIO()
+io = PDB.PDBIO()
 io.set_structure(open_pdb(sys.argv[1]))
 io.save(sys.argv[2])

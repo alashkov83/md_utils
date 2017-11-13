@@ -14,13 +14,14 @@ from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
 from tkinter.messagebox import showinfo
 from tkinter.simpledialog import askstring
+import urllib
 
 try:
-    import Bio.PDB as pdb
+    import Bio.PDB as PDB
     from Bio.PDB.mmtf import MMTFParser
 except ImportError:
     imp_err = True
-    pdb = None
+    PDB = None
     MMTFParser = None
 else:
     imp_err = False
@@ -116,7 +117,7 @@ class App(Gui):
                     with open(pdb_f) as f:
                         self.lines_pdb = f.readlines()
                 else:
-                    parser = pdb.PDBParser()
+                    parser = PDB.PDBParser()
                     self.structure = parser.get_structure('X', pdb_f)
             except FileNotFoundError:
                 return
@@ -137,9 +138,9 @@ class App(Gui):
         if url is not None:
             try:
                 self.structure = MMTFParser.get_structure_from_url(url)
-            except Exception:
-                showerror('Ошибка!', ('ID PDB: {0:s} не найден'
-                                      ' или ссылается на некорректный файл!').format(url))
+            except urllib.error.HTTPError as e:
+                showerror('Ошибка!', ('{1:s}\nID PDB: {0:s} не найден'
+                                      ' или ссылается на некорректный файл!').format(url, str(e)))
             else:
                 showinfo('Информация', 'Файл загружен!')
 
@@ -147,7 +148,7 @@ class App(Gui):
         if self.simple:
             showerror('Ошибка!', 'Функция недоступна в простом режиме')
             return
-        parser = pdb.MMCIFParser()
+        parser = PDB.MMCIFParser()
         opt = {'filetypes': [
             ('Файлы mmCIF', ('.cif', '.CIF')), ('Все файлы', '.*')]}
         cif_f = askopenfilename(**opt)

@@ -8,8 +8,9 @@ Created on Wed Nov 30 22:14:47 2016
 
 import argparse
 import sys
+import urllib
 
-import Bio.PDB as pdb
+import Bio.PDB as PDB
 from Bio.PDB.mmtf import MMTFParser
 
 
@@ -29,7 +30,7 @@ def create_parser():
 
 
 def open_pdb(pdb_f):
-    parser = pdb.PDBParser()
+    parser = PDB.PDBParser()
     try:
         structure = parser.get_structure('X', pdb_f)
     except FileNotFoundError:
@@ -46,8 +47,8 @@ def open_pdb(pdb_f):
 def open_url(url):
     try:
         structure = MMTFParser.get_structure_from_url(url)
-    except Exception:
-        print("Ошибка!", "ID PDB: {0:s} не найден или ссылается на некорректный файл!".format(url))
+    except urllib.error.HTTPError as e:
+        print(str(e), "Ошибка!", "ID PDB: {0:s} не найден или ссылается на некорректный файл!".format(url))
         sys.exit()
     else:
         print("Файл загружен!")
@@ -55,7 +56,7 @@ def open_url(url):
 
 
 def open_cif(cif_f):
-    parser = pdb.MMCIFParser()
+    parser = PDB.MMCIFParser()
     try:
         structure = parser.get_structure('X', cif_f)
     except FileNotFoundError:
@@ -78,7 +79,7 @@ def check_pdb(structure, namespace):
     min_ocu = namespace.min_ocu
     try:
         atoms = structure.get_atoms()
-    except Exception:
+    except (NameError, AttributeError):
         print("Ошибка!", "Структура не загружена!")
         sys.exit()
     log = []

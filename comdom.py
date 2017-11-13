@@ -217,7 +217,7 @@ def joke():
     return
 
 
-def mass(element):
+def mass(element: str) -> float:
     """Масса атома. Использование словаря для часто встречающихся в биоорганике типов атомов ускоряет расчёты."""
     elements = {
         ' H': 1.0,
@@ -229,7 +229,8 @@ def mass(element):
         ' F': 19.0}
     return elements.get(element, round(formula(element).mass))
 
-def cluster_an(nparray):
+
+def cluster_an(nparray: np.ndarray):
     # Scikit - learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825 - 2830, 2011
     try:
         from sklearn.cluster import MeanShift
@@ -273,13 +274,13 @@ def cluster_an(nparray):
           'Values near 0 indicate overlapping clusters.\n'
           'Negative values generally indicate that a sample has been assigned\n'
           'to the wrong cluster, as a different cluster is more similar.)\nКластеры:'.format(
-        len(ap.cluster_centers_), si_score))
+            len(ap.cluster_centers_), si_score))
     for n, cls_center in enumerate(ap.cluster_centers_.flatten()):
         print('Кластер № {0:d}: точек траектории {1:.1f} %, положение центроида - {2:.3f} \u212b, '
               'СКО = {3:.3f} \u212b'.format(n + 1, yhist[n], cls_center, std_dev[n]))
 
 
-def xvg_stat(nparray):
+def xvg_stat(nparray: np.ndarray):
     t = nparray[:, 0]
     r = nparray[:, 1]
     r_min = min(r)
@@ -296,7 +297,7 @@ def xvg_stat(nparray):
     return
 
 
-def save_data(nparray):
+def save_data(nparray: np.ndarray):
     t = nparray[:, 0]
     r_a = nparray[:, 1]
     r_n = r_a / 10
@@ -324,7 +325,7 @@ def save_graph():
                 'Поддреживаемые форматы: eps, jpeg, jpg, pdf, pgf, png, ps, raw, rgba, svg, svgz, tif, tiff.')
 
 
-def graph(nparray):
+def graph(nparray: np.ndarray):
     x = nparray[:, 0]
     fig = plt.figure()
     plt.grid(True)
@@ -354,7 +355,7 @@ def graph(nparray):
     return
 
 
-def cmass(nparray):
+def cmass(nparray: np.ndarray) -> list:
     mass_sum = float(nparray[:, 3].sum())
     mx = (nparray[:, 3]) * (nparray[:, 0])
     my = (nparray[:, 3]) * (nparray[:, 1])

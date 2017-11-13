@@ -225,7 +225,7 @@ def joke():
     return
 
 
-def savitzky_golay(y, window_size, order, deriv=0, rate=1):
+def savitzky_golay(y, window_size: int, order: int, deriv: int = 0, rate: int = 1) -> np.ndarray:
     r"""Smooth (and optionally differentiate) data with a Savitzky-Golay filter.
     The Savitzky-Golay filter removes high frequency noise from data.
     It has the advantage of preserving the original shape and
@@ -354,7 +354,7 @@ class Graph(Gui):
         self.files = []
 
     @staticmethod
-    def convert(s):
+    def convert(s: str) -> str:
         if s != ' ':
             s = s.strip()
             trans = {r' ': r'\ ', r'\xx\f{}': r'\xi ', r'\xl\f{}': r'\lambda ', r'\xD\f{}': r'\Delta '}
@@ -408,8 +408,7 @@ class Graph(Gui):
                         header.append(line)
                         n += 1
                 fname.close()
-                with open(xvg_file) as fname:
-                    nparray = np.loadtxt(fname, skiprows=n)
+                nparray = np.loadtxt(xvg_file, skiprows=n)
                 if not header:
                     header = "Header not found"
                 self.nparrays.append(nparray)
@@ -446,8 +445,7 @@ class Graph(Gui):
                     header.append(line)
                     n += 1
             fname.close()
-            with open(xvg_file) as fname:
-                nparray = np.loadtxt(fname, skiprows=n)
+            nparray = np.loadtxt(xvg_file, skiprows=n)
             if not header:
                 header = "Header not found"
             self.nparrays.append(nparray)
