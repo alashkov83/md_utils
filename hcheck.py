@@ -9,7 +9,7 @@
 import sys
 
 
-def rast(vector1, vector2):
+def rast(vector1: list, vector2: list) -> float:
     """
     Евклидово расстояние
     :param vector1:
@@ -20,7 +20,7 @@ def rast(vector1, vector2):
                                                  vector2[1]) ** 2) + ((vector1[2] - vector2[2]) ** 2)) ** 0.5
 
 
-def check_link(ocu_h, ocu_noh, alt_h, alt_noh):
+def check_link(ocu_h: float, ocu_noh: float, alt_h: str, alt_noh: str) -> bool:
     """
     Формальная проверка связности атомов.
     :param ocu_h:
@@ -39,7 +39,8 @@ def check_link(ocu_h, ocu_noh, alt_h, alt_noh):
         return False
 
 
-def check_res(atom, vector, element, occupancy, alter, resn_curent, chain_id_curent, res_name):
+def check_res(atom: list, vector: list, element: list, occupancy: list, alter: list, resn_curent: int,
+              chain_id_curent: str, res_name: list):
     """
     Проверка остатка на "проблемные" атомы водорода.
     :param atom:
