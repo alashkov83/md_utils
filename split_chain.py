@@ -13,9 +13,12 @@ import sys
 def chainsave(chain, chain_id_curent, fn):
     chain_id_curent = chain_id_curent.strip().lower()
     nfn = os.path.basename(fn).split('.')[0] + '_' + chain_id_curent + '.pdb'
-    with open(nfn, 'w') as f:
-        f.writelines(chain)
-
+    try:
+        with open(nfn, 'w') as f:
+            f.writelines(chain)
+    except PermissionError:
+        print('Ошибка! Недостаточно прав для записи файла!')
+        sys.exit()
 
 if len(sys.argv) != 2:
     print('Использование: split_chain.py file.pdb')
