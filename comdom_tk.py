@@ -321,6 +321,8 @@ class Gui(tk.Tk):
         scr1 = ttk.Scrollbar(fra11, command=self.tx1.yview)
         self.tx1.configure(yscrollcommand=scr1.set, state='disabled')
         self.tx1.pack(side=tk.LEFT)
+        self.tx1.bind('<Enter>', lambda e: self._bound_to_mousewheel(e, self.tx1))
+        self.tx1.bind('<Leave>', self._unbound_to_mousewheel)
         scr1.pack(side=tk.RIGHT, fill=tk.Y)
         lab2 = ttk.LabelFrame(fra1, text='Второй домен', labelanchor='n', borderwidth=5)
         lab2.grid(row=2, column=0, pady=5, padx=5)
@@ -334,6 +336,8 @@ class Gui(tk.Tk):
         scr2 = ttk.Scrollbar(fra12, command=self.tx2.yview)
         self.tx2.configure(yscrollcommand=scr2.set, state='disabled')
         self.tx2.pack(side=tk.LEFT)
+        self.tx1.bind('<Enter>', lambda e: self._bound_to_mousewheel(e, self.tx1))
+        self.tx1.bind('<Leave>', self._unbound_to_mousewheel)
         scr2.pack(side=tk.RIGHT, fill=tk.Y)
         lab3 = ttk.Label(fra1, text='Прогресс:')
         lab3.grid(row=4, column=0, columnspan=4, pady=5)
@@ -352,6 +356,27 @@ class Gui(tk.Tk):
         self.tx.configure(yscrollcommand=scr.set, state='disabled')
         self.tx.pack(side=tk.LEFT)
         scr.pack(side=tk.RIGHT, fill=tk.Y)
+        self.tx.bind('<Enter>', lambda e: self._bound_to_mousewheel(e, self.tx))
+        self.tx.bind('<Leave>', self._unbound_to_mousewheel)
+
+    def _bound_to_mousewheel(self, event, tx):
+        self.bind_all("<MouseWheel>", lambda e: self._on_mousewheel(e, tx))
+        self.bind_all('<Button-4>', lambda e: self._on_mousewheel(e, tx))
+        self.bind_all('<Button-5>', lambda e: self._on_mousewheel(e, tx))
+
+    def _unbound_to_mousewheel(self, event):
+        self.unbind_all("<MouseWheel>")
+        self.unbind_all('<Button-4>')
+        self.unbind_all('<Button-5>')
+
+    @staticmethod
+    def _on_mousewheel(event, tx):
+        if event.num == 4:
+            tx.yview_scroll(-1, "units")
+        elif event.num == 5:
+            tx.yview_scroll(1, "units")
+        else:
+            tx.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
     @staticmethod
     def about():
@@ -878,12 +903,12 @@ class App(Gui):
             elif s[0:5] == 'MODEL':
                 model_flag = True
             elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_1) and (
-                        (self.all_res is True) or ((str(s[17:20]) in hydrfob) or (str(s[17:20]) not in all_aa))):
+                    (self.all_res is True) or ((str(s[17:20]) in hydrfob) or (str(s[17:20]) not in all_aa))):
                 xyzm_1 = [float(s[30:38]), float(s[38:46]),
                           float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_1 = np.hstack((xyzm_array_1, xyzm_1))
             elif (s[0:6] == 'ATOM  ') and ((s[21], int(s[22:26])) in self.segment_2) and (
-                        (self.all_res is True) or ((str(s[17:20]) in hydrfob) or (str(s[17:20]) not in all_aa))):
+                    (self.all_res is True) or ((str(s[17:20]) in hydrfob) or (str(s[17:20]) not in all_aa))):
                 xyzm_2 = [float(s[30:38]), float(s[38:46]),
                           float(s[46:54]), self._mass(s[76:78])]
                 xyzm_array_2 = np.hstack((xyzm_array_2, xyzm_2))

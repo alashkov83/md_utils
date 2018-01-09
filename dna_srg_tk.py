@@ -41,6 +41,7 @@ class App(tk.Tk):
         self.tx.configure(yscrollcommand=scr.set)
         self.tx.pack(side=tk.LEFT)
         scr.pack(side=tk.RIGHT, fill=tk.Y)
+    
 
     def menu(self):
         m = tk.Menu(self)  # создается объект Меню на главном окне
