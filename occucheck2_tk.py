@@ -8,13 +8,13 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
+import urllib
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
 from tkinter.messagebox import askyesno
 from tkinter.messagebox import showerror
 from tkinter.messagebox import showinfo
 from tkinter.simpledialog import askstring
-import urllib
 
 try:
     import Bio.PDB as PDB
@@ -56,19 +56,21 @@ class Gui(tk.Tk):
         self.bind_all("<MouseWheel>", lambda e: self._on_mousewheel(e, tx))
         self.bind_all('<Button-4>', lambda e: self._on_mousewheel(e, tx))
         self.bind_all('<Button-5>', lambda e: self._on_mousewheel(e, tx))
-
+        self.bind_all('<Up>', lambda e: self._on_mousewheel(e, tx))
+        self.bind_all('<Down>', lambda e: self._on_mousewheel(e, tx))
 
     def _unbound_to_mousewheel(self, event):
         self.unbind_all("<MouseWheel>")
         self.unbind_all('<Button-4>')
         self.unbind_all('<Button-5>')
-
+        self.unbind_all('<Up>')
+        self.unbind_all('<Down>')
 
     @staticmethod
     def _on_mousewheel(event, tx):
-        if event.num == 4:
+        if event.num == 4 or event.keycode == 111:
             tx.yview_scroll(-1, "units")
-        elif event.num == 5:
+        elif event.num == 5 or event.keycode == 116:
             tx.yview_scroll(1, "units")
         else:
             tx.yview_scroll(int(-1 * (event.delta / 120)), "units")

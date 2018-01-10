@@ -336,8 +336,8 @@ class Gui(tk.Tk):
         scr2 = ttk.Scrollbar(fra12, command=self.tx2.yview)
         self.tx2.configure(yscrollcommand=scr2.set, state='disabled')
         self.tx2.pack(side=tk.LEFT)
-        self.tx1.bind('<Enter>', lambda e: self._bound_to_mousewheel(e, self.tx1))
-        self.tx1.bind('<Leave>', self._unbound_to_mousewheel)
+        self.tx2.bind('<Enter>', lambda e: self._bound_to_mousewheel(e, self.tx2))
+        self.tx2.bind('<Leave>', self._unbound_to_mousewheel)
         scr2.pack(side=tk.RIGHT, fill=tk.Y)
         lab3 = ttk.Label(fra1, text='Прогресс:')
         lab3.grid(row=4, column=0, columnspan=4, pady=5)
@@ -363,17 +363,21 @@ class Gui(tk.Tk):
         self.bind_all("<MouseWheel>", lambda e: self._on_mousewheel(e, tx))
         self.bind_all('<Button-4>', lambda e: self._on_mousewheel(e, tx))
         self.bind_all('<Button-5>', lambda e: self._on_mousewheel(e, tx))
+        self.bind_all('<Up>', lambda e: self._on_mousewheel(e, tx))
+        self.bind_all('<Down>', lambda e: self._on_mousewheel(e, tx))
 
     def _unbound_to_mousewheel(self, event):
         self.unbind_all("<MouseWheel>")
         self.unbind_all('<Button-4>')
         self.unbind_all('<Button-5>')
+        self.unbind_all('<Up>')
+        self.unbind_all('<Down>')
 
     @staticmethod
     def _on_mousewheel(event, tx):
-        if event.num == 4:
+        if event.num == 4 or event.keycode == 111:
             tx.yview_scroll(-1, "units")
-        elif event.num == 5:
+        elif event.num == 5 or event.keycode == 116:
             tx.yview_scroll(1, "units")
         else:
             tx.yview_scroll(int(-1 * (event.delta / 120)), "units")

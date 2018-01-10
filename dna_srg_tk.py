@@ -41,7 +41,31 @@ class App(tk.Tk):
         self.tx.configure(yscrollcommand=scr.set)
         self.tx.pack(side=tk.LEFT)
         scr.pack(side=tk.RIGHT, fill=tk.Y)
-    
+        self.tx.bind('<Enter>', lambda e: self._bound_to_mousewheel(e, self.tx))
+        self.tx.bind('<Leave>', self._unbound_to_mousewheel)
+
+    def _bound_to_mousewheel(self, event, tx):
+        self.bind_all("<MouseWheel>", lambda e: self._on_mousewheel(e, tx))
+        self.bind_all('<Button-4>', lambda e: self._on_mousewheel(e, tx))
+        self.bind_all('<Button-5>', lambda e: self._on_mousewheel(e, tx))
+        self.bind_all('<Up>', lambda e: self._on_mousewheel(e, tx))
+        self.bind_all('<Down>', lambda e: self._on_mousewheel(e, tx))
+
+    def _unbound_to_mousewheel(self, event):
+        self.unbind_all("<MouseWheel>")
+        self.unbind_all('<Button-4>')
+        self.unbind_all('<Button-5>')
+        self.unbind_all('<Up>')
+        self.unbind_all('<Down>')
+
+    @staticmethod
+    def _on_mousewheel(event, tx):
+        if event.num == 4 or event.keycode == 111:
+            tx.yview_scroll(-1, "units")
+        elif event.num == 5 or event.keycode == 116:
+            tx.yview_scroll(1, "units")
+        else:
+            tx.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
     def menu(self):
         m = tk.Menu(self)  # создается объект Меню на главном окне
@@ -64,7 +88,6 @@ class App(tk.Tk):
         showinfo('Информация', 'Генерирование случайной последовательности ДНК')
 
     def dna_gen(self, event=''):
-        print(event)
         at_ratio = self.var.get() / 100
         try:
             dna_len = int(self.ent.get())
