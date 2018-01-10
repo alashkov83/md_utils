@@ -331,9 +331,9 @@ class Gui(tk.Tk):
 
     @staticmethod
     def _on_mousewheel(event, tx):
-        if event.num == 4 or event.keycode == 111:
+        if event.num == 4 or event.keysym == 'Up':
             tx.yview_scroll(-1, "units")
-        elif event.num == 5 or event.keycode == 116:
+        elif event.num == 5 or event.keysym == 'Down':
             tx.yview_scroll(1, "units")
         else:
             tx.yview_scroll(int(-1 * (event.delta / 120)), "units")
