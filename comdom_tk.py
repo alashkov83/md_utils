@@ -10,6 +10,7 @@ import os.path
 import random
 import tkinter as tk
 import tkinter.ttk as ttk
+from functools import lru_cache
 from math import factorial
 from tkinter.filedialog import askopenfilename
 from tkinter.filedialog import asksaveasfilename
@@ -452,6 +453,7 @@ class App(Gui):
         return [c_mass_x, c_mass_y, c_mass_z]
 
     @staticmethod
+    @lru_cache(maxsize=128)
     def _mass(element: str) -> float:
         """Масса атома. Использование словаря для часто встречающихся в биоорганике типов атомов ускоряет расчёты."""
         elements = {

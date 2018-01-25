@@ -11,7 +11,11 @@ import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
-import progressbar
+try:
+    import progressbar2 as progressbar
+except:
+    import progressbar
+from functools import lru_cache
 from periodictable import formula
 
 
@@ -216,7 +220,7 @@ def joke():
     print('>>> ' + random.choice(joke_txt))
     return
 
-
+@lru_cache(maxsize=128)
 def mass(element: str) -> float:
     """Масса атома. Использование словаря для часто встречающихся в биоорганике типов атомов ускоряет расчёты."""
     elements = {
@@ -367,9 +371,9 @@ def cmass(nparray: np.ndarray) -> list:
 
 
 if len(sys.argv) > 1:
-    filename = str(sys.argv[1])
+    filename = sys.argv[1]
 else:
-    filename = str(input('Введите имя входного файла: '))
+    filename = input('Введите имя входного файла: ')
 try:
     file_pdb = open(filename)
     s_array = file_pdb.readlines()
@@ -442,6 +446,7 @@ for n, s in enumerate(s_array):
         xyzm_array_1 = []
         xyzm_array_2 = []
     bar1.update(n)
+#    print(mass.cache_info())
 bar1.finish()
 if len(r_array) != 1:
     if len(t_array) == 0:
