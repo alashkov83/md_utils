@@ -453,7 +453,7 @@ class App(Gui):
         return [c_mass_x, c_mass_y, c_mass_z]
 
     @staticmethod
-    @lru_cache(maxsize=128)
+    @lru_cache()
     def _mass(element: str) -> float:
         """Масса атома. Использование словаря для часто встречающихся в биоорганике типов атомов ускоряет расчёты."""
         elements = {

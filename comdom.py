@@ -11,9 +11,10 @@ import sys
 
 import matplotlib.pyplot as plt
 import numpy as np
+
 try:
     import progressbar2 as progressbar
-except:
+except ImportError:
     import progressbar
 from functools import lru_cache
 from periodictable import formula
@@ -220,7 +221,8 @@ def joke():
     print('>>> ' + random.choice(joke_txt))
     return
 
-@lru_cache(maxsize=128)
+
+@lru_cache()
 def mass(element: str) -> float:
     """Масса атома. Использование словаря для часто встречающихся в биоорганике типов атомов ускоряет расчёты."""
     elements = {
@@ -278,7 +280,7 @@ def cluster_an(nparray: np.ndarray):
           'Values near 0 indicate overlapping clusters.\n'
           'Negative values generally indicate that a sample has been assigned\n'
           'to the wrong cluster, as a different cluster is more similar.)\nКластеры:'.format(
-            len(ap.cluster_centers_), si_score))
+        len(ap.cluster_centers_), si_score))
     for n, cls_center in enumerate(ap.cluster_centers_.flatten()):
         print('Кластер № {0:d}: точек траектории {1:.1f} %, положение центроида - {2:.3f} \u212b, '
               'СКО = {3:.3f} \u212b'.format(n + 1, yhist[n], cls_center, std_dev[n]))
