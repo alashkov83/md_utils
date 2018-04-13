@@ -14,7 +14,7 @@ def chainsave(chain, chain_id_curent, fn):
     chain_id_curent = chain_id_curent.strip().lower()
     nfn = str(os.path.basename(fn).split('.')[0]) + '_' + chain_id_curent + '.pdb'
     try:
-        with open(nfn, 'w') as f:
+        with open(nfn, 'a') as f:
             f.writelines(chain)
     except PermissionError:
         print('Ошибка! Недостаточно прав для записи файла!')
@@ -37,23 +37,14 @@ except ValueError:
     sys.exit()
 
 chain = []
-n = 0
-while n < len(lines_pdb) - 1:
-    s = lines_pdb[n]
-    if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
+chain_id_curent = None
+for s in lines_pdb:
+    if (s[0:6] == 'HETATM' or s[0:6] == 'ATOM  ' or s[0:6] == 'ANISOU') and (chain_id_curent is None or chain_id_curent == s[21]):
+
         chain_id_curent = s[21]
-        while n < len(lines_pdb) - 1:
-            if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
-                chain_id = s[21]
-                if chain_id != chain_id_curent:
-                    chainsave(chain, chain_id_curent, fn)
-                    chain.clear()
-                    n -= 1
-                    break
-                chain.append(s)
-            n += 1
-            s = lines_pdb[n]
-        else:
-            chainsave(chain, chain_id_curent, fn)
-            chain.clear()
-    n += 1
+        chain.append(s)
+    elif (s[0:6] == 'HETATM' or s[0:6] == 'ATOM  ' or s[0:6] == 'ANISOU'):
+        chainsave(chain, chain_id_curent, fn)
+        chain.clear()
+        chain_id_curent = s[21]
+        chain.append(s)

@@ -240,34 +240,31 @@ class App(Gui):
         atom = []
         occupancy = []
         res_name = []
-        n = 0
-        while n < len(self.lines_pdb) - 1:
-            s = self.lines_pdb[n]
-            if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
+        chain_id_curent = None
+        resn_curent = None
+        for s in self.lines_pdb:
+            if (s[0:6] == 'HETATM' or s[0:6] == 'ATOM  ') and (
+                    chain_id_curent is None or (chain_id_curent == s[21] and resn_curent == int(s[22:26]))):
+                chain_id_curent = s[21]
                 try:
                     resn_curent = int(s[22:26])
                 except ValueError:
                     showerror('Ошибка', 'Некорректный PDB файл!')
                     return
-                chain_id_curent = str(s[21])
-                while n < len(self.lines_pdb) - 1:
-                    if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
-                        resn = int(s[22:26])
-                        chain_id = str(s[21])
-                        if (chain_id != chain_id_curent) or (resn_curent != resn):
-                            self.check_occupancy(atom, occupancy,
-                                                 resn_curent, chain_id_curent, res_name)
-                            n -= 1
-                            atom.clear()
-                            occupancy.clear()
-                            res_name.clear()
-                            break
-                        atom.append(str(s[12:16]))
-                        occupancy.append(float(s[54:60]))
-                        res_name.append(str(s[17:20]))
-                    n += 1
-                    s = self.lines_pdb[n]
-            n += 1
+                atom.append(s[12:16])
+                occupancy.append(float(s[54:60]))
+                res_name.append(s[17:20])
+            elif s[0:6] == 'HETATM' or s[0:6] == 'ATOM  ':
+                self.check_occupancy(atom, occupancy, resn_curent, chain_id_curent, res_name)
+                atom.clear()
+                occupancy.clear()
+                res_name.clear()
+                chain_id_curent = s[21]
+                resn_curent = int(s[22:26])
+                atom.append(s[12:16])
+                occupancy.append(float(s[54:60]))
+                res_name.append(s[17:20])
+
 
     def check_pdb_bio(self):
         min_ocu = (self.var1.get()) / 100

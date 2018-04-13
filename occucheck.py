@@ -53,30 +53,27 @@ except FileNotFoundError:
 except ValueError:
     print('Неверный формат файла!')
     sys.exit()
+
 atom = []
 occupancy = []
 res_name = []
-n = 0
 ocu = min_ocu()
-while n < len(lines_pdb) - 1:
-    s = lines_pdb[n]
-    if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
+chain_id_curent = None
+resn_curent = None
+for s in lines_pdb:
+    if (s[0:6] == 'HETATM' or s[0:6] == 'ATOM  ') and (chain_id_curent is None or (chain_id_curent == s[21] and resn_curent == int(s[22:26]))):
+        chain_id_curent = s[21]
         resn_curent = int(s[22:26])
-        chain_id_curent = str(s[21])
-        while n < len(lines_pdb) - 1:
-            if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
-                resn = int(s[22:26])
-                chain_id = str(s[21])
-                if (chain_id != chain_id_curent) or (resn_curent != resn):
-                    check_occupancy(atom, occupancy, resn_curent, chain_id_curent, res_name, ocu)
-                    n -= 1
-                    atom.clear()
-                    occupancy.clear()
-                    res_name.clear()
-                    break
-                atom.append(str(s[12:16]))
-                occupancy.append(float(s[54:60]))
-                res_name.append(str(s[17:20]))
-            n += 1
-            s = lines_pdb[n]
-    n += 1
+        atom.append(s[12:16])
+        occupancy.append(float(s[54:60]))
+        res_name.append(s[17:20])
+    elif s[0:6] == 'HETATM' or s[0:6] == 'ATOM  ':
+        check_occupancy(atom, occupancy, resn_curent, chain_id_curent, res_name, ocu)
+        atom.clear()
+        occupancy.clear()
+        res_name.clear()
+        chain_id_curent = s[21]
+        resn_curent = int(s[22:26])
+        atom.append(s[12:16])
+        occupancy.append(float(s[54:60]))
+        res_name.append(s[17:20]) 
