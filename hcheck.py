@@ -110,34 +110,33 @@ vector = []
 element = []
 occupancy = []
 alter = []
-n = 0
-while n < len(lines_pdb) - 1:
-    s = lines_pdb[n]
-    if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
-        resn_curent = int(s[22:26])
+chain_id_curent = None
+resn_curent = None
+for s in lines_pdb:
+    if (s[0:6] == 'HETATM' or s[0:6] == 'ATOM  ') and (
+                    (chain_id_curent is None or resn_curent is None) or (chain_id_curent == s[21] and resn_curent == int(s[22:26]))):
         chain_id_curent = s[21]
-        while n < len(lines_pdb) - 1:
-            if (s[0:6] == 'HETATM') or (s[0:6] == 'ATOM  '):
-                resn = int(s[22:26])
-                chain_id = s[21]
-                if (chain_id != chain_id_curent) or (resn_curent != resn):
-                    check_res(atom, vector, element, occupancy, alter,
-                              resn_curent, chain_id_curent, res_name)
-                    n -= 1
-                    atom.clear()
-                    vector.clear()
-                    res_name.clear()
-                    element.clear()
-                    occupancy.clear()
-                    alter.clear()
-                    break
-                atom.append(s[12:16].strip())
-                element.append(s[76:78])
-                vector.append(
-                    (float(s[30:38]), float(s[38:46]), float(s[46:54])))
-                res_name.append(s[17:20].strip())
-                occupancy.append(float(s[54:60]))
-                alter.append(s[16])
-            n += 1
-            s = lines_pdb[n]
-    n += 1
+        resn_curent = int(s[22:26])
+        atom.append(s[12:16].strip())
+        element.append(s[76:78])
+        vector.append((float(s[30:38]), float(s[38:46]), float(s[46:54])))
+        res_name.append(s[17:20].strip())
+        occupancy.append(float(s[54:60]))
+        alter.append(s[16])
+    elif s[0:6] == 'HETATM' or s[0:6] == 'ATOM  ':
+        check_res(atom, vector, element, occupancy, alter,
+                  resn_curent, chain_id_curent, res_name)
+        atom.clear()
+        vector.clear()
+        res_name.clear()
+        element.clear()
+        occupancy.clear()
+        alter.clear()
+        chain_id_curent = s[21]
+        resn_curent = int(s[22:26])
+        atom.append(s[12:16].strip())
+        element.append(s[76:78])
+        vector.append((float(s[30:38]), float(s[38:46]), float(s[46:54])))
+        res_name.append(s[17:20].strip())
+        occupancy.append(float(s[54:60]))
+        alter.append(s[16])

@@ -244,7 +244,7 @@ class App(Gui):
         resn_curent = None
         for s in self.lines_pdb:
             if (s[0:6] == 'HETATM' or s[0:6] == 'ATOM  ') and (
-                    chain_id_curent is None or (chain_id_curent == s[21] and resn_curent == int(s[22:26]))):
+                    (chain_id_curent is None or resn_curent is None) or (chain_id_curent == s[21] and resn_curent == int(s[22:26]))):
                 chain_id_curent = s[21]
                 try:
                     resn_curent = int(s[22:26])
