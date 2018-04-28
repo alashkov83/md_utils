@@ -41,3 +41,4 @@ md_utils.kdev4
 
 #xscode settings
 .vscode/
+Будет удалено comdom2/comdom2/__pycache__/
