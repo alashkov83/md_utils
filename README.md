@@ -8,9 +8,7 @@ chain_trjpdb.py – переименование цепей с перенуме�
 
 chain_trjpdb_tk.py – tk версия chain_trjpdb.py
 
-comdom.py – расчет расстояния между центрами масс доменов по траектории МД
-
-comdom_tk.py – tk версия comdom.py
+comdom2 - расчет расстояния между центрами масс доменов по траектории МД
 
 conf_rename.py – перенумерация конформаций US
 
@@ -44,7 +42,7 @@ ________________________________________________________________________
 
 auto_umbr_frame.py – numpy, matplotlib, progressbar
 
-comdom.py –  periodictable, numpy, matplotlib, progressbar*
+comdom2 –  periodictable, numpy, matplotlib, progressbar, scikit-learn
 
 creat_xvg.py – numpy
 
@@ -55,5 +53,3 @@ multigraph_tk.py – numpy, matplotlib
 occucheck2.py – biopython, numpy, mmtf
 
 ________________________________________________________________________
-*- tk версия не зависит от progressbar.
-У tk версий зависимости те же, что и у консольных (кроме *).
