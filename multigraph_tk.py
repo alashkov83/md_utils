@@ -19,7 +19,12 @@ from tkinter.messagebox import showerror
 from tkinter.messagebox import showinfo
 
 import numpy as np
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+try:
+    from matplotlib.backends.backend_tkagg import NavigationToolbar2TkAgg
+except ImportError:
+    from matplotlib.backends.backend_tkagg import NavigationToolbar2Tk as NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 
 
@@ -588,7 +593,7 @@ class Graph(Gui):
         if self.legend:
             ax.legend(loc='best', frameon=False)
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.fra)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
         self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.fra)
         self.toolbar.update()
