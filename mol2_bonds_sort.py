@@ -83,7 +83,6 @@ def main():
         print("Input file is not defined!")
         sys.exit(-1)
     top_sections, bonds, down_sections = read_in(namespace.input)
-    print(top_sections, bonds, down_sections)
     sorted_bonds = sort_bonds(bonds)
     write_out(namespace.output, top_sections, sorted_bonds, down_sections)
 
