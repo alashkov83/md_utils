@@ -19,6 +19,8 @@ import progressbar
 
 def create_parser():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--prefix', type=str,
+                        default='md', help='Префикс имени файлов')
     parser.add_argument('-g1', '--group1', type=int,
                         help='Номер первой группы')
     parser.add_argument('-g2', '--group2', type=int,
@@ -46,18 +48,19 @@ def udistgen(namespace):
         sys.exit()
     com1 = namespace.group1
     com2 = namespace.group2
-    if not os.path.isfile('md.tpr'):
-        print('Файл md.tpr не найден в каталоге ' + os.getcwd())
-        sys.exit()
+    prefix = namespace.prefix
+    if not os.path.isfile('{:s}.tpr'.format(prefix)):
+        print('Файл {:s}.tpr не найден в каталоге {:s}'.format(prefix, os.getcwd()))
+        sys.exit(-1)
     if os.path.isdir('FRAMES_ALL'):
         os.rename('FRAMES_ALL', 'FRAMES_ALL_OLD')
     os.mkdir('FRAMES_ALL')
-    if os.path.isfile('md.xtc'):
-        os.system('echo "0" | gmx trjconv -f md.xtc -s md.tpr -o ./FRAMES_ALL/conf.gro -sep')
-    elif os.path.isfile('md.trr'):
-        os.system('echo "0" | gmx trjconv -f md.trr -s md.tpr -o ./FRAMES_ALL/conf.gro -sep')
+    if os.path.isfile('{:s}.xtc'.format(prefix)):
+        os.system('echo "0" | gmx trjconv -f {0:s}.xtc -s {0:s}.tpr -o ./FRAMES_ALL/conf.gro -sep'.format(prefix))
+    elif os.path.isfile('{:s}.trr'.format(prefix)):
+        os.system('echo "0" | gmx trjconv -f {0:s}.trr -s {0:s}.tpr -o ./FRAMES_ALL/conf.gro -sep'.format(prefix))
     else:
-        print('Файл траектории не найден в каталоге ' + os.getcwd())
+        print('Файл траектории не найден в каталоге {:s}'.format(os.getcwd()))
         sys.exit()
     list_file = os.listdir(path='./FRAMES_ALL')
     list_dir = list(filter(lambda x: ('conf' in x) and ('.gro' in x), list_file))
@@ -68,9 +71,9 @@ def udistgen(namespace):
     for i in number_list:
         bar1.update(i)
         os.system(
-            "gmx distance -s md.tpr -f ./FRAMES_ALL/conf{0:d}.gro -oall ./FRAMES_ALL/dist{0:d}.xvg"
+            "gmx distance -s {3:s}.tpr -f ./FRAMES_ALL/conf{0:d}.gro -oall ./FRAMES_ALL/dist{0:d}.xvg"
             " -select 'com of group {1:d} plus com of group {2:d}' > /dev/null 2>&1".format(
-                i, com1, com2))
+                i, com1, com2, prefix))
     bar1.finish()
     dist_file = open('summary_distances.dat', 'a')
     print('Собираю данные..')
@@ -117,7 +120,7 @@ def frame_filter(nparray, d):
 def umbr_frame(nparray, namespace):
     d = namespace.dist
     ff_frame = frame_filter(frame_prefilter(nparray, namespace), d)
-    print('Отобранные фреймы: ' + ' '.join(map(lambda x: str(x), ff_frame)))
+    print('Отобранные фреймы: {:s}'.format(' '.join(map(lambda x: str(x), ff_frame))))
     newdir = './FRAMES'
     try:
         os.makedirs(newdir, exist_ok=True)
@@ -125,12 +128,12 @@ def umbr_frame(nparray, namespace):
         print('Невозможно создать каталог ' + newdir)
         sys.exit()
     for frame in ff_frame:
-        filename = './FRAMES_ALL/conf' + str(frame) + '.gro'
-        newfilename = newdir + '/conf' + str(frame) + '.gro'
+        filename = './FRAMES_ALL/conf{:d}.gro'.format(frame)
+        newfilename = '{:s}/conf{:d}.gro'.format(newdir, frame)
         try:
             copyfile(filename, newfilename)
         except OSError:
-            print('Невозможно скопировать ' + filename)
+            print('Невозможно скопировать {:s}'.format(filename))
 
 
 def picture(nparray):

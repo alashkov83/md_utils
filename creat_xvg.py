@@ -283,7 +283,7 @@ with open('tpr_files.dat', 'w') as f:
     f.close()
 if len(sys.argv) == 1:
     os.system('gmx wham -it tpr_files.dat -if pullf_files.dat -o -hist -unit kCal')
-    joke()
+    joke() 
     sys.exit()
 elif len(sys.argv) == 2:
     t0 = 0
